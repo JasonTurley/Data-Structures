@@ -25,6 +25,27 @@ void push(struct Node **head, int new_data)
     *head = new_node;
 }
 
+// Inserts node at the end of a list
+void pushAtEnd(struct Node **head, int new_data)
+{
+    if (!head)
+    {
+        puts("Error: no list found");
+        return;
+    }
+
+    struct Node *tail = *head;
+    struct Node *temp = (struct Node*) malloc(sizeof(struct Node));
+    temp->data = new_data;
+    temp->next = NULL;
+
+    // Advance tail to end of list
+    while (tail->next != NULL)
+        tail = tail->next;
+    
+    tail->next = temp;
+}
+
 // Deletes node at k, where k is the position of node
 void deleteNodeK(struct Node **head, int k)
 {
@@ -52,6 +73,18 @@ void deleteNodeK(struct Node **head, int k)
     free(temp);
 }
 
+// This function prints the size of a list starting with the given node
+int listLength(struct Node *n)
+{
+    int length = 0;
+    while(n)
+    {
+        n = n->next;
+        length++;
+    }
+    return length;
+}
+
 // This function prints the contents of a linked list starting from a given node
 void printList(struct Node *n)
 {
@@ -77,6 +110,10 @@ int main(int argc, char *argv[])
     puts("List after deletion:\t");
     deleteNodeK(&head, 3);
     printList(head);
-    
+    puts("List after insert at end:\t");
+    pushAtEnd(&head, 7);
+    printList(head);
+    printf("%d\n", listLength(head));
+
     return 0;
 }
