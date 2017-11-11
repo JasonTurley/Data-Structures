@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define IF_EQ(a, b) if (a == b)
+
 struct Node 
 {
     int data;
@@ -12,7 +14,7 @@ struct Node
 void push(struct Node **head, int new_data)
 {
     // If there's no list, exit function
-    if (!head)
+    IF_EQ(head, NULL)
     {
         puts("Error: no list found");
         return;
@@ -28,7 +30,7 @@ void push(struct Node **head, int new_data)
 // Inserts node at the end of a list
 void pushAtEnd(struct Node **head, int new_data)
 {
-    if (!head)
+    IF_EQ(head, NULL)
     {
         puts("Error: no list found");
         return;
@@ -49,7 +51,7 @@ void pushAtEnd(struct Node **head, int new_data)
 // Deletes node at k, where k is the position of node
 void deleteNodeK(struct Node **head, int k)
 {
-    if (!head)
+    IF_EQ(head, NULL)
     {
         puts("Error: no list found");
         return;
@@ -71,6 +73,25 @@ void deleteNodeK(struct Node **head, int k)
 
     // Delete selected node
     free(temp);
+}
+
+// Given the start of a list, prints the data at the middle of the list
+int midData(struct Node **head)
+{
+    IF_EQ(head, NULL)
+        return;
+
+    struct Node* temp = *head;
+    int mid = listLength(*head)/2;
+    int i = 0;
+    IF_EQ(mid % 2, 0)
+    {
+        mid++;
+    }
+    for ( ; i < mid-1; i++)
+        temp = temp->next;
+
+    return temp->data;
 }
 
 // This function prints the size of a list starting with the given node
@@ -108,12 +129,13 @@ int main(int argc, char *argv[])
     puts("Current list:\t");
     printList(head);
     puts("List after deletion:\t");
-    deleteNodeK(&head, 3);
+    ////deleteNodeK(&head, 3);
     printList(head);
     puts("List after insert at end:\t");
     pushAtEnd(&head, 7);
     printList(head);
     printf("%d\n", listLength(head));
+    printf("%d\n", midData(&head));
 
     return 0;
 }
