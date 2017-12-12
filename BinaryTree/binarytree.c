@@ -5,13 +5,14 @@
 // Returns the node containintg item x, otherwise returns null
 struct Node* search(struct Node *root, int x) 
 {
-	if (!root) 
-		return NULL; // base case for empty tree
-	if (root->data == x) 
-		return root;
-	if (root->data > x)	// current node's data is larger than target, go left
-		return search(root->left, x);
-	// otherwise, go right
+	// Base case: tree is empty
+	if (root == NULL)	return NULL; 
+
+	if (root->data == x)	return root;
+
+	// Data is greater than target, search left subtree
+	if (root->data > x)	return search(root->left, x);
+	// otherwise, search right subtree
 	return search(root->right, x);
 }
 
