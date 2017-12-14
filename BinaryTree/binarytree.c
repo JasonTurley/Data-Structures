@@ -43,14 +43,41 @@ Node *findMax(struct Node *root)
 }
 
 
+// Returns the height of a binary tree
+int height(struct Node *root)
+{
+	if (root == NULL)	return -1;
+	
+	int left_height = height(root->left);
+	int right_height = height(root->right);
+
+	return 1 + max(left_height, right_height);
+}
+
+
 int main()
 {
 	struct Node *root = malloc(sizeof(struct Node));
 	root->data = 4;
+	struct Node *root2, *root3, *root4, *root5;
+	root2 = malloc(sizeof(struct Node));
+	root3 = malloc(sizeof(struct Node));
+	root4 = malloc(sizeof(struct Node));
+	root5 = malloc(sizeof(struct Node));
 
-	printf("Node is at address: %p\n", search(root, 4));
-	printf("Node is at address: %p\n", search(root, 2));
-	printf("Node is at address: %p\n", search(root, 10));
+	root->left = root2;
+	root->right = root3;
+	root2->left = root4;
+	root2->right = root5;
+
+	root3->left = root3->right = NULL;
+	root4->left = root4->right = NULL;
+	root5->left = root5->right = NULL;
+//	printf("Node is at address: %p\n", search(root, 4));
+//	printf("Node is at address: %p\n", search(root, 2));
+//	printf("Node is at address: %p\n", search(root, 10));
+	printf("Binary tree height: %d\n", height(root));
+	
 	
 	return 0;
 }
