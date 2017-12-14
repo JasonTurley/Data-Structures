@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define IF_EQ(a, b) if (a == b)
+/* MACROS */
+#define IF_EQ(a, b) if (a == b)	// Checks if two elements are equal
 
+// Linked List struct
 struct Node 
 {
     int data;
@@ -116,6 +118,7 @@ void printList(struct Node *n)
     }
     puts("\n");
 }
+
 
 int main(int argc, char *argv[])
 {
