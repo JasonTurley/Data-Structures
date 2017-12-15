@@ -15,12 +15,6 @@ struct Node
 // Given the start of a list and an int, inserts a new node at the front of a list
 void push(struct Node **head, int new_data)
 {
-    // If there's no list, exit function
-    IF_EQ(head, NULL)
-    {
-        puts("Error: no list found");
-        return;
-    }
 
     struct Node *new_node = (struct Node*) malloc(sizeof(struct Node));
     
@@ -32,7 +26,7 @@ void push(struct Node **head, int new_data)
 // Inserts node at the end of a list
 void pushAtEnd(struct Node **head, int new_data)
 {
-    IF_EQ(head, NULL)
+    IF_EQ(*head, NULL)
     {
         puts("Error: no list found");
         return;
@@ -53,7 +47,7 @@ void pushAtEnd(struct Node **head, int new_data)
 // Deletes node at k, where k is the position of node
 void deleteNodeK(struct Node **head, int k)
 {
-    IF_EQ(head, NULL)
+    IF_EQ(*head, NULL)
     {
         puts("Error: no list found");
         return;
@@ -77,11 +71,23 @@ void deleteNodeK(struct Node **head, int k)
     free(temp);
 }
 
+// This function prints the size of a list starting with the given node
+int listLength(struct Node *n)
+{
+    int length = 0;
+    while(n)
+    {
+        n = n->next;
+        length++;
+    }
+    return length;
+}
+
 // Given the start of a list, prints the data at the middle of the list
 int midData(struct Node **head)
 {
-    IF_EQ(head, NULL)
-        return;
+    IF_EQ(*head, NULL)
+        return -1;
 
     struct Node* temp = *head;
     int mid = listLength(*head)/2;
@@ -96,18 +102,6 @@ int midData(struct Node **head)
     return temp->data;
 }
 
-// This function prints the size of a list starting with the given node
-int listLength(struct Node *n)
-{
-    int length = 0;
-    while(n)
-    {
-        n = n->next;
-        length++;
-    }
-    return length;
-}
-
 // This function prints the contents of a linked list starting from a given node
 void printList(struct Node *n)
 {
@@ -119,26 +113,51 @@ void printList(struct Node *n)
     puts("\n");
 }
 
+// Reverses linked list
+void reverse(struct Node **head)
+{
+	IF_EQ(*head, NULL)	
+		return;
 
+	struct Node *prev, *curr, *next;
+	prev = NULL;
+	curr = *head;
+
+	// swap pointers
+	while (curr != NULL)
+	{
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	// Update head
+	*head = prev;
+}
+
+
+// Driver program to test functions
 int main(int argc, char *argv[])
 {
     // start with empty list
     struct Node* head = NULL;
 
     push(&head, 1);
-    push(&head, 2);
-    push(&head, 3);
-    push(&head, 4);
+    pushAtEnd(&head, 2);
+    pushAtEnd(&head, 3);
+    pushAtEnd(&head, 4);
     puts("Current list:\t");
     printList(head);
-    puts("List after deletion:\t");
-    ////deleteNodeK(&head, 3);
+    //puts("List after deletion:\t");
+    //deleteNodeK(&head, 3);
+   
+    //puts("List after insert at end:\t");
+    //pushAtEnd(&head, 7);
+    //printList(head);
+    reverse(&head);
     printList(head);
-    puts("List after insert at end:\t");
-    pushAtEnd(&head, 7);
-    printList(head);
-    printf("%d\n", listLength(head));
-    printf("%d\n", midData(&head));
+    
+   
 
     return 0;
 }
