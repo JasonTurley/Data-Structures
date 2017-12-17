@@ -135,6 +135,26 @@ void reverse(struct Node **head)
 	*head = prev;
 }
 
+// Insert nodes of a linked list h2 into h1 at alternating positions
+void mergeList(struct Node **h1, struct Node **h2)
+{
+	struct Node *curr1, *curr2, *next1, *next2;
+	curr1 = *h1;
+	curr2 = *h2;
+	
+	while (curr1 != NULL && curr2 != NULL)
+	{
+		next1 = curr1->next;
+		next2 = curr2->next;
+		curr1->next = curr2;
+		curr2->next = next1;
+		curr1 = next1;
+		curr2 = next2;
+	}
+	// update list heads
+	*h2 = curr2;
+}
+
 
 // Driver program to test functions
 int main(int argc, char *argv[])
