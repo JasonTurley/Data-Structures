@@ -34,16 +34,15 @@ struct Node *insert(struct Node *root, int data)
 int size(struct Node *root)
 {
 	int count = 0;
-	// base case for an empty tree
-	if (root == NULL)	return count;
-	// in-order traversal, increment count each time
-	count = 1;
-	size(root->left);
-	count++;
-	size(root->right);
+	if (root == NULL)	
+		return count;
 
-	// +1 for root
-	return 1 + count;
+	// Keep track of number of left and right nodes
+	int left = size(root->left);
+	int right = size(root->right);
+
+	// +1 for uncounted root
+	return 1 + left + right;
 }
 
 // Returns the node containintg item x, otherwise returns null
