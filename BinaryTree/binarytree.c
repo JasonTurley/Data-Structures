@@ -129,6 +129,13 @@ int main()
 //	printf("Node is at address: %p\n", search(root, 10));
 	printf("Binary tree height: %d\n", height(root));
 	printf("Binary contains %d nodes\n", size(root));	
-	
+	printf("hasPathSum(root, 120): %d\n", hasPathSum(root, 120));	// 1
+	printf("hasPathSum(root, 68): %d\n", hasPathSum(root, 68));	// 1
+	printf("hasPathSum(root, 0): %d\n", hasPathSum(root, 0));	// 0
+	printf("hasPathSum(root, 88): %d\n", hasPathSum(root, 88));	// 0
+
+
+
+
 	return 0;
 }

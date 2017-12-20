@@ -16,11 +16,33 @@
 struct Node *search(struct Node *root, int x);
 struct Node *findMin(struct Node *root);
 struct Node *findMax(struct Node *root);
-int height(struct Node *root);
+int max_height(struct Node *root);
+int min_height(struct Node *root);
 int countLeaves(struct Node *root);
+int levelOrderTraversal(struct Node *root);
 
-// helper functions
+
+/* Helper functions */
 int min(int x, int y) { return (x < y) ? x : y; }
 
 int max(int x, int y) { return (x > y) ? x : y; }
+
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
