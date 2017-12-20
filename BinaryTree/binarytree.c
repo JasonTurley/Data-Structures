@@ -33,16 +33,11 @@ struct Node *insert(struct Node *root, int data)
 // Returns the size of a binary tree
 int size(struct Node *root)
 {
-	int count = 0;
 	if (root == NULL)	
-		return count;
-
-	// Keep track of number of left and right nodes
-	int left = size(root->left);
-	int right = size(root->right);
+		return 0;
 
 	// +1 for uncounted root
-	return 1 + left + right;
+	return 1 + size(root->left) + size(root->right);
 }
 
 // Returns the node containintg item x, otherwise returns null
