@@ -2,6 +2,50 @@
 #include <stdlib.h>
 #include "binarytree.h"
 
+// Creates a node with given data
+struct Node *newNode(int data)
+{
+	struct Node *node = malloc(sizeof(struct Node));
+	node->data = data;
+	node->left = NULL;
+	node->right = NULL;
+	return node;
+}
+
+
+// insert a node to into a binary search tree
+struct Node *insert(struct Node *root, int data)
+{
+	// If an empty tree is passed in, create a new, single node
+	if (root == NULL)
+		return newNode(data);
+
+	// Otherwise, recur down the tree
+	if (data <= root->data)
+		root->left = insert(root->left, data);
+
+	else	
+		root->right = insert(root->right, data);
+
+	return root;
+}
+
+// Returns the size of a binary tree
+int size(struct Node *root)
+{
+	int count = 0;
+	// base case for an empty tree
+	if (root == NULL)	return count;
+	// in-order traversal, increment count each time
+	count = 1;
+	size(root->left);
+	count++;
+	size(root->right);
+
+	// +1 for root
+	return 1 + count;
+}
+
 // Returns the node containintg item x, otherwise returns null
 struct Node *search(struct Node *root, int x) 
 {
@@ -43,7 +87,7 @@ Node *findMax(struct Node *root)
 }
 
 
-// Returns the height of a binary tree
+// Returns the maximum height of a binary tree
 int height(struct Node *root)
 {
 	if (root == NULL)	return -1;
@@ -57,27 +101,22 @@ int height(struct Node *root)
 
 int main()
 {
-	struct Node *root = malloc(sizeof(struct Node));
-	root->data = 4;
-	struct Node *root2, *root3, *root4, *root5;
-	root2 = malloc(sizeof(struct Node));
-	root3 = malloc(sizeof(struct Node));
-	root4 = malloc(sizeof(struct Node));
-	root5 = malloc(sizeof(struct Node));
+	struct Node *root = NULL;
+	root =	insert(root, 30);
+	root =	insert(root, 40);
+	root =	insert(root, 50);
+	root =	insert(root, 20);
+	root =	insert(root, 10);
+	root =	insert(root, 15);
+	root =	insert(root, 35);
+	root =	insert(root, 8);
 
-	root->left = root2;
-	root->right = root3;
-	root2->left = root4;
-	root2->right = root5;
 
-	root3->left = root3->right = NULL;
-	root4->left = root4->right = NULL;
-	root5->left = root5->right = NULL;
 //	printf("Node is at address: %p\n", search(root, 4));
 //	printf("Node is at address: %p\n", search(root, 2));
 //	printf("Node is at address: %p\n", search(root, 10));
 	printf("Binary tree height: %d\n", height(root));
-	
+	printf("Binary contains %d nodes\n", size(root));	
 	
 	return 0;
 }
