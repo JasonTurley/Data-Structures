@@ -111,6 +111,45 @@ int hasPathSum(struct Node *root, int sum)
 	}
 }		
 
+// Given a binary tree, print out all of its root-node paths, one per line
+void printPaths(struct Node *root)
+{
+	int path[1000];
+	
+	printPathsRecur(root, path, 0);
+}
+
+// Recursive helper function
+void printPathsRecur(struct Node *root, int path[], int pathLen)
+{
+	if (root == NULL) return;
+	
+	// append this node to the path array
+	path[pathLen] = root->data;
+	pathLen++;
+
+	// it's a leaf, so print the path that led to here
+	if (!root->left && !root->right) {
+		printArray(path, pathLen);	
+	}
+	else {
+	// otherwise check both subtrees
+		printPathsRecur(root->left, path, pathLen);
+		printPathsRecur(root->right, path, pathLen);
+	}
+}
+
+// Utility that prints an array on a single line
+void printArray(int arr[], int size)
+{
+	int i;
+	for (i = 0; i < size; i++) {
+		printf("%d ", arr[i]);		
+	}
+	puts("\n");
+}
+
+
 int main()
 {
 	struct Node *root = NULL;
@@ -127,13 +166,13 @@ int main()
 //	printf("Node is at address: %p\n", search(root, 4));
 //	printf("Node is at address: %p\n", search(root, 2));
 //	printf("Node is at address: %p\n", search(root, 10));
-	printf("Binary tree height: %d\n", height(root));
-	printf("Binary contains %d nodes\n", size(root));	
-	printf("hasPathSum(root, 120): %d\n", hasPathSum(root, 120));	// 1
-	printf("hasPathSum(root, 68): %d\n", hasPathSum(root, 68));	// 1
-	printf("hasPathSum(root, 0): %d\n", hasPathSum(root, 0));	// 0
-	printf("hasPathSum(root, 88): %d\n", hasPathSum(root, 88));	// 0
-
+//	printf("Binary tree height: %d\n", height(root));
+//	printf("Binary contains %d nodes\n", size(root));	
+//	printf("hasPathSum(root, 120): %d\n", hasPathSum(root, 120));	// 1
+//	printf("hasPathSum(root, 68): %d\n", hasPathSum(root, 68));	// 1
+//	printf("hasPathSum(root, 0): %d\n", hasPathSum(root, 0));	// 0
+//	printf("hasPathSum(root, 88): %d\n", hasPathSum(root, 88));	// 0
+	printPaths(root);
 
 
 
