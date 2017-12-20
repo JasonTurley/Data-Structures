@@ -92,6 +92,24 @@ int height(struct Node *root)
 	return 1 + max(left_height, right_height);
 }
 
+/* Given a tree and a sum, return true if there is a path from the root to leaf 
+   such that all the values in the path equals the given sum.
+ 
+   Strategy: subtract node's value from sum as we recur down the tree. If the sum
+   equals 0 at the end then return true.
+*/
+int hasPathSum(struct Node *root, int sum)
+{
+	if (root == NULL) {
+		return (sum == 0);
+	}
+	else {
+		// otherwise check both the subtrees
+		int subSum = sum - root->data;
+		return (hasPathSum(root->left, subSum) ||
+			hasPathSum(root->right, subSum));	
+	}
+}		
 
 int main()
 {
