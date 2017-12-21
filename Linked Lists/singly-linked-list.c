@@ -23,6 +23,18 @@ void push(struct Node **head, int new_data)
     *head = new_node;
 }
 
+// Removes the first node from a list and returns its data
+int pop(struct Node **head)
+{
+	struct Node *curr = *head;
+	int data = curr->data;
+	// Update head so we don't lose it
+	*head = curr->next;
+	
+	curr = NULL;
+	return data;
+}
+
 // Inserts node at the end of a list
 void pushAtEnd(struct Node **head, int new_data)
 {
@@ -155,6 +167,21 @@ void mergeList(struct Node **h1, struct Node **h2)
 	*h2 = curr2;
 }
 
+// Deletes the entirity of a list
+void deleteList(struct Node **head)
+{
+	struct Node *curr, *next;
+	curr = *head;
+	// traverse list from head->next onwards
+	while (curr) 
+	{
+		next = curr->next;
+		free(curr);
+		curr = next;
+	}
+	*head = NULL;
+}
+
 
 // Driver program to test functions
 int main(int argc, char *argv[])
@@ -168,14 +195,8 @@ int main(int argc, char *argv[])
     pushAtEnd(&head, 4);
     puts("Current list:\t");
     printList(head);
-    //puts("List after deletion:\t");
-    //deleteNodeK(&head, 3);
-   
-    //puts("List after insert at end:\t");
-    //pushAtEnd(&head, 7);
-    //printList(head);
-    reverse(&head);
-    printList(head);
+
+    printf("Popped item: %d", pop(&head));
     
    
 
