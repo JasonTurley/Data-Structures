@@ -150,8 +150,50 @@ void printArray(int arr[], int size)
 }
 
 
+// Prints a binary tree with inorder traversal
+void printInOrder(struct Node *root)
+{
+	if (root == NULL)
+		return;
+
+	printInOrder(root->left);
+	printf("%d ", root->data);
+	printInOrder(root->right);
+}
+
+// Return the mirrored version of a tree
+void mirror(struct Node *root)
+{
+	if (root == NULL)
+		return;
+
+	// Recur both subtrees
+	mirror(root->left);
+	mirror(root->right);
+	// swap the pointers
+	struct Node *temp;
+	temp = root->left;
+	root->left = root->right;
+	root->right = temp;
+}
+
+void doubleTree(struct Node *root)
+{
+	if (root == NULL)
+		return;
+	doubleTree(root->left);
+	doubleTree(root->right);
+
+	// create duplicate of current node and assign it to as the left child
+	struct Node *temp = newNode(root->data);
+	temp->left = root->left;
+	root->left = temp;
+}
+
+
 int main()
 {
+	// tree built via insertion
 	struct Node *root = NULL;
 	root =	insert(root, 30);
 	root =	insert(root, 40);
@@ -162,19 +204,19 @@ int main()
 	root =	insert(root, 35);
 	root =	insert(root, 8);
 
-
-//	printf("Node is at address: %p\n", search(root, 4));
-//	printf("Node is at address: %p\n", search(root, 2));
-//	printf("Node is at address: %p\n", search(root, 10));
-//	printf("Binary tree height: %d\n", height(root));
-//	printf("Binary contains %d nodes\n", size(root));	
-//	printf("hasPathSum(root, 120): %d\n", hasPathSum(root, 120));	// 1
-//	printf("hasPathSum(root, 68): %d\n", hasPathSum(root, 68));	// 1
-//	printf("hasPathSum(root, 0): %d\n", hasPathSum(root, 0));	// 0
-//	printf("hasPathSum(root, 88): %d\n", hasPathSum(root, 88));	// 0
-	printPaths(root);
-
-
+	// tree built via constructor			tree:
+	struct Node *node = newNode(2);	//			2
+	node->left 	  = newNode(1); //		       / /
+	node->right	  = newNode(3); //		     1	  3
+	
+	
+	printf("In order traversal of tree2: \n");
+	printInOrder(node);
+	
+	puts("\n");
+	doubleTree(node);
+	printf("Double tree: \n");
+	printInOrder(node);
 
 	return 0;
 }
