@@ -182,6 +182,24 @@ void deleteList(struct Node **head)
 	*head = NULL;
 }
 
+// Given a sorted list, insert node at proper position
+void sortedInsert(struct Node **head, struct Node *newNode)
+{
+	struct Node *curr, *next;
+	curr = next = *head;
+	// If next node data is larger than newNode's data, insert here
+	while (next->data <= newNode->data && curr) 
+	{
+		next = curr->next;
+		curr = next;
+	}
+	// Now at proper position to insert
+	// link nodes
+	curr = newNode;
+	newNode = next;
+
+}
+
 
 // Driver program to test functions
 int main(int argc, char *argv[])
@@ -189,14 +207,22 @@ int main(int argc, char *argv[])
     // start with empty list
     struct Node* head = NULL;
 
+    // 1->2->3->4->8->10->NULL
     push(&head, 1);
     pushAtEnd(&head, 2);
     pushAtEnd(&head, 3);
     pushAtEnd(&head, 4);
+    pushAtEnd(&head, 8);  
+    pushAtEnd(&head, 10);
+
     puts("Current list:\t");
     printList(head);
 
-    printf("Popped item: %d", pop(&head));
+    struct Node* newNode;
+    newNode->data = 7;
+    printf("Insert 7:\n");
+    sortedInsert(&head, newNode);
+    printList(head); 
     
    
 
