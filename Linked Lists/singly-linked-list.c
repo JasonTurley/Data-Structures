@@ -12,11 +12,20 @@ struct Node
     struct Node *next;
 };
 
+// Constructor
+struct Node *newNode(int data)
+{
+	struct Node *new_node = (struct Node*) malloc(sizeof(struct Node));
+	new_node->data = data;
+	new_node->next = NULL;
+	return new_node;
+}
+
 // Given the start of a list and an int, inserts a new node at the front of a list
 void push(struct Node **head, int new_data)
 {
 
-    struct Node *new_node = (struct Node*) malloc(sizeof(struct Node));
+    struct Node *new_node = newNode(new_data);
     
     new_node->data = new_data;
     new_node->next = *head;
@@ -45,16 +54,35 @@ void pushAtEnd(struct Node **head, int new_data)
     }
 
     struct Node *tail = *head;
-    struct Node *temp = (struct Node*) malloc(sizeof(struct Node));
-    temp->data = new_data;
-    temp->next = NULL;
-
+    struct Node *temp = newNode(new_data);
+    
     // Advance tail to end of list
     while (tail->next != NULL)
         tail = tail->next;
     
     tail->next = temp;
 }
+
+// Inserts a node at given position, with the head at index 0
+void insertNth(struct Node **head, int new_data,  int pos)
+{
+	// special case for inserting at beginning
+	if (pos == 0)
+		push(head, new_data);
+
+	struct Node *temp = *head;
+	// Select node directly before the given position
+	int i;
+	for (i = 0; i < pos-1; i++)
+	{	
+		if (!temp) return;
+		temp = temp->next;
+	}
+	// One last check
+	if (temp)
+	    push(&(temp->next), new_data);
+}
+
 
 // Deletes node at k, where k is the position of node
 void deleteNodeK(struct Node **head, int k)
@@ -184,9 +212,17 @@ void deleteList(struct Node **head)
 
 // Given a sorted list, insert node at proper position
 void sortedInsert(struct Node **head, struct Node *newNode)
-{
+{	
+	// base case for newNode's data being less than head's data
+	if ((*head) == NULL || newNode->data < curr->data) { 
+		newNode->next = *head;
+		*head = newNode;
+		return;
+	}
+
 	struct Node *curr, *next;
 	curr = next = *head;
+	
 	// If next node data is larger than newNode's data, insert here
 	while (next->data <= newNode->data && curr) 
 	{
@@ -217,11 +253,11 @@ int main(int argc, char *argv[])
 
     puts("Current list:\t");
     printList(head);
-
-    struct Node* newNode;
-    newNode->data = 7;
-    printf("Insert 7:\n");
-    sortedInsert(&head, newNode);
+  
+    //puts("Inserted 7 at position 2\n");
+    //insertNth(&head, 7, 2);
+    struct Node* node = newNode(0);
+    sortedInsert(&head, node);
     printList(head); 
     
    
