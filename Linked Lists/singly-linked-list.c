@@ -254,6 +254,26 @@ void insertSort(struct Node **head)
 	*head = result;
 }
 
+// Append the end of list A to the beginning of list B. Afterwards, set B to NULL
+void append(struct Node **aRef, struct Node **bRef)
+{
+	if (*aRef == NULL && *bRef) { 
+		*aRef = *bRef;
+		return;
+	}
+	if (*bRef == NULL) return; // B is empty, nothing to be done
+	
+	// lists are not empty, grab the last node in A
+	struct Node *curr = *aRef;
+	while (curr->next)
+		curr = curr->next; 
+
+    // link the two lists and set B to NULL
+    curr->next = *bRef;
+    *bRef = NULL;
+}
+
+
 
 // Driver program to test functions
 int main(int argc, char *argv[])
@@ -266,16 +286,26 @@ int main(int argc, char *argv[])
     push(&head, 2);
     push(&head, 3);
     push(&head, 4);
-    push(&head, 8);  
-    push(&head, 10);
+    push(&head, 5);  
+    push(&head, 6);
 
     puts("Current list:\t");
     printList(head);
   
-    puts("List after insertSort:\t");
+ //   puts("List after insertSort:\t");
     insertSort(&head);
+    struct Node *head2 = NULL;
+    push(&head2, 11);
+    pushAtEnd(&head2, 12);
+    pushAtEnd(&head2, 13);
+    pushAtEnd(&head2, 14);
+    pushAtEnd(&head2, 15);
+    pushAtEnd(&head2, 16);
+    pushAtEnd(&head2, 17);
+
+    append(&head, &head2); 
     printList(head); 
-    
+  
    
 
     return 0;
