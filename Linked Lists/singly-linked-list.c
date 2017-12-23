@@ -214,7 +214,7 @@ void deleteList(struct Node **head)
 void sortedInsert(struct Node **head, struct Node *newNode)
 {	
 	// base case for newNode's data being less than head's data
-	if ((*head) == NULL || newNode->data < curr->data) { 
+	if (*head == NULL || newNode->data < (*head)->data) { 
 		newNode->next = *head;
 		*head = newNode;
 		return;
@@ -236,6 +236,24 @@ void sortedInsert(struct Node **head, struct Node *newNode)
 
 }
 
+// Given an unsorted list, rearrange in sorted increasing order using sortedInsert()
+void insertSort(struct Node **head)
+{
+	if (*head == NULL)
+		return;
+	struct Node *result = NULL;	// build new list here
+	struct Node *curr = *head;
+	struct Node *next;
+	// Compare each node in current list with nodes in result list
+	while (curr)
+	{
+		next = curr->next;	// Tricky -- note the next pointer before we change it
+		sortedInsert(&result, curr);
+		curr = next;
+	}
+	*head = result;
+}
+
 
 // Driver program to test functions
 int main(int argc, char *argv[])
@@ -243,21 +261,19 @@ int main(int argc, char *argv[])
     // start with empty list
     struct Node* head = NULL;
 
-    // 1->2->3->4->8->10->NULL
+    // 
     push(&head, 1);
-    pushAtEnd(&head, 2);
-    pushAtEnd(&head, 3);
-    pushAtEnd(&head, 4);
-    pushAtEnd(&head, 8);  
-    pushAtEnd(&head, 10);
+    push(&head, 2);
+    push(&head, 3);
+    push(&head, 4);
+    push(&head, 8);  
+    push(&head, 10);
 
     puts("Current list:\t");
     printList(head);
   
-    //puts("Inserted 7 at position 2\n");
-    //insertNth(&head, 7, 2);
-    struct Node* node = newNode(0);
-    sortedInsert(&head, node);
+    puts("List after insertSort:\t");
+    insertSort(&head);
     printList(head); 
     
    
