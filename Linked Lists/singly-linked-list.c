@@ -24,7 +24,6 @@ struct Node *newNode(int data)
 // Given the start of a list and an int, inserts a new node at the front of a list
 void push(struct Node **head, int new_data)
 {
-
     struct Node *new_node = newNode(new_data);
     
     new_node->data = new_data;
@@ -47,8 +46,7 @@ int pop(struct Node **head)
 // Inserts node at the end of a list
 void pushAtEnd(struct Node **head, int new_data)
 {
-    IF_EQ(*head, NULL)
-    {
+    IF_EQ(*head, NULL) {
         puts("Error: no list found");
         return;
     }
@@ -57,9 +55,10 @@ void pushAtEnd(struct Node **head, int new_data)
     struct Node *temp = newNode(new_data);
     
     // Advance tail to end of list
-    while (tail->next != NULL)
+    while (tail->next != NULL) {
         tail = tail->next;
-    
+    }
+   
     tail->next = temp;
 }
 
@@ -67,28 +66,27 @@ void pushAtEnd(struct Node **head, int new_data)
 void insertNth(struct Node **head, int new_data,  int pos)
 {
 	// special case for inserting at beginning
-	if (pos == 0)
+	if (pos == 0) {
 		push(head, new_data);
+    }
 
 	struct Node *temp = *head;
 	// Select node directly before the given position
 	int i;
-	for (i = 0; i < pos-1; i++)
-	{	
+	for (i = 0; i < pos-1; i++)	{	
 		if (!temp) return;
 		temp = temp->next;
 	}
 	// One last check
-	if (temp)
+	if (temp != NULL) {
 	    push(&(temp->next), new_data);
+    }
 }
-
 
 // Deletes node at k, where k is the position of node
 void deleteNodeK(struct Node **head, int k)
 {
-    IF_EQ(*head, NULL)
-    {
+    IF_EQ(*head, NULL) {
         puts("Error: no list found");
         return;
     }
@@ -100,10 +98,10 @@ void deleteNodeK(struct Node **head, int k)
     // Select node directly before the one to be delete
     // change what it points to
     int i;
-    for (i = 1; i < k-1; i++)
-    {
+    for (i = 1; i < k-1; i++) {
         prev = prev->next;
     }
+
     temp = prev->next;
     prev->next = temp->next;
 
@@ -115,57 +113,60 @@ void deleteNodeK(struct Node **head, int k)
 int listLength(struct Node *n)
 {
     int length = 0;
-    while(n)
-    {
+    while(n) {
         n = n->next;
         length++;
     }
+
     return length;
 }
 
-// Given the start of a list, prints the data at the middle of the list
+// Given the head of a list, prints the data from the middle index to the end
 int midData(struct Node **head)
 {
-    IF_EQ(*head, NULL)
+    IF_EQ(*head, NULL) {
         return -1;
+    }
 
     struct Node* temp = *head;
     int mid = listLength(*head)/2;
-    int i = 0;
-    IF_EQ(mid % 2, 0)
-    {
+    
+    IF_EQ(mid % 2, 0) {
         mid++;
     }
-    for ( ; i < mid-1; i++)
-        temp = temp->next;
 
-    return temp->data;
+    int i = 0;
+    for ( ; i < mid-1; i++) {
+        temp = temp->next;
+    }
+ 
+   return temp->data;
 }
 
 // This function prints the contents of a linked list starting from a given node
 void printList(struct Node *n)
 {
-    while(n)
-    {
+    while(n) {
         printf(" %d", n->data);
         n = n->next;
     }
+ 
     puts("\n");
 }
 
 // Reverses linked list
 void reverse(struct Node **head)
 {
-	IF_EQ(*head, NULL)	
+	IF_EQ(*head, NULL) {
 		return;
+    }
 
 	struct Node *prev, *curr, *next;
 	prev = NULL;
 	curr = *head;
 
 	// swap pointers
-	while (curr != NULL)
-	{
+	while (curr != NULL) {
 		next = curr->next;
 		curr->next = prev;
 		prev = curr;
@@ -182,8 +183,7 @@ void mergeList(struct Node **h1, struct Node **h2)
 	curr1 = *h1;
 	curr2 = *h2;
 	
-	while (curr1 != NULL && curr2 != NULL)
-	{
+	while (curr1 != NULL && curr2 != NULL) {
 		next1 = curr1->next;
 		next2 = curr2->next;
 		curr1->next = curr2;
@@ -201,8 +201,7 @@ void deleteList(struct Node **head)
 	struct Node *curr, *next;
 	curr = *head;
 	// traverse list from head->next onwards
-	while (curr) 
-	{
+	while (curr) {
 		next = curr->next;
 		free(curr);
 		curr = next;
@@ -224,33 +223,34 @@ void sortedInsert(struct Node **head, struct Node *newNode)
 	curr = next = *head;
 	
 	// If next node data is larger than newNode's data, insert here
-	while (next->data <= newNode->data && curr) 
-	{
+	while (next->data <= newNode->data && curr) {
 		next = curr->next;
 		curr = next;
 	}
-	// Now at proper position to insert
-	// link nodes
+	
+    // Now at proper position to insert
 	curr = newNode;
 	newNode = next;
-
 }
 
 // Given an unsorted list, rearrange in sorted increasing order using sortedInsert()
 void insertSort(struct Node **head)
 {
-	if (*head == NULL)
+	IF_EQ(*head, NULL) {
 		return;
+    }
+
 	struct Node *result = NULL;	// build new list here
 	struct Node *curr = *head;
 	struct Node *next;
+
 	// Compare each node in current list with nodes in result list
-	while (curr)
-	{
+	while (curr) {
 		next = curr->next;	// Tricky -- note the next pointer before we change it
 		sortedInsert(&result, curr);
 		curr = next;
 	}
+
 	*head = result;
 }
 
@@ -261,12 +261,16 @@ void append(struct Node **aRef, struct Node **bRef)
 		*aRef = *bRef;
 		return;
 	}
-	if (*bRef == NULL) return; // B is empty, nothing to be done
 	
+    IF_EQ(*bRef, NULL) {
+        return; 
+	}
+
 	// lists are not empty, grab the last node in A
 	struct Node *curr = *aRef;
-	while (curr->next)
+	while (curr->next) {
 		curr = curr->next; 
+    }
 
     // link the two lists and set B to NULL
     curr->next = *bRef;
