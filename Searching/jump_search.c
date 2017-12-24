@@ -2,7 +2,7 @@
 #include <math.h> /* sqrt */
 #include "utils.h"
 
-// Assumes array is sorted
+// Searching algorithm for sorted arrays. 
 int jump_search(int *arr, int x, int n) 
 {
     int i, block;
@@ -13,8 +13,8 @@ int jump_search(int *arr, int x, int n)
         return arr[0];
     }
     // check every index i, 2i, 4i, ..., ki
-    while (arr[block] < x && block < n) {
-        if (arr[block] == x) {
+    while (arr[block-1] < x && block < n) {
+        if (arr[block-1] == x) {
             return block;
      
        }
@@ -41,7 +41,7 @@ int main()
 
     print_array(arr, size);
 
-    int result = jump_search(arr, 505, size);
+    int result = jump_search(arr, 55, size);
 
     (result == -1) ? printf("Element is not in the array\n")
                    : printf("Element was found at index %d\n", result);
