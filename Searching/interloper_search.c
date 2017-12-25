@@ -10,8 +10,8 @@ int interloper_search(int *arr, int x, int n)
 
     while (lo <= hi && x >= arr[lo] && x <= arr[hi]) {
        
-       // Probing position with keeping uniforn distribution in mind
-       pos = lo + ((double)(hi-lo)/
+     // Probing position with keeping uniform distribution in mind
+     pos = lo + ((double)(hi-lo)/
              (arr[hi]-arr[lo])*(x-arr[lo]));
   
     // Target is at current position
