@@ -15,7 +15,7 @@ struct Node
 // Constructor
 struct Node *newNode(int data)
 {
-	struct Node *new_node = (struct Node*) malloc(sizeof(struct Node));
+	struct Node *new_node = (struct Node*) malloc(sizeof(*new_node));
 	new_node->data = data;
 	new_node->next = NULL;
 	return new_node;
@@ -277,7 +277,20 @@ void append(struct Node **aRef, struct Node **bRef)
     *bRef = NULL;
 }
 
-
+// Find the middle element of a linked list given only the head
+int midItem(struct Node *head)
+{
+    // initialize a fast and slow pointer
+    struct Node *fast_ptr = head; 
+    struct Node *slow_ptr = head;
+    // move fast pointer ahead two and slow pointer one
+    while (fast_ptr != NULL && fast_ptr->next != NULL) {
+        fast_ptr = fast_ptr->next->next;
+        slow_ptr = slow_ptr->next;
+    }
+    // slow pointer is at mid node
+    return slow_ptr->data;
+}
 
 // Driver program to test functions
 int main(int argc, char *argv[])
