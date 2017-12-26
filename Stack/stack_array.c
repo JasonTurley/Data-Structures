@@ -1,55 +1,92 @@
-// Implement stack data structure as an array
+// C implementation of a stack using an array
 #include <stdio.h>
 #include <stdlib.h>
 
-// Strcuture to represent a stack
-struct Stack 
-{
+struct Stack {
     int top;
-    int num_items;      // keep track of number of items in stack
+    unsigned capacity;
     int *array;
-    unsigned max_size;   // The maximun number of elements stack can hold. Unsigned to force to positive value
-
 };
 
-// Stack constructor.
-struct Stack *constructor(unsigned max_size)
+// Function to initialize a stack
+struct Stack* createStack(unsigned capacity)
 {
-    struct Stack *stack = (struct Stack*) malloc(sizeof(struct Stack));
-    stack->top = -1;   
-    stack->num_items = 0;
-    stack->array = (int*) malloc(stack->max_size * sizeof(int));
-    stack->max_size = max_size;
-
+    struct Stack *stack = (struct Stack*) malloc(sizeof(stack));
+    stack->capacity = capacity;
+    stack->array = (int*) malloc(stack->capacity * sizeof((stack->array)));
+    stack->top = -1;
     return stack;
 }
 
-int isFull(struct Stack *stack)
+// Checks if stack is empty
+int isEmpty(struct Stack *stack)
 {
-    return stack->max_size == - 1;
+    return (stack->top == -1);
 }
 
-void push(struct Stack *stack, int x)
+// Checks if stack is full
+int isFull(struct Stack *stack)
+{
+    if (stack->top == stack->capacity - 1) {
+        printf("WARNING: Stack Overflow on next push");
+        return 1;
+    }
+
+    return (stack->top >= stack->capacity);
+}
+
+// Add new element to top of stack
+void push(struct Stack *stack, int data)
 {
     if (isFull(stack))
         return;
-    stack->array[++stack->top] = x;
-    stack->num_items++;
-    printf("%d pushed to stack\n", x);
+
+    stack->array[++stack->top] = data;
+    printf("%d added to stack\n", data);
 }
 
-void printStack(struct Stack *stack, int num_items)
+// Removes and returns top of stack
+int pop(struct Stack *stack)
 {
-    while (num_items)
-        printf("%d\n", *stack->array);
+    int temp = stack->array[--stack->top];
+    printf("%d removed from stack\n", temp);
+    return temp;
 }
+
+// Returns top element of stack
+int peek(struct Stack *stack)
+{
+    return stack->array[stack->top];
+}
+
+void printStack(struct Stack *stack)
+{
+    int i = stack->top;
+    puts("top: ");
+    while (i != -1)
+    {
+        printf("%d\n", stack->array[i]); 
+        i--;  
+    }
+}
+
+int main()
+{
+    struct Stack *s = createStack(10);
+    //printf("%d\n", isEmpty(s));
+    push(s, 1);
+    push(s, 2);
+    push(s, 3);
+    push(s, 4);
+    push(s, 5);
+    push(s, 6);
+    push(s, 7);
+    push(s, 8);
+    push(s, 9);
+    push(s, 10);
+    push(s, 11);
+    //printStack(s);
+    //printf("capacity: %d", s->capacity);
     
-int main(int argc, char **argv[])
-{
-    struct Stack* stack = constructor(10);
-    push(stack, 10);
-    push(stack, 20);
-    push(stack, 30);
 
-    //printStack(stack, stack->num_items);
 }
