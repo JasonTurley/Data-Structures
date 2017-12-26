@@ -27,19 +27,17 @@ int isEmpty(struct Stack *stack)
 // Checks if stack is full
 int isFull(struct Stack *stack)
 {
-    if (stack->top == stack->capacity - 1) {
-        printf("WARNING: Stack Overflow on next push");
-        return 1;
-    }
-
-    return (stack->top >= stack->capacity);
+    return (stack->top == stack->capacity - 1);
 }
 
 // Add new element to top of stack
 void push(struct Stack *stack, int data)
 {
-    if (isFull(stack))
+    if (isFull(stack)) 
+    {
+        printf("WARNING: Stack Overflow when attempting to push: %d\n", data);
         return;
+    }
 
     stack->array[++stack->top] = data;
     printf("%d added to stack\n", data);
@@ -73,7 +71,6 @@ void printStack(struct Stack *stack)
 int main()
 {
     struct Stack *s = createStack(10);
-    //printf("%d\n", isEmpty(s));
     push(s, 1);
     push(s, 2);
     push(s, 3);
@@ -84,6 +81,7 @@ int main()
     push(s, 8);
     push(s, 9);
     push(s, 10);
+    push(s, 11);
     push(s, 11);
     //printStack(s);
     //printf("capacity: %d", s->capacity);
