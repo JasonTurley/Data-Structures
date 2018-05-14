@@ -16,6 +16,9 @@ struct Node
 struct Node *newNode(int data)
 {
 	struct Node *new_node = (struct Node*) malloc(sizeof(*new_node));
+	if (!new_node) { // malloc failed
+		return NULL;
+	}
 	new_node->data = data;
 	new_node->next = NULL;
 	return new_node;
@@ -25,10 +28,10 @@ struct Node *newNode(int data)
 void push(struct Node **head, int new_data)
 {
     struct Node *new_node = newNode(new_data);
-    
-    new_node->data = new_data;
-    new_node->next = *head;
-    *head = new_node;
+    if (new_node) {
+    	new_node->next = *head;
+    	*head = new_node;
+    }
 }
 
 // Removes the first node from a list and returns its data
@@ -77,9 +80,6 @@ void insertNth(struct Node **head, int new_data,  int pos)
 		if (!temp) return;
 		temp = temp->next;
 	}
-	// One last check
-	if (temp != NULL) {
-	    push(&(temp->next), new_data);
     }
 }
 
