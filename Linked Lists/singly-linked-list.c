@@ -80,6 +80,14 @@ void insertNth(struct Node **head, int new_data,  int pos)
 		if (!temp) return;
 		temp = temp->next;
 	}
+	// Insert node at position
+	struct *node = newNode(new_data);
+	if (!node) {
+		fprintf(stderr, "Unable to allocate new node.\n");
+		return;
+	}
+	node->next = temp->next;
+	temp->next = node;
     }
 }
 
