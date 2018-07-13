@@ -46,25 +46,6 @@ int pop(struct Node **head)
 	return data;
 }
 
-// Inserts node at the end of a list
-void pushAtEnd(struct Node **head, int new_data)
-{
-    IF_EQ(*head, NULL) {
-        puts("Error: no list found");
-        return;
-    }
-
-    struct Node *tail = *head;
-    struct Node *temp = newNode(new_data);
-    
-    // Advance tail to end of list
-    while (tail->next != NULL) {
-        tail = tail->next;
-    }
-   
-    tail->next = temp;
-}
-
 // Inserts a node at given position, with the head at index 0
 void insertNth(struct Node **head, int new_data,  int pos)
 {
@@ -81,14 +62,13 @@ void insertNth(struct Node **head, int new_data,  int pos)
 		temp = temp->next;
 	}
 	// Insert node at position
-	struct *node = newNode(new_data);
+	struct Node *node= newNode(new_data);
 	if (!node) {
 		fprintf(stderr, "Unable to allocate new node.\n");
 		return;
 	}
 	node->next = temp->next;
 	temp->next = node;
-    }
 }
 
 // Deletes node at k, where k is the position of node
@@ -321,17 +301,7 @@ int main(int argc, char *argv[])
     insertSort(&head);
     struct Node *head2 = NULL;
     push(&head2, 11);
-    pushAtEnd(&head2, 12);
-    pushAtEnd(&head2, 13);
-    pushAtEnd(&head2, 14);
-    pushAtEnd(&head2, 15);
-    pushAtEnd(&head2, 16);
-    pushAtEnd(&head2, 17);
-
+    
     append(&head, &head2); 
     printList(head); 
-  
-   
-
-    return 0;
 }
