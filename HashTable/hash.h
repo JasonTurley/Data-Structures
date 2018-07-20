@@ -1,3 +1,5 @@
+// Implementation of a hash table with seperate chaining collision strategy
+
 #ifndef HASH_H
 #define HASH_H
 
