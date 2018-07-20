@@ -9,7 +9,6 @@ class Hash {
 private:
     static const int table_size = 10;
 
-    // TODO: change to std::pair
     typedef struct item {
         string name;
         string color;
@@ -38,6 +37,7 @@ public:
     bool remove(string name);
 
     // Helper functions
+
     bool remove(item** head_ref, string name);
 
     // Returns a pointer to an allocated and initialized item struct

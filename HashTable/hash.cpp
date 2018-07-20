@@ -79,6 +79,7 @@ bool Hash::remove(string name) {
     return remove(&ptr, name);
 }
 
+// 
 bool Hash::remove(item** head, string target) {
     item* ptr = *head;
 
