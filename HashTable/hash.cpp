@@ -14,9 +14,12 @@ Hash::Hash() {
     }
 }
 
-// TODO: finish me
+// Destroys hash_table
 Hash::~Hash() {
-
+    for (int i = 0; i < table_size; i++) {
+        item* head = hash_table[i];
+        destroyList(&head);
+    }
 }
 
 // Simple hash function: returns index based on key param
@@ -76,26 +79,28 @@ bool Hash::remove(string name) {
     return remove(&ptr, name);
 }
 
-bool Hash::remove(item** head, string name) {
+bool Hash::remove(item** head, string target) {
     item* ptr = *head;
 
     if (*head) {
-        if (ptr->name == (*head)->name) {
-            *head = ptr->next;
-            ptr->next = nullptr;
+        // Special case: deleting head of list
+        if (ptr->name == target) {
+            if (ptr->next) {
+                *head = ptr->next;
+                ptr->next = nullptr;
+            }
             delete(ptr);
-
             return true;
         }
     }
 
+    // Search for target
     while (ptr) {
-        if (ptr->next->name == name) {
+        if (ptr->next->name == target) {
             item* to_delete = ptr->next;
             ptr->next = to_delete->next;
             to_delete->next = nullptr;
             delete(to_delete);
-
             return true;
         }
 
@@ -105,6 +110,7 @@ bool Hash::remove(item** head, string name) {
     return false;
 }
 
+// Returns a pointer to an allocated and initialized item struct
 Hash::item* Hash::createItem(string name, string color) {
     item *new_item = new item;
     new_item->name = name;
@@ -112,4 +118,16 @@ Hash::item* Hash::createItem(string name, string color) {
     new_item->next = nullptr;
 
     return new_item;
+}
+
+// Deletes an entire linked list
+void Hash::destroyList(item** head_ref) {
+    while (*head_ref) {
+        item* ptr = *head_ref;
+        *head_ref = ptr->next;
+        ptr->next = nullptr;
+        delete(ptr);
+    }
+    if (*head_ref)
+        *head_ref = nullptr;
 }

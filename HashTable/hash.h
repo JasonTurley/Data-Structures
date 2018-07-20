@@ -38,13 +38,13 @@ public:
     bool remove(string name);
 
     // Helper functions
-    bool remove(item** head, string name);
+    bool remove(item** head_ref, string name);
 
     // Returns a pointer to an allocated and initialized item struct
     item* createItem(string name, string color);
 
-    // Release allocated memory from item struct
-    void destroyItem(item* myitem);
+    // Deletes an entire linked list
+    void destroyList(item** head_ref);
 };
 
 
