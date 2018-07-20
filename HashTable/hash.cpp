@@ -73,8 +73,23 @@ bool Hash::remove(string name) {
     int index = hash(name);
     item* ptr = hash_table[index];
 
-    // Get the item before target node
-    while (ptr->next != nullptr) {
+    return remove(&ptr, name);
+}
+
+bool Hash::remove(item** head, string name) {
+    item* ptr = *head;
+
+    if (*head) {
+        if (ptr->name == (*head)->name) {
+            *head = ptr->next;
+            ptr->next = nullptr;
+            delete(ptr);
+
+            return true;
+        }
+    }
+
+    while (ptr) {
         if (ptr->next->name == name) {
             item* to_delete = ptr->next;
             ptr->next = to_delete->next;
@@ -83,10 +98,10 @@ bool Hash::remove(string name) {
 
             return true;
         }
+
         ptr = ptr->next;
     }
 
-    // Item not found
     return false;
 }
 

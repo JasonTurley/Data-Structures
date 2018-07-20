@@ -11,8 +11,10 @@ int main()
 
     myhash.insert("Jason", "red");
     myhash.insert("Paul", "blue");
+    myhash.insert("Jalen", "");
+    myhash.insert("Dad", "pink");
+    myhash.insert("Bran", "yellow");
 
-    cout << "remove('Paul'):" << myhash.remove("Paul") << endl;
-
+    cout << "remove('Bran'): " << myhash.remove("Bran") << endl;
     return 0;
 }

@@ -38,6 +38,7 @@ public:
     bool remove(string name);
 
     // Helper functions
+    bool remove(item** head, string name);
 
     // Returns a pointer to an allocated and initialized item struct
     item* createItem(string name, string color);
