@@ -1,7 +1,7 @@
-# Data-Structures-and-Algorithms
-Common Data Structures and Algorithms
+### Data-Structures-and-Algorithms
 
-In order to build my Computer Science foundation, I have been learning data structures and common algorithms in my spare time.
-The two resources I use most frequently are the [*Geeks for Geeks* website](http://www.geeksforgeeks.org/)  and the excellent book *The Algorithm Design Manual* by Steven Skiena.
+It is easy to take for granted the tools that higher-level languages provide us. Key among these are data structures. Ever wonder how these tools work? Why the work?
 
-As stated these are implemented in low-level C for now and I plan to reconstruct them in JavaScript later on.
+Reverse engineering is the best way to *truly* understand how something works. Here, we'll focus on how popular standard library sata structures are implemented. This repo is by no means a perfect representation, it is only my take on the subject.
+
+Enjoy!
