@@ -34,8 +34,8 @@ public:
     // Check if name is in hash_table
     bool search(string name);
 
-    // Removes the first occurrance of the item associated with name
-    void remove(string name);
+    // Removes the first instance of an item from list
+    bool remove(string name);
 
     // Helper functions
 

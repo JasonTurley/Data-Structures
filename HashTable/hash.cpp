@@ -10,10 +10,7 @@ using std::endl;
 // Initialize hash_table with default values
 Hash::Hash() {
     for (int i = 0; i < table_size; i++) {
-        hash_table[i] = new item;
-        hash_table[i]->name = "empty";
-        hash_table[i]->color = "empty";
-        hash_table[i]->next = nullptr;
+        hash_table[i] = nullptr;
     }
 }
 
@@ -36,29 +33,22 @@ int Hash::hash(string key) {
 
 // Inserts item into proper slot in hash_table
 void Hash::insert(string name, string color) {
+    item* new_item = createItem(name, color);
     int index = hash(name);
 
-    if (hash_table[index]->name == "empty") {
-        hash_table[index]->name = name;
-        hash_table[index]->color = color;
-        hash_table[index]->next = nullptr;
-
-
+    if (hash_table[index] == nullptr) {
+        // allocate new new_item
+        hash_table[index] = new_item;
     } else {
-        // Need to allocate new item
-        item* new_item = createItem(name, color);
+        // insert at end of list
         item* ptr = hash_table[index];
-
-        // Find empty position in bucket
         while (ptr->next != nullptr) {
             ptr = ptr->next;
         }
-
         ptr->next = new_item;
     }
 
     cout << "Inserted " << name << " at index " << index << endl;
-
 }
 
 // Check if name is in hash_table
@@ -75,6 +65,28 @@ bool Hash::search(string name) {
     }
 
     // Did not find name
+    return false;
+}
+
+// Removes the first instance of an item from list
+bool Hash::remove(string name) {
+    int index = hash(name);
+    item* ptr = hash_table[index];
+
+    // Get the item before target node
+    while (ptr->next != nullptr) {
+        if (ptr->next->name == name) {
+            item* to_delete = ptr->next;
+            ptr->next = to_delete->next;
+            to_delete->next = nullptr;
+            delete(to_delete);
+
+            return true;
+        }
+        ptr = ptr->next;
+    }
+
+    // Item not found
     return false;
 }
 

@@ -12,11 +12,7 @@ int main()
     myhash.insert("Jason", "red");
     myhash.insert("Paul", "blue");
 
-    bool ret = myhash.search("Jason");
-    bool ret2 = myhash.search("Sarah");
-
-    cout << "Jason in list?" << ret << endl;
-    cout << "Sarah in list?" << ret2 << endl;
+    cout << "remove('Paul'):" << myhash.remove("Paul") << endl;
 
     return 0;
 }
