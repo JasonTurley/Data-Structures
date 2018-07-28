@@ -27,6 +27,17 @@ private:
     class Node {
     public:
         /**
+         * Node constructor.
+         *
+         * @param ndata The data to be added to the Node
+         */
+        template <class T>
+        Node(const T& ndata)
+            : data(ndata), next(NULL)
+        { /* nothing */ }
+
+    private:
+        /**
         * The data contained in this Node.
         */
         T data;
