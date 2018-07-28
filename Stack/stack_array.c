@@ -86,27 +86,3 @@ void printStack(struct Stack *stack)
         }
     }
 }
-
-// Driver function
-int main()
-{
-    struct Stack *s = createStack(10);
-
-    // add items
-    push(s, 1);
-    push(s, 2);
-    push(s, 3);
-    push(s, 4);
-    push(s, 5);
-    push(s, 6);
-    push(s, 7);
-    push(s, 8);
-    push(s, 9);
-    push(s, 10);
-    push(s, 11);
-
-    printStack(s);
-    printf("capacity: %d", s->capacity);
-
-
-}
