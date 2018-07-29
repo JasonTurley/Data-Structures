@@ -51,6 +51,11 @@ public:
     Queue();
 
     /**
+     * Destructor deletes all allocated Nodes
+     */
+    ~Queue();
+
+    /**
      * Inserts a new node at the end of the Queue.
      *
      * @param data The data to be inserted
@@ -72,6 +77,7 @@ public:
      */
     int size() const;
 
+
 private:
     /**
      * Pointer to the beginning of the queue.
@@ -87,6 +93,11 @@ private:
      * The current size of the queue.
      */
     int length;
+
+    /**
+     * Destroys every node in the linked list.
+     */
+    void destroyList(Node** head_ref);
 };
 
 #endif
