@@ -7,8 +7,6 @@
 #include <climits>      // INT_MIN
 #include "queue.h"
 
-using namespace std;
-
 // Default Queue Constructor
 Queue::Queue()
     : front(nullptr), end(nullptr), length(0)
@@ -22,7 +20,8 @@ Queue::~Queue()
 }
 
 // Inserts data to end of queue
-void Queue::enqueue(const int data) {
+void Queue::enqueue(const int data)
+{
     Node *node = new Node(data);
 
     if (front == nullptr)
@@ -30,7 +29,7 @@ void Queue::enqueue(const int data) {
     if (end == nullptr) {
         end = node;
     } else {
-        node->next = end;
+        end->next = node;
         end = node;
     }
 
@@ -38,7 +37,8 @@ void Queue::enqueue(const int data) {
 }
 
 // Removes node from front of queue and returns its data. Returns INT_MIN if queue is empty
-int Queue::dequeue() {
+int Queue::dequeue() 
+{
     int ret = INT_MIN;
 
     if (front) {
@@ -48,14 +48,25 @@ int Queue::dequeue() {
         delete(to_delete);
     }
 
+    this->length--;
     return ret;
 }
 
 // Returns the queue's size
-int Queue::size() const {
+int Queue::size() const 
+{
     return this->length;
 }
 
+// Returns the data at the front of the queue
+int Queue::getFront() const
+{
+    if (front) 
+        return front->data;
+    return INT_MIN;
+}
+
+// Helper for Destructor
 void Queue::destroyList(Node** head_ref)
 {
     while (*head_ref) {

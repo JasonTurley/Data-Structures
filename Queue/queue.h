@@ -63,7 +63,7 @@ public:
     void enqueue(const int data);
 
     /**
-     * Removes the first Node pushed onto the Queue, decreasing its size by 1.
+     * Removes the first node pushed onto the Queue, decreasing its size by 1.
      *
      * @return The data contained inside the Node
      */
@@ -71,12 +71,18 @@ public:
 
     /**
      * Gets the size of the Queue.
-     * Marked const because it promises not to alter the Node in any way.
+     * Marked const because it promises not to alter the node in any way.
      *
-     * @ return The size of the Queue
+     * @return The size of the Queue
      */
     int size() const;
 
+    /**
+     * Returns the the data held inside the front of the queue, without removing the node.
+     *
+     * @return The first node's data
+     */
+    int getFront() const;
 
 private:
     /**
