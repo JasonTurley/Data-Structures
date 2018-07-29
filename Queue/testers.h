@@ -63,4 +63,17 @@ void test4()
     assert(x == data);
 }
 
+// Verify that is empty works
+void test5()
+{
+    Queue test_queue;
+    assert(test_queue.isEmpty() == true);
+
+    test_queue.enqueue(42);
+    assert(test_queue.isEmpty() == false);
+
+    test_queue.dequeue();
+    assert(test_queue.isEmpty() == true);
+}
+
 #endif

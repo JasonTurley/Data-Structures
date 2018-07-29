@@ -84,6 +84,11 @@ public:
      */
     int getFront() const;
 
+    /**
+     * Check if queue is empty.
+     */
+    bool isEmpty() const;
+
 private:
     /**
      * Pointer to the beginning of the queue.

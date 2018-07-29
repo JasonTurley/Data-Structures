@@ -22,6 +22,8 @@ void testCaseHandler(string testCase)
         test3();
     } else if (testCase == "4") {
         test4();
+    } else if (testCase == "5") {
+        test5();
     } else {
         cout << "Please enter a valid test case.\n";
         exit(1);
