@@ -4,9 +4,10 @@
  * @author Jason Turley
  * @date (created) 27 July 2018
  */
+#include <climits>      // INT_MIN
 #include "queue.h"
 
-//using namespace std;
+using namespace std;
 
 /**
  * Default Queue Constructor
@@ -34,15 +35,20 @@ void Queue::enqueue(const int data) {
 }
 
 /**
- * Removes node from front of queue and returns its data
+ * Removes node from front of queue and returns its data. If The
+ * list is empty, returns INT_MIN
  */
-int Queue::dequeue() const {
-    // TODO: finish
-    if (end) {
-        int ret = end->data;
+int Queue::dequeue() {
+    int ret = INT_MIN;
 
+    if (front) {
+        ret = front->data;
+        Node* to_delete = front;
+        front = front->next;
+        delete(to_delete);
     }
-    return 0;
+
+    return ret;
 }
 
 /**

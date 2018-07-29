@@ -62,7 +62,7 @@ public:
      *
      * @return The data contained inside the Node
      */
-    int dequeue() const;
+    int dequeue();
 
     /**
      * Gets the size of the Queue.
