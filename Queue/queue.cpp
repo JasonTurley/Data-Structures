@@ -4,34 +4,50 @@
  * @author Jason Turley
  * @date (created) 27 July 2018
  */
+#include "queue.h"
 
-using namespace std;
+//using namespace std;
 
-template <class T>
+/**
+ * Default Queue Constructor
+ */
 Queue::Queue()
-    : front(NULL), rear(NULL), length(0)
+    : front(nullptr), end(nullptr), length(0)
 { /* nothing */ }
 
-template <class T>
-void Queue::enqueue(const T& data)
-{
-    Node node = new Node(data);
+/**
+ * Inserts data to end of queue
+ */
+void Queue::enqueue(const int data) {
+    Node *node = new Node(data);
 
-    if (front == NULL)
+    if (front == nullptr)
         front = node;
-    if (rear == NULL) {
-        rear = node;
+    if (end == nullptr) {
+        end = node;
     } else {
-        node->next = rear;
-        rear = node;
+        node->next = end;
+        end = node;
     }
+
+    this->length++;
 }
 
-template <class T>
-T Queue::dequeue() const
-{
-    if (rear) {
-        T ret = rear->data;
-        
+/**
+ * Removes node from front of queue and returns its data
+ */
+int Queue::dequeue() const {
+    // TODO: finish
+    if (end) {
+        int ret = end->data;
+
     }
+    return 0;
+}
+
+/**
+ * Returns the queue's size
+ */
+int Queue::size() const {
+    return this->length;
 }

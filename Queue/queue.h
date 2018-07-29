@@ -7,15 +7,12 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-using namespace std;
-
 /**
  * Queue: This is a templated queue class (meaning it contains data
  * of templated type T, which is a placeholder for a type).
  *
  * The queue is implemented as a singly-linked list of nodes
  */
-template <class T>
 class Queue {
 private:
     /**
@@ -23,7 +20,6 @@ private:
     * principle of encapsulation -- the user does not need to
     * know how our queue is implemented.
     */
-    template <class T>
     class Node {
     public:
         /**
@@ -31,16 +27,14 @@ private:
          *
          * @param ndata The data to be added to the Node
          */
-        template <class T>
-        Node(const T& ndata)
-            : data(ndata), next(NULL)
+        Node(const int ndata)
+            : data(ndata), next(nullptr)
         { /* nothing */ }
 
-    private:
         /**
         * The data contained in this Node.
         */
-        T data;
+        int data;
 
         /**
         * Pointer to the next Node in the list. May be nullptr
@@ -61,14 +55,14 @@ public:
      *
      * @param data The data to be inserted
      */
-    void enqueue(const T& data);
+    void enqueue(const int data);
 
     /**
      * Removes the first Node pushed onto the Queue, decreasing its size by 1.
      *
      * @return The data contained inside the Node
      */
-    T dequeue() const;
+    int dequeue() const;
 
     /**
      * Gets the size of the Queue.
@@ -82,12 +76,12 @@ private:
     /**
      * Pointer to the beginning of the queue.
      */
-    Queue* front;
+    Node* front;
 
     /**
      * Pointer to the end of the queue.
      */
-    Queue* rear;
+    Node* end;
 
     /**
      * The current size of the queue.
