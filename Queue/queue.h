@@ -13,7 +13,9 @@
  *
  * The queue is implemented as a singly-linked list of nodes
  */
+template <class T>
 class Queue {
+
 private:
     /**
     * The Node class is private within class Queue due to the
@@ -21,29 +23,29 @@ private:
     * know how our queue is implemented.
     */
     class Node {
+
     public:
         /**
          * Node constructor.
          *
          * @param ndata The data to be added to the Node
          */
-        Node(const int ndata)
+        Node(const T& ndata)
             : data(ndata), next(nullptr)
         { /* nothing */ }
 
-        /**
+       /**
         * The data contained in this Node.
         */
-        int data;
+        T data;
 
-        /**
+       /**
         * Pointer to the next Node in the list. May be nullptr
         */
         Node* next;
     };
 
 public:
-
     /**
      * Default Queue constructor.
      * Creates an empty Queue.
@@ -60,14 +62,14 @@ public:
      *
      * @param data The data to be inserted
      */
-    void enqueue(const int data);
+    void enqueue(const T& data);
 
     /**
      * Removes the first node pushed onto the Queue, decreasing its size by 1.
      *
      * @return The data contained inside the Node
      */
-    int dequeue();
+     T dequeue();
 
     /**
      * Gets the size of the Queue.
@@ -82,7 +84,7 @@ public:
      *
      * @return The first node's data
      */
-    int getFront() const;
+     T getFront() const;
 
     /**
      * Check if queue is empty.
@@ -110,5 +112,8 @@ private:
      */
     void destroyList(Node** head_ref);
 };
+
+// Needed for template instantiation
+#include "queue.cpp"
 
 #endif

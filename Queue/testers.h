@@ -11,21 +11,17 @@
 #include <climits>
 #include "queue.h"
 
-/* TODO:
-    test push, pop, size, copying, destroying
- */
-
 // Verrify that queue has no initial size
 void test1()
 {
-    Queue test_queue;
+    Queue<int> test_queue;
     assert(test_queue.size() == 0);
 }
 
 // Verify that enqueue() correctly updates size
 void test2()
 {
-    Queue test_queue;
+    Queue<int> test_queue;
     for (int i = 0; i < 5; i++)
         test_queue.enqueue(i);
     assert(test_queue.size() == 5);
@@ -34,7 +30,7 @@ void test2()
 // Verify that dequeue() removes correct nodes in the right order
 void test3()
 {
-    Queue test_queue;
+    Queue<int> test_queue;
     int x;
 
     for (int i = 0; i < 5; i++)
@@ -51,7 +47,7 @@ void test3()
 // Verify getFront() works
 void test4()
 {
-    Queue test_queue;
+    Queue<int> test_queue;
     int x;
     const int data = 10;
 
@@ -66,7 +62,7 @@ void test4()
 // Verify that is empty works
 void test5()
 {
-    Queue test_queue;
+    Queue<int> test_queue;
     assert(test_queue.isEmpty() == true);
 
     test_queue.enqueue(42);
