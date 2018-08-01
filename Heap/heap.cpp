@@ -28,7 +28,7 @@ void Heap::insert(const int& value)
     
     // Avoid getting a negative index
     if (length)
-        pIndex = floor (length - 1 / 2);
+        pIndex = floor ((length - 1) / 2);
 
     if (value < elements[pIndex])
         heapifyUp(length);
@@ -41,7 +41,7 @@ void Heap::heapifyUp(size_t cIndex)
     if (cIndex == 0)
         return;
 
-    size_t pIndex = floor (cIndex - 1 / 2);
+    size_t pIndex = floor ((cIndex - 1) / 2);
 
     if (elements[cIndex] < elements[pIndex]) {
         swap(elements[cIndex], elements[pIndex]);
