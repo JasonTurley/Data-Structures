@@ -48,6 +48,55 @@ class Heap {
 
     private:
         /**
+         * Container for this min-heap. Note, the heap starts at index(0) 
+         */
+        vector<int> elements;
+
+        /**
+         * The current size of our heap.
+         */
+        size_t length;
+    
+        /**
+         * Helper function that returns the index of the current node's
+         * parent.
+         *
+         * @param currentIndex The index of the current node.
+         * @return The index of the current node's parent
+         */
+        size_t parent(size_t currentIndex) const;
+         
+        /**
+         * Helper function that returns the index of the current node's
+         * left child.
+         *
+         * @param currentIndex The index of the current node.
+         * @return The index of the current node's left child
+         */
+        size_t leftChild(size_t currentIndex) const;
+    
+        /**
+         * Helper function that returns the index of the current node's
+         * right child.
+         *
+         * @param currentIndex The index of the current node.
+         * @return The index of the current node's right child
+         */
+        size_t rightChild(size_t currentIndex) const;
+    
+        /**
+         * Helper function that returns the smaller of two children. For
+         * example, if a node's left child is 2, and the right is 7, this
+         * returns the index of the left child.
+         *
+         * This function assumes the parent has children.
+         * 
+         * @param currentIndex The index of the current node.
+         * @return The index of the smaller child node
+         */
+        size_t minChild(size_t currentIndex) const;
+    
+        /**
          * Helper function to restore heap property by bubbling up the
          * smaller node to the top as necessary.
          *
@@ -57,6 +106,15 @@ class Heap {
         void heapifyUp(size_t currentIndex);
 
         /**
+         * Helper function that restores the heap property by sinking a
+         * node down the tree as necessary.
+         *
+         * @param currentIndex The index of the current node that is sinking 
+         * down the tree.
+         */
+        void heapifyDown(size_t currentIndex);
+    
+        /**
          * Swaps the data of two variables.
          *
          * @param x The value to store in y
@@ -64,15 +122,7 @@ class Heap {
          */
         void swap(int &x, int &y);
 
-        /**
-         * Container for this min-heap. Note, the heap starts at index(0) 
-         */
-        vector<int> elements;
-
-        /**
-         * The current size of our heap.
-         */
-        size_t length;
+        
 };
 
 #endif
