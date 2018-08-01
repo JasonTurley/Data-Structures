@@ -7,8 +7,18 @@
 #ifndef HEAP_H
 #define HEAP_H
 
+#include <cstddef>      // size_t
+#include <vector>
+
+using std::vector;
+
 class Heap {
     public:
+        /**
+         * Default constructor
+         */
+        Heap();
+        
         /**
          * Returns the heap's smallest value, without changing the heap structure.
          * This is a O(1) operation.
@@ -22,14 +32,14 @@ class Heap {
          * heapifyUp() if the heap's order is distorted. This is a worst
          * case O(logN) operation.
          */
-        void insert(int value) const;
+        void insert(const int& value);
 
         /**
          * Returns the number of elements in the heap.
          *
          * @return Size of heap.
          */
-        size_t size();
+        size_t size() const;
 
     private:
         /**
@@ -46,12 +56,12 @@ class Heap {
         /**
          * Container for our min-heap
          */
-        std::vector<int> elements;
+        vector<int> elements;
 
         /**
          * The current size of our heap.
          */
-        size_t size;
+        size_t length;
 };
 
 #endif

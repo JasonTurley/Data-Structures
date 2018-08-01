@@ -3,33 +3,41 @@
  *
  */
 #include <cmath>        // floor
+#include <limits.h>     // INT_MIN
 #include "heap.h"
 
+using namespace std;
+
+Heap::Heap()
+{
+    length = 0;
+    elements.push_back(0);
+}
 
 int Heap::getMin() const
 {
-    if (size)
+    if (length)
         return elements[0];
     return INT_MIN;
 }
 
-void Heap::insert(int value) const
+void Heap::insert(const int& value)
 {
-    elements[size] = value;
-    size_t pIndex = floor (size - 1 / 2);
+    elements.push_back(value);
+    size_t pIndex = floor (length - 1 / 2);
 
     if (value < elements[pIndex])
-        heapifyUp(size);
+        heapifyUp(length);
 
-    size++;
+    length++;
 }
 
-void Heap::heapifyUp(size_t cIndex)
+void Heap::heapifyUp(size_t cIndex) 
 {
     if (cIndex == 0)
         return;
 
-    pIndex = floor (cIndex - 1 / 2);
+    size_t pIndex = floor (cIndex - 1 / 2);
 
     if (elements[cIndex] < elements[pIndex]) {
         swap(elements[cIndex], elements[pIndex]);
@@ -41,7 +49,7 @@ void Heap::heapifyUp(size_t cIndex)
     return;
 }
 
-void Heap::swap(int &x, int &y)
+void Heap::swap(int &x, int &y) 
 {
     int temp = x;
     x = y;
