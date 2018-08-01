@@ -24,7 +24,11 @@ int Heap::getMin() const
 void Heap::insert(const int& value)
 {
     elements.push_back(value);
-    size_t pIndex = floor (length - 1 / 2);
+    size_t pIndex = 0;
+    
+    // Avoid getting a negative index
+    if (length)
+        pIndex = floor (length - 1 / 2);
 
     if (value < elements[pIndex])
         heapifyUp(length);
