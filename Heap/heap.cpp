@@ -24,8 +24,16 @@ int Heap::getMin() const
 void Heap::insert(const int& value)
 {
     elements.push_back(value);
+<<<<<<< HEAD
     length++;
     size_t pIndex = floor ((length - 1) / 2);
+=======
+    size_t pIndex = 0;
+    
+    // Avoid getting a negative index
+    if (length)
+        pIndex = floor ((length - 1) / 2);
+>>>>>>> d99b53e6251a571bf28fa9c07e61bc801df1ad01
 
     cout << "length: " << length << endl;
     cout << "pIndex: " << pIndex << endl;
@@ -40,7 +48,7 @@ void Heap::heapifyUp(size_t cIndex)
     if (cIndex == 0)
         return;
 
-    size_t pIndex = floor (cIndex - 1 / 2);
+    size_t pIndex = floor ((cIndex - 1) / 2);
 
     cout << "cIndex: " << cIndex << endl;
     cout << "pIndex: " << pIndex << endl;
