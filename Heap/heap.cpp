@@ -2,6 +2,7 @@
  *
  *
  */
+#include <iostream>
 #include <cmath>        // floor
 #include <limits.h>     // INT_MIN
 #include "heap.h"
@@ -11,7 +12,6 @@ using namespace std;
 Heap::Heap()
 {
     length = 0;
-    elements.push_back(0);
 }
 
 int Heap::getMin() const
@@ -24,12 +24,15 @@ int Heap::getMin() const
 void Heap::insert(const int& value)
 {
     elements.push_back(value);
-    size_t pIndex = floor (length - 1 / 2);
+    length++;
+    size_t pIndex = floor ((length - 1) / 2);
 
+    cout << "length: " << length << endl;
+    cout << "pIndex: " << pIndex << endl;
+    cout << "elems[" << pIndex << "]: " << elements[pIndex] << endl;
     if (value < elements[pIndex])
         heapifyUp(length);
 
-    length++;
 }
 
 void Heap::heapifyUp(size_t cIndex) 
@@ -38,6 +41,9 @@ void Heap::heapifyUp(size_t cIndex)
         return;
 
     size_t pIndex = floor (cIndex - 1 / 2);
+
+    cout << "cIndex: " << cIndex << endl;
+    cout << "pIndex: " << pIndex << endl;
 
     if (elements[cIndex] < elements[pIndex]) {
         swap(elements[cIndex], elements[pIndex]);
