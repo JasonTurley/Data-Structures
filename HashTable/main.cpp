@@ -1,13 +1,13 @@
 #include <iostream>
 #include <string>
 
-#include "hash.h"
+#include "hashtable.h"
 
 using namespace std;
 
 int main()
 {
-    Hash myhash;
+    HashTable myhash;
 
     myhash.insert("Jason", "red");
     myhash.insert("Paul", "blue");
@@ -15,6 +15,14 @@ int main()
     myhash.insert("Dad", "pink");
     myhash.insert("Bran", "yellow");
 
-    cout << "remove('Bran'): " << myhash.remove("Bran") << endl;
+    size_t n = myhash.elements();
+
+    cout << "num elems before remove: " << n << endl;
+
+    myhash.remove("Paul");
+
+    n = myhash.elements();
+
+    cout << "num elems after remove: " << n << endl;
     return 0;
 }
