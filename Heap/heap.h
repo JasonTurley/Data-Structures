@@ -40,11 +40,22 @@ class Heap {
         void insert(const int& value);
 
         /**
+         * Removes the smallest element (root) from the heap, and restores
+         * the heap's property.
+         *
+         * @return The root of the heap.
+         */
+        int remove();
+
+        /**
          * Returns the size of the heap.
          *
          * @return The number of elements in the heap.
          */
-        size_t size() const;
+        size_t size() const
+        {
+            return length;
+        }
 
     private:
         /**
@@ -61,29 +72,37 @@ class Heap {
          * Helper function that returns the index of the current node's
          * parent.
          *
-         * @param currentIndex The index of the current node.
+         * @param currIdx The index of the current node.
          * @return The index of the current node's parent
          */
-        size_t parent(size_t currentIndex) const;
+        size_t parent(size_t currIdx) const;
          
         /**
          * Helper function that returns the index of the current node's
          * left child.
          *
-         * @param currentIndex The index of the current node.
+         * @param currIdx The index of the current node.
          * @return The index of the current node's left child
          */
-        size_t leftChild(size_t currentIndex) const;
+        size_t leftChild(size_t currIdx) const;
     
         /**
          * Helper function that returns the index of the current node's
          * right child.
          *
-         * @param currentIndex The index of the current node.
+         * @param currIdx The index of the current node.
          * @return The index of the current node's right child
          */
-        size_t rightChild(size_t currentIndex) const;
+        size_t rightChild(size_t currIdx) const;
     
+        /**
+         * Helper function that determines if current node has a child.
+         * 
+         * @param currIdx The index of the current node.
+         * @return Whether or not the current node has a child.
+         */
+        bool hasChild(size_t currIdx) const;
+
         /**
          * Helper function that returns the smaller of two children. For
          * example, if a node's left child is 2, and the right is 7, this
@@ -91,28 +110,28 @@ class Heap {
          *
          * This function assumes the parent has children.
          * 
-         * @param currentIndex The index of the current node.
+         * @param currIdx The index of the current node.
          * @return The index of the smaller child node
          */
-        size_t minChild(size_t currentIndex) const;
+        size_t minChild(size_t currIdx) const;
     
         /**
          * Helper function to restore heap property by bubbling up the
          * smaller node to the top as necessary.
          *
-         * @param currentIndex The index of the node that is rising up
+         * @param currIdx The index of the node that is rising up
          * the tree.
          */
-        void heapifyUp(size_t currentIndex);
+        void heapifyUp(size_t currIdx);
 
         /**
          * Helper function that restores the heap property by sinking a
          * node down the tree as necessary.
          *
-         * @param currentIndex The index of the current node that is sinking 
+         * @param currIdx The index of the current node that is sinking 
          * down the tree.
          */
-        void heapifyDown(size_t currentIndex);
+        void heapifyDown(size_t currIdx);
 };
 
 #endif

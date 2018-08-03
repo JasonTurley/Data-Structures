@@ -10,17 +10,31 @@
 using std::cout;
 using std::endl;
 
+void testInsertBasic(Heap*& heap)
+{
+    heap->insert(4);
+    heap->insert(2);
+    heap->insert(5);
+
+    assert(heap->getMin() == 2);
+    assert(heap->size() == 3);
+}
+
+void testRemoveBasic(Heap*& heap)
+{
+    int retval = heap->remove();
+    
+    assert(retval == 2);
+    assert(heap->getMin() == 4);
+    assert(heap->size() == 2);
+}
+
 int main(int argc, char *argv[])
 {
-    Heap heap;
-
-    heap.insert(4);
-    heap.insert(2);
-
-    int x = heap.getMin();
-    cout << "min: " << x << endl;
-
-    assert(x == 2);
+    Heap* heap = new Heap();
+    
+    testInsertBasic(heap);
+    testRemoveBasic(heap);
 
     return 0;
 }
