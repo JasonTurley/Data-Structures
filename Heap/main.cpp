@@ -17,8 +17,6 @@ int main(int argc, char *argv[])
     heap.insert(4);
     heap.insert(2);
 
-    cout << "Testing min!\n";
-    
     int x = heap.getMin();
     cout << "min: " << x << endl;
 

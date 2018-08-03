@@ -2,9 +2,9 @@
  *
  *
  */
-#include <iostream>
 #include <cmath>        // floor
 #include <limits.h>     // INT_MIN
+#include <algorithm>    // swap
 #include "heap.h"
 
 using namespace std;
@@ -40,18 +40,11 @@ void Heap::heapifyUp(size_t cIndex)
     size_t pIndex = floor ((cIndex - 1) / 2);
 
     if (elements[cIndex] < elements[pIndex]) {
-        swap(elements[cIndex], elements[pIndex]);
+        std::swap(elements[cIndex], elements[pIndex]);
         
         cIndex = pIndex;
         heapifyUp(cIndex);
     }
 
     return;
-}
-
-void Heap::swap(int &x, int &y) 
-{
-    int temp = x;
-    x = y;
-    y = temp;
 }

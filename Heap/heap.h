@@ -113,16 +113,6 @@ class Heap {
          * down the tree.
          */
         void heapifyDown(size_t currentIndex);
-    
-        /**
-         * Swaps the data of two variables.
-         *
-         * @param x The value to store in y
-         * @param y The value to store in x
-         */
-        void swap(int &x, int &y);
-
-        
 };
 
 #endif
