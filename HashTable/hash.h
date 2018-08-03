@@ -3,6 +3,7 @@
 #ifndef HASH_H
 #define HASH_H
 
+#include <array>
 #include <string>
 
 using std::string;
@@ -17,7 +18,7 @@ private:
         item* next;
     } item;
 
-    item* hash_table[table_size];
+    std::array<item*, table_size> hash_table;
 
 public:
     // Constructor: initializes hash_table to empty values
