@@ -16,7 +16,7 @@ void testInsertBasic(Heap*& heap)
     heap->insert(2);
     heap->insert(5);
 
-    assert(heap->getMin() == 2);
+    assert(heap->root() == 2);
     assert(heap->size() == 3);
 }
 
@@ -25,7 +25,7 @@ void testRemoveBasic(Heap*& heap)
     int retval = heap->remove();
     
     assert(retval == 2);
-    assert(heap->getMin() == 4);
+    assert(heap->root() == 4);
     assert(heap->size() == 2);
 }
 

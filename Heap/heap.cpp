@@ -37,7 +37,7 @@ bool Heap::hasChild(size_t currIdx) const
     return (leftChild(currIdx) < elements.size());
 }
 
-size_t Heap::minChild(size_t currIdx) const
+size_t Heap::getMinChild(size_t currIdx) const
 {
     if (hasChild(currIdx)) {
         return min(leftChild(currIdx), rightChild(currIdx));
@@ -46,7 +46,7 @@ size_t Heap::minChild(size_t currIdx) const
     return 0;
 }
 
-int Heap::getMin() const
+int Heap::root() const
 {
     if (length)
         return elements[0];
@@ -56,9 +56,9 @@ int Heap::getMin() const
 void Heap::insert(const int& value)
 {
     elements.push_back(value);
-    size_t pIdx = parent(length);
+    size_t parentIdx = parent(length);
 
-    if (value < elements[pIdx])
+    if (value < elements[parentIdx])
         heapifyUp(length);
 
     length++;
@@ -80,29 +80,23 @@ void Heap::heapifyUp(size_t currIdx)
     if (currIdx == 0)
         return;
 
-    size_t pIdx = floor ((currIdx - 1) / 2);
+    size_t parentIdx = parent(currIdx);
 
-    if (elements[currIdx] < elements[pIdx]) {
-        std::swap(elements[currIdx], elements[pIdx]);
-        
-        currIdx = pIdx;
-        heapifyUp(currIdx);
+    if (elements[currIdx] < elements[parentIdx]) {
+        std::swap(elements[currIdx], elements[parentIdx]);
+        heapifyUp(parentIdx);
     }
-
-    return;
 }
 
 void Heap::heapifyDown(size_t currIdx)
 {
-    size_t pIdx = currIdx;
-    currIdx = minChild(pIdx);
+    if (hasChild(currIdx)) {
+        size_t minChild = getMinChild(currIdx); 
 
-    // If there is a child less than the parent
-    if (currIdx != 0 && elements[pIdx] > elements[currIdx]) {
-        std::swap(elements[currIdx], elements[pIdx]);
-        pIdx = currIdx;
-        heapifyDown(pIdx);
+        // Compare the parent with its smallest child
+        if (elements[minChild] < elements[currIdx]) {
+            std::swap(elements[currIdx], elements[minChild]);
+            heapifyDown(minChild);
+        }
     }
-    
-    return;
 }

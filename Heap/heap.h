@@ -29,7 +29,7 @@ class Heap {
          *
          * @return The minimum heap value.
          */
-        int getMin() const;
+        int root() const;
 
         /**
          * Inserts a value into the heap while restoring the heap's property. 
@@ -113,7 +113,7 @@ class Heap {
          * @param currIdx The index of the current node.
          * @return The index of the smaller child node
          */
-        size_t minChild(size_t currIdx) const;
+        size_t getMinChild(size_t currIdx) const;
     
         /**
          * Helper function to restore heap property by bubbling up the
