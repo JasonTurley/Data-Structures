@@ -25,6 +25,15 @@ private:
         Node* left;
         Node* right;
         int height;
+
+        /**
+         * Node constructor.
+         */
+        Node(const int& data)
+            : value(data), left(nullptr), right(nullptr), height(0)
+        {
+            /* nothing */
+        }
     };
 
 public:
@@ -41,7 +50,7 @@ public:
     /**
      * Adds a node with `value` into an AVLTree. 
      */
-    void insert(const int& value) const;
+    void insert(const int& value);
 
     /**
      * Returns whether or not a node with `value` is in the AVLTree.
@@ -112,4 +121,5 @@ private:
     void rebalance(Node*& node);
 };
 
+#include "avltree.cpp"
 #endif
