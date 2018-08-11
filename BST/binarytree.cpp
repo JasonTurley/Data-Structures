@@ -38,7 +38,7 @@ void BinaryTree<T>::insert(const T& data)
 }
 
 template <typename T>
-void BinaryTree<T>::insert(const Node* subRoot, const T& data)
+void BinaryTree<T>::insert(Node*& subRoot, const T& data)
 {
     // Insert the node and increase the size
     if (subRoot == nullptr) {
@@ -53,17 +53,23 @@ void BinaryTree<T>::insert(const Node* subRoot, const T& data)
 }
 
 template <typename T>
-bool BinaryTree<T>::search(const T& data) const
+bool BinaryTree<T>::search(const T& data) //const
 {
-    if (root == nullptr)
+    search(root, data);
+}
+
+template <typename T>
+bool BinaryTree<T>::search(Node*& subRoot, const T& data) //const
+{
+    if (subRoot == nullptr)
         return false;
 
-    if (root->data == data)
+    if (subRoot->data == data)
         return true;
-    else if (data < root->data)
-        search(root->left);
+    else if (data < subRoot->data)
+        search(subRoot->left, data);
     else
-        search(root->right);
+        search(subRoot->right, data);
 }
 
 template <typename T>
