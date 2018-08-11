@@ -1,114 +1,142 @@
 /**
  * @file binarytree.h
+ * Declaration of the BinaryTree class. Contains member and helper functions.
  *
- * @date (modified) 1 August 2018
+ * @date (modified) 4 August 2018
  */
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
 
-#include <stdio.h>
+#include <vector>
+#include <cstddef>
 
-/* Represents a tree Node */
-typedef struct Node {
-	int data;		/* data item */
-	struct Node *left;	/* pointer to left child */
-	struct Node *right;	/* pointer to right child */
-} Node;	
+using std::vector;
 
 /**
- * Searches for the node with target value x. If found, returns a
- * pointer to the node. Otherwise, returns NULL.
- *
- * @param root The start of the tree.
- * @param x Target value
- * @return The target node
+ * The BinaryTree class represents a templated linked-memory data structure.
  */
-struct Node *search(struct Node *root, int x);
+template <typename T>
+class BinaryTree
+{
+    private:
+        /**
+         * Represents a tree node, a piece of data within a BinaryTree.
+         */
+        struct Node {
+            T data;
+            Node* left;
+            Node* right;
 
-/**
- * Finds the node with the smallest value in the tree.
- *
- * @param root The start of the tree.
- * @return The smallest value node
- */
-struct Node *findMin(struct Node *root);
+            /**
+             * Node constructor; the left and right children are set to 
+             * nullptr.
+             * @param data The info to store in the tree.
+             */
+            Node(const T& data) : data(data), left(nullptr), right(nullptr)
+            { /* nothing */
+            }
+        };
 
-/**
- * Finds the node with the largest value in the tree.
- *
- * @param root The start of the tree.
- * @return The largest value node
- */
-struct Node *findMax(struct Node *root);
+    public:
+        /**
+         * Constructs a BinaryTree.
+         */
+        BinaryTree();
 
-/**
- * Returns the length of the longest path in the tree.
- *
- * @param root The start of the tree.
- * @return Size of the tree's longest path
- */
-int max_height(struct Node *root);
+        /**
+         * Copy Constructor.
+         * @param other The BinaryTree to copy.
+         */
+        BinaryTree(const BinaryTree& other);
 
-/**
- * Returns the length of the shortest path in the tree.
- *
- * @param root The start of the tree.
- * @return Size of the tree's shortest path
- */
-int min_height(struct Node *root);
+        /**
+         * Destructor; releases memory held in tree nodes.
+         */
+        ~BinaryTree();
 
-/**
- * Returns the number of leaf nodes in the tree. Note, a
- * leaf node is defined as a node without any children.
- *
- * @param root The start of the tree.
- * @return Amount of leaf nodes.
- */
-int countLeaves(struct Node *root);
+        /**
+         * Assignment operator.
+         * @param rhs The tree to make a copy of.
+         * @return A reference to the current tree.
+         */
+        const BinaryTree& operator=(const BinaryTree& rhs);
 
-/**
- *
- *
- */
-int levelOrderTraversal(struct Node *root);
+        /**
+         * Inserts a node into the tree.
+         * @oaram data The data to insert into the tree.
+         */
+        void insert(const T& data);
 
-/**
- * Prints a path of nodes in the tree.
- *
- * @param root The start of the tree.
- */
-void printPaths(struct Node *root);
+        /**
+         * Checks if the data is present in the tree.
+         * @param data The data to look for.
+         * @return Whether or not data is in the tree.
+         */
+        bool search(const T& data) const;
 
-/**
- * Helper function to print the paths of a tree.
- *
- * @param root The start of the tree.
- * @param path An array of nodes
- * @param pathLen Size of the path array
- */
-void printPathsRecur(struct Node *root, int path[], int pathLen);
+        /**
+         * Removes a node from the tree.
+         * @param data The data to remove.
+         */
+        void remove(const T& data);
 
-/* Helper functions */
-int min(int x, int y) { return (x < y) ? x : y; }
-int max(int x, int y) { return (x > y) ? x : y; }
-void printArray(int arr[], int size);
+        /**
+         * Returns the height of a tree.
+         * @return Tree hieght.
+         */
+        int height() const;
 
+        /**
+         * The number of nodes in a tree.
+         * @return Size of tree
+         */
+        size_t size() const
+        {
+            return size_;
+        }
+
+    private:
+
+        Node* root;
+
+        size_t size_;
+
+        /**
+         * Helper function for inserting a node into the tree.
+         * @param subRoot current node in tree.
+         * @param data The data to insert.
+         */
+        void insert(const Node* subRoot, const T& data);
+
+        /**
+         * Helper function for finding a node in tree.
+         * @param subRoot current node in tree.
+         * @param data The data to find..
+         */
+        void search(const Node* subRoot, const T& data);
+
+
+        /**
+         * Helper function for finding height of a tree.
+         * @param subRoot The root of a tree.
+         * @return Tree height.
+         */
+        int height(const Node* subRoot) const;
+
+        /**
+         * Helper function for operator= and cctor.
+         * @param subRoot The root to copy.
+         * @return A pointer to an allocated node
+         */
+        Node* copy(const Node* subRoot);
+
+        /**
+         * Deletes tree.
+         * @param subRoot The root of the tree to delete.
+         */
+        void clear(Node* subRoot);
+};
+
+#include "binarytree.cpp"   // Included for template type support.
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
