@@ -11,12 +11,18 @@
 #include "stack.h"
 #include "utils.h"
 
+node_t *new_node(int data)
+{
+    node_t *n = safe_malloc(sizeof(node_t));    
+    n->data = data;
+    n->next = NULL;
+}
+
 stack_t *stack_create() 
 {
     stack_t *s = safe_malloc(sizeof(stack_t));
     s->data = NULL;
     s->size = 0;
-    s->next = NULL;
 
     return s;
 }
@@ -24,6 +30,15 @@ stack_t *stack_create()
 void push(stack_t *s, int data)
 {
     assert(s);
-    s->data = &data;
+    node_t *n = new_node(data);
+
+    // Insert node into linked list
+    if (!s->head) {
+        s->head = n;
+    } else {
+        s->head->next = n;
+        s->head = n;
+    }
+
     s->size++;
 }

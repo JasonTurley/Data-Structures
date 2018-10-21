@@ -10,12 +10,24 @@
 
 #include <stdint.h>
 
+/*
+ * Represents data for stack.
+ */
+typedef struct node_t {
+    int data;
+    struct node_t *next;
+    //struct node *prev;
+} node_t;
+
+
 typedef struct stack_t {
-    int *data;
+    node_t *head; /* top of stack */   
+    node_t *data;
     uint32_t size;
-    struct stack_t *next;
-    //stack_t *prev;
 } stack_t;
+
+
+node_t *new_node(int data);
 
 stack_t *stack_create(); 
 
