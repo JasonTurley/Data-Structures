@@ -15,6 +15,7 @@ int main()
 
     push(s, -2);
     printf("s->size = %d\n", s->size);
+    printf("s->head = %d\n", s->head->data);
 
     return 0;
 }
