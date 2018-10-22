@@ -8,7 +8,7 @@
 #include "utils.h"
 
 /*
- * A safe, error checked malloc wrapper.
+ * A safe, error-checked malloc wrapper.
  */
 void *safe_malloc(uint32_t size)
 {

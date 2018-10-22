@@ -19,7 +19,9 @@ typedef struct node_t {
     //struct node *prev;
 } node_t;
 
-
+/*
+ * Represents a stack.
+ */
 typedef struct stack_t {
     node_t *head; /* top of stack */   
     node_t *data;

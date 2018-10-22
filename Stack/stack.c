@@ -11,6 +11,9 @@
 #include "stack.h"
 #include "utils.h"
 
+/*
+ * Creates a node with `data
+ */
 node_t *new_node(int data)
 {
     node_t *n = safe_malloc(sizeof(node_t));    
