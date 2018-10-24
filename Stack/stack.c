@@ -7,25 +7,18 @@
 
 #include <stdlib.h>
 #include <assert.h>
+#include <limits.h>
 
 #include "stack.h"
 #include "utils.h"
 
-/*
- * Creates a node with `data
- */
-node_t *new_node(int data)
-{
-    node_t *n = safe_malloc(sizeof(node_t));    
-    n->data = data;
-    n->next = NULL;
-}
 
-stack_t *stack_create() 
+stack_t *stack_create(uint32_t max_size) 
 {
     stack_t *s = safe_malloc(sizeof(stack_t));
-    s->data = NULL;
     s->size = 0;
+    s->capacity = max_size;
+    s->elements[max_size];
 
     return s;
 }
@@ -33,15 +26,33 @@ stack_t *stack_create()
 void push(stack_t *s, int data)
 {
     assert(s);
-    node_t *n = new_node(data);
 
-    // Insert node into linked list
-    if (!s->head) {
-        s->head = n;
-    } else {
-        s->head->next = n;
-        s->head = n;
+    // TODO: resize array
+    if (s->size > s->capacity) {
+        fprintf (stderr, "WARNING: Stack Overflow - stack is at full capacity\n");
+        return;
     }
 
-    s->size++;
+    s->elements[s->size++] = data;
+}
+
+int pop(stack_t *s)
+{
+    assert(s);
+
+    if (s->size == 0) {
+        printf ("Stack is empty\n");
+        return INT_MIN;
+    }
+
+    int retval = s->elements[--(s->size)];;
+
+    return retval;
+}
+
+int peek(stack_t *s)
+{
+    assert(s);
+
+    return s->elements[s->size - 1];
 }

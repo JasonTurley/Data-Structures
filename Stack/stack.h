@@ -11,27 +11,16 @@
 #include <stdint.h>
 
 /*
- * Represents data for stack.
- */
-typedef struct node_t {
-    int data;
-    struct node_t *next;
-    //struct node *prev;
-} node_t;
-
-/*
  * Represents a stack.
  */
-typedef struct stack_t {
-    node_t *head; /* top of stack */   
-    node_t *data;
-    uint32_t size;
+typedef struct stack_t { 
+    uint32_t size;      /* current stack size */
+    uint32_t capacity;  /* max elements */
+    int elements[];     /* list of data */
 } stack_t;
 
 
-node_t *new_node(int data);
-
-stack_t *stack_create(); 
+stack_t *stack_create(uint32_t max_size); 
 
 void push(stack_t *, int);
 
