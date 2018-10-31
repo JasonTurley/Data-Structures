@@ -17,4 +17,9 @@
  */
 void *safe_malloc(uint32_t size);
 
+/*
+ * A safe, error-checked realloc wrapper.
+ */
+void *safe_realloc(void *ptr, uint32_t size);
+
 #endif

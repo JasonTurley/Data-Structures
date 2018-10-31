@@ -19,3 +19,14 @@ void *safe_malloc(uint32_t size)
     }
     return ret;
 }
+
+void *safe_realloc(void *ptr, uint32_t size)
+{
+    ptr = realloc(ptr, size);
+    if (!ptr) {
+        fprintf(stderr, "Failed to reallocate %d blocks.\n Terminating program...\n", size);
+        exit(EXIT_FAILURE);
+    }
+
+    return ptr;
+}
