@@ -7,10 +7,11 @@
 
 #include <stdlib.h>
 #include <assert.h>
+#include <stdbool.h>
 #include <limits.h>
 
 #include "stack.h"
-#include "utils.h"
+#include "../Includes/utils.h"
 
 
 stack_t *stack_create(uint32_t max_size) 
@@ -38,7 +39,7 @@ int pop(stack_t *s)
 {
     assert(s);
 
-    if (s->size == 0) {
+    if (isEmpty(s)) {
         printf ("Stack is empty\n");
         return INT_MIN;
     }
@@ -62,4 +63,24 @@ void resize(stack_t *s)
     uint32_t new_capacity = s->capacity * 2;
     s->elements = safe_realloc(s->elements, new_capacity);
     s->capacity = new_capacity;
+}
+
+uint32_t getSize(stack_t *s)
+{
+    assert(s);
+    return(s->size);
+}
+
+bool isEmpty(stack_t *s)
+{
+    assert(s);
+    return s->size == 0;
+}
+
+void stack_destroy(stack_t *s)
+{
+    if (s) {
+        free(s->elements);
+        free(s);
+    }
 }

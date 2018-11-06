@@ -9,6 +9,7 @@
 #define _STACK_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 /*
  * Represents a stack.
@@ -22,11 +23,15 @@ typedef struct stack_t {
 
 stack_t *stack_create(uint32_t max_size); 
 
-void push(stack_t * s, int);
+void push(stack_t *s, int);
 
-int pop(stack_t * s);
+int pop(stack_t *s);
 
-void resize(stack_t* s);
+void resize(stack_t *s);
+
+uint32_t getSize(stack_t *s);
+
+bool isEmpty(stack_t *s);
 
 void stack_destroy(stack_t *s);
 

@@ -10,15 +10,17 @@ int main()
 {
     stack_t *s = stack_create(10);
  
-    pop(s);
+    printf("Is stack empty? %d\n", isEmpty(s));
 
     int i;
-    for (i = 0; i < 12; i++) {
+    for (i = 0; i < 15; i++) {
         push(s, i * 10);
     }
 
-    int x = pop(s);
-    printf("popped %d\n", x);
+    printf("Is stack empty? %d\n", isEmpty(s));
+    printf("stack size: %d\n", getSize(s));
+
+    stack_destroy(s);
 
     return 0;
 }
