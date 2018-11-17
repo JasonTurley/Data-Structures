@@ -1,17 +1,26 @@
-# Makefile for vector.c
-# @date - 11/16/18
+# specify all source files here
+SRCS = main.c vector.c utils.c
 
-test: main.o vector.o utils.o
-	gcc -o test main.o vector.o utils.o -lm
+# specify target here (name of executable)
+TARG = test
 
-main.o: main.c
-	gcc -O -Wall -Wextra -Werror -c main.c
+# specify compiler, compile flags, and needed libs
+CC   = gcc
+OPTS = -Wall -Wextra -Werror -O -g
+LIBS = -lm
 
-vector.o: vector.c
-	gcc -O -Wall -Wextra -Werror -c vector.c
+# this translates .c files in src list to .o's
+OBJS = $(SRCS:.c=.o)
 
-utils.o: utils.c
-	gcc -O -Wall -Wextra -Werror -c utils.c
+# all is not really needed, but is used to generate the target
+all: $(TARG)
 
+# this generates the target executable
+$(TARG): $(OBJS)
+	$(CC) -o $(TARG) $(OBJS) $(LIBS)
+
+# this is a generic rule for .o files
+%.o: %.c
+	$(CC) $(OPTS) -c $< -o $@
 clean:
-	rm -f main.o vector.o utils.o test
+	rm -f $(OBJS) $(TARG)
