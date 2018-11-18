@@ -30,6 +30,13 @@ void *vector_get(vector *vec, size_t n)
 void vector_push_back(vector *vec, void *element)
 {
     assert(vec);
+
+    // Test for reallocation
+    if (vec->size == vec->capacity) {
+        vec->capacity *= GROWTH_FACTOR;
+        vec->array = safe_realloc(vec->array, sizeof(void *) * vec->capacity);
+    }
+
     vec->array[vec->size++] = element;
 }
 
