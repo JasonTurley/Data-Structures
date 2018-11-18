@@ -8,7 +8,7 @@
 /* Forward declare vector structure. */
 typedef struct vector {
     void **array;       /* container */ 
-    size_t nelems;      /* current container size */
+    size_t size;        /* current container size */
     size_t capacity;    /* max container size */
 } vector;
 
@@ -45,4 +45,36 @@ void vector_destroy(vector *vec);
  */
 size_t vector_size(vector *vec);
 
+// Element access:
 
+/**
+ * Gets the element at position n in the vector.
+ */
+void *vector_get(vector *vec, size_t n);
+
+/**
+ * Returns a pointer to the first element in the vector.
+ */
+void **vector_front(vector *vec);
+
+/**
+ * Returns a pointer to the last element in the vector.
+ */
+void **vector_back(vector *vec);
+
+// Modifiers:
+
+/**
+ * Adds a new element to the end of the vector, increasing its size
+ * by one. 
+ *
+ * This automatically resizes the container if necessary.
+ */
+void vector_push_back(vector *vec, void *element);
+
+/**
+ * Removes the last element in the vector, reducing its size by one. 
+ *
+ * This destroys the removed element.
+ */
+void vector_pop_back(vector *vec);
