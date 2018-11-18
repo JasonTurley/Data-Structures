@@ -8,7 +8,7 @@ vector *vector_create()
 {
     vector *v = safe_malloc(sizeof(vector));
     v->array = safe_malloc(sizeof(void *) * INITIAL_CAPACITY);
-    v->nelems = 0;
+    v->size = 0;
     v->capacity = INITIAL_CAPACITY;
 
     return v;
@@ -17,5 +17,32 @@ vector *vector_create()
 size_t vector_size(vector *vec)
 {
     assert(vec);
-    return vec->nelems;
+    return vec->size;
+}
+
+void *vector_get(vector *vec, size_t n)
+{
+    assert(vec);
+
+    return vec->array[n];
+}
+
+void vector_push_back(vector *vec, void *element)
+{
+    assert(vec);
+    vec->array[vec->size++] = element;
+}
+
+void vector_pop_back(vector *vec)
+{
+    assert(vec);
+
+    if (vec->size == 0) {
+        perror("vector is empty");
+        return;
+    }
+
+    // The next call to vector_push_back() will overwrite current element, thus
+    // "removing" it
+    vec->size--;
 }
