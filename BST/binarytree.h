@@ -72,7 +72,7 @@ class BinaryTree
          * @param data The data to look for.
          * @return Whether or not data is in the tree.
          */
-        bool search(const T& data); //const;
+        bool search(const T& data) const;
 
         /**
          * Removes a node from the tree.
@@ -113,7 +113,7 @@ class BinaryTree
          * @param subRoot current node in tree.
          * @param data The data to find.
          */
-        bool search(Node*& subRoot, const T& data); //const;
+        bool search(const Node* subRoot, const T& data) const;
 
 
         /**
