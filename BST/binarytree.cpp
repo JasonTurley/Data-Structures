@@ -40,59 +40,58 @@ void BinaryTree<T>::insert(const T& data)
 template <typename T>
 void BinaryTree<T>::insert(Node*& subRoot, const T& data)
 {
-    // Insert the node and increase the size
-    if (subRoot == nullptr) {
+    if (subRoot) {
+        if (data <= subRoot->data)
+            insert(subRoot->left, data);
+        else
+            insert(subRoot->right, data);
+    } else {
         subRoot = new Node(data);
         size_++;
     }
-
-    else if (data < subRoot->data)
-        insert(subRoot->left, data);
-    else
-        insert(subRoot->right, data);
 }
 
 template <typename T>
-bool BinaryTree<T>::search(const T& data) //const
+bool BinaryTree<T>::search(const T& data) const
 {
-    search(root, data);
+    return search(root, data);
 }
 
 template <typename T>
-bool BinaryTree<T>::search(Node*& subRoot, const T& data) //const
+bool BinaryTree<T>::search(const Node* subRoot, const T& x) const
 {
     if (subRoot == nullptr)
         return false;
 
-    if (subRoot->data == data)
+    else if (subRoot->data == x)
         return true;
-    else if (data < subRoot->data)
-        search(subRoot->left, data);
+    else if (x < subRoot->data)
+        return search(subRoot->left, x);
     else
-        search(subRoot->right, data);
+        return search(subRoot->right, x);
 }
 
 template <typename T>
 typename BinaryTree<T>::Node* BinaryTree<T>::copy(const Node* subRoot)
 {
-    if (subRoot == nullptr)
-        return nullptr;
+    if (subRoot) {
+        Node* newNode = new Node(subRoot->data);
+        newNode->left = copy(subRoot->left);
+        newNode->right = copy(subRoot->right);
 
-    Node* newNode = new Node(subRoot->data);
-    newNode->left = copy(subRoot->left);
-    newNode->right = copy(subRoot->right);
+        return newNode;
+    }
 
-    return newNode;
+    return nullptr;
 }
 
 template <typename T>
 void BinaryTree<T>::clear(Node* subRoot)
 {
-    if (subRoot == nullptr)
-        return;
-
     // post order traveral
-    clear(subRoot->left);
-    clear(subRoot->right);
-    delete subRoot;
+    if (subRoot) {
+        clear(subRoot->left);
+        clear(subRoot->right);
+        delete subRoot;
+    }
 }
