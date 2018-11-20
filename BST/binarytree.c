@@ -1,191 +1,172 @@
+/**
+ * Implementation of a BinarySearchTree.
+ *
+ * This legacy code is for educational purposes, the c++ version is the one
+ * the program uses.
+ *
+ * Updated - 11/19/18
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "binarytree.h"
 
-// Creates a node with given data
-struct Node *newNode(int data)
+/**
+ * Creates a node with given data
+ */
+ struct Node *new_node(int data)
 {
 	struct Node *node = malloc(sizeof(struct Node));
+
+    if (node == NULL) {
+        perror("Failed to allocated new node");
+        exit(-1);
+    }
+
 	node->data = data;
 	node->left = NULL;
 	node->right = NULL;
-	return node;
+
+    return node;
 }
 
 
-// insert a node to into a binary search tree
+/** 
+ * Insert a node to into a binary search tree
+ */
 struct Node *insert(struct Node *root, int data)
 {
-	// If an empty tree is passed in, create a new, single node
-	if (root == NULL)
-		return newNode(data);
-
-	// Otherwise, recur down the tree
-	if (data <= root->data)
-		root->left = insert(root->left, data);
-
-	else	
-		root->right = insert(root->right, data);
-
-	return root;
+    if (root) {
+        if (data <= root->data) {
+            root->left = insert(root->left, data);
+        } else {
+            root->right = insert(root->right, data);
+        }
+    } else {
+        return new_node(data);
+    }
 }
 
-// Returns the size of a binary tree
-int size(struct Node *root)
+/** 
+ * Returns the size of a binary tree
+ */
+size_t size(struct Node *root)
 {
-	if (root == NULL)	
-		return 0;
-
-	// +1 for uncounted root
-	return 1 + size(root->left) + size(root->right);
+	if (root) {	
+	    return 1 + size(root->left) + size(root->right);
+    }
+	
+    return 0;
 }
 
-// Returns the node containintg item x, otherwise returns null
+/** 
+ * Returns the node containintg item x, otherwise returns null
+ */
 struct Node *search(struct Node *root, int x) 
 {
-	// Base case: tree is empty
-	if (root == NULL)	return NULL; 
+	if (root) {	
+        if (x == root->data) { 
+            return root;
+        } else if (x < root->data) {
+            search(root->left, data);
+        } else {
+            search(root->right, data);
+        }
+    }
 
-	if (root->data == x)	return root;
-
-	// Data is greater than target, search left subtree
-	if (root->data > x)	return search(root->left, x);
-	// otherwise, search right subtree
-	return search(root->right, x);
+    return NULL;
 }
 
-// Returns pointer to the smallest node in tree
-Node *findMin(struct Node *root) 
+/** 
+ * Returns a pointer to the node with the smallest data
+ */
+Node *find_min(struct Node *root) 
 {
-	if (root == NULL)	return NULL;
-
-	// The smallest node is the left-most child
-	// traverse to that node
-	while (root->left != NULL)
-		root = root->left;
+    if (root) {
+	    // The smallest node is the left-most child
+	    while (root->left != NULL)
+	        root = root->left;
 	
-	return root;
+	    return root;
+    }
+
+    return NULL;
 }
 
-// Returns pointer to the largest node in tree
-Node *findMax(struct Node *root)
+/**
+ * Returns pointer to the largest node in tree
+ */
+Node *find_max(struct Node *root)
 {
-	if (root == NULL)	return NULL;
-
-	// The largest node is the right-most child
-	// traverse to that node
-	while (root->right != NULL)
-		root = root->right;
+	if (root) {
+	    // The largest node is the right-most child
+	    while (root->right != NULL)
+		    root = root->right;
 	
-	return root;
+	    return root;
+    }
+
+    return NULL;
 }
 
-
-// Returns the maximum height of a binary tree
+/** 
+ * Returns the maximum height of a binary tree
+ */
 int height(struct Node *root)
 {
-	if (root == NULL)	return -1;
-	
-	int left_height = height(root->left);
-	int right_height = height(root->right);
+	if (root) {
+	    int left_height = height(root->left);
+	    int right_height = height(root->right);
 
-	return 1 + max(left_height, right_height);
+	    return 1 + max(left_height, right_height);
+    }
+
+    return -1;
 }
 
-/* Given a tree and a sum, return true if there is a path from the root to leaf 
-   such that all the values in the path equals the given sum.
- 
-   Strategy: subtract node's value from sum as we recur down the tree. If the sum
-   equals 0 at the end then return true.
-*/
-int hasPathSum(struct Node *root, int sum)
-{
-	if (root == NULL) {
-		return (sum == 0);
-	}
-	else {
-		// otherwise check both the subtrees
-		int subSum = sum - root->data;
-		return (hasPathSum(root->left, subSum) ||
-			hasPathSum(root->right, subSum));	
-	}
-}		
-
-// Given a binary tree, print out all of its root-node paths, one per line
-void printPaths(struct Node *root)
-{
-	int path[1000];
-	
-	printPathsRecur(root, path, 0);
-}
-
-// Recursive helper function
-void printPathsRecur(struct Node *root, int path[], int pathLen)
-{
-	if (root == NULL) return;
-	
-	// append this node to the path array
-	path[pathLen] = root->data;
-	pathLen++;
-
-	// it's a leaf, so print the path that led to here
-	if (!root->left && !root->right) {
-		printArray(path, pathLen);	
-	}
-	else {
-	// otherwise check both subtrees
-		printPathsRecur(root->left, path, pathLen);
-		printPathsRecur(root->right, path, pathLen);
-	}
-}
-
-// Utility that prints an array on a single line
-void printArray(int arr[], int size)
-{
-	int i;
-	for (i = 0; i < size; i++) {
-		printf("%d ", arr[i]);		
-	}
-	puts("\n");
-}
-
-
-// Prints a binary tree with inorder traversal
+/** 
+ * Prints a binary tree with inorder traversal
+ */
 void printInOrder(struct Node *root)
 {
-	if (root == NULL)
-		return;
-
-	printInOrder(root->left);
-	printf("%d ", root->data);
-	printInOrder(root->right);
+	if (root) {
+		printInOrder(root->left);
+	    printf("%d ", root->data);
+	    printInOrder(root->right);
+    }
 }
 
-// Return the mirrored version of a tree
+/**
+ * Return the mirrored version of a tree
+ */
 void mirror(struct Node *root)
 {
-	if (root == NULL)
-		return;
-
-	// Recur both subtrees
-	mirror(root->left);
-	mirror(root->right);
-	// swap the pointers
-	struct Node *temp;
-	temp = root->left;
-	root->left = root->right;
-	root->right = temp;
+	if (root) {
+		// Recur both subtrees
+	    mirror(root->left);
+	    mirror(root->right);
+	
+        // swap the pointers
+	    struct Node *temp;
+	    temp = root->left;
+	    root->left = root->right;
+	    root->right = temp;
+    }
 }
 
-void doubleTree(struct Node *root)
+/**
+ * Creates a copy of each node, and assigns it as its left child
+ */
+void double_tree(struct Node *root)
 {
 	if (root == NULL)
 		return;
-	doubleTree(root->left);
-	doubleTree(root->right);
+	double_tree(root->left);
+	double_tree(root->right);
 
 	// create duplicate of current node and assign it to as the left child
-	struct Node *temp = newNode(root->data);
+	struct Node *temp = new_node(root->data);
 	temp->left = root->left;
 	root->left = temp;
 }
@@ -205,9 +186,9 @@ int main()
 	root =	insert(root, 8);
 
 	// tree built via constructor			tree:
-	struct Node *node = newNode(2);	//			2
-	node->left 	  = newNode(1); //		       / /
-	node->right	  = newNode(3); //		     1	  3
+	struct Node *node = new_node(2);	//			2
+	node->left 	  = new_node(1); //		       / /
+	node->right	  = new_node(3); //		     1	  3
 	
 	
 	printf("In order traversal of tree2: \n");
