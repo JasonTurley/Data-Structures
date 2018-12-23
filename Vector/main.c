@@ -7,23 +7,21 @@
 int main()
 {
     vector *my_vec = vector_create(); 
-    int i;
+    size_t i;
+    size_t amount_to_push = 20;
 
     // add elements to vector
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < amount_to_push; i++) {
         vector_push_back(my_vec, &i);
     }
-    assert(vector_size(my_vec) == 4);
+    assert(vector_size(my_vec) == amount_to_push);
 
-    // remove elemets
-    for (i = 0; i < 2; i++) {
-        vector_pop_back(my_vec);
-    }
-    assert(vector_size(my_vec) == 2);
-    
-    int *ret = vector_get(my_vec, 1);
-    if (ret) {
-        printf("retval: %d\n", *ret);
+    // test vector_destroy
+    vector_destroy(&my_vec);
+
+    if (my_vec) {
+        printf("Failed to destroy vector\n");
+        printf("size: %zd\n", my_vec->size);
     }
 
     return 0;
