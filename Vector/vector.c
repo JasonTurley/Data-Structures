@@ -14,6 +14,18 @@ vector *vector_create()
     return v;
 }
 
+void vector_destroy(vector **vec)
+{
+    if (*vec) {
+        // delete container elements
+        free((*vec)->array);
+        (*vec)->array = NULL;
+    }
+
+    free(*vec);
+    *vec = NULL;
+}
+
 size_t vector_size(vector *vec)
 {
     assert(vec);

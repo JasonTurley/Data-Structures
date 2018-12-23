@@ -33,7 +33,7 @@ vector *vector_create();
 /**
  * Destroys all container elements of the vector.
  */
-void vector_destroy(vector *vec);
+void vector_destroy(vector **vec);
 
 // Iterators:
 
