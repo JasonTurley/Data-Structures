@@ -4,25 +4,24 @@
 
 #include "vector.h"
 
+void test_push()
+{
+	size_t i;
+	size_t n = 10;
+	struct vector *v = vector_create(n);
+	assert(v);
+	assert(size(v) == 0);
+	assert(capacity(v) == MIN_CAPACITY);
+
+	for (i = 0; i < n; i++) {
+		push(v, (int) i+1);
+	}
+
+	assert(size(v) == n);
+}
+
 int main()
 {
-    vector *my_vec = vector_create(); 
-    size_t i;
-    size_t amount_to_push = 20;
-
-    // add elements to vector
-    for (i = 0; i < amount_to_push; i++) {
-        vector_push_back(my_vec, &i);
-    }
-    assert(vector_size(my_vec) == amount_to_push);
-
-    // test vector_destroy
-    vector_destroy(&my_vec);
-
-    if (my_vec) {
-        printf("Failed to destroy vector\n");
-        printf("size: %zd\n", my_vec->size);
-    }
-
-    return 0;
+	test_push();
+    	return 0;
 }
