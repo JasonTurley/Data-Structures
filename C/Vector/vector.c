@@ -10,10 +10,26 @@ struct vector {
 	size_t capacity;	/* Max items array can hold */
 };
 
+/**
+ * Resizes the given vectors internal container.
+ *
+ * Declared static since it is a 'private' function.
+ */
 static void resize(struct vector *vec)
 {
 	// TODO implement
 	vec->size += 0; // added to stop compiler errors
+}
+
+/**
+ * 
+ */
+static void check_index(struct vector *vec, size_t index)
+{
+	if (index > vec->size) {
+		fprintf(stderr, "index %zd out of bounds.\n", index);
+		exit(EXIT_FAILURE);
+	}
 }
 
 struct vector *vector_create(size_t capacity)
@@ -32,6 +48,12 @@ struct vector *vector_create(size_t capacity)
     	return v;
 }
 
+void vector_destroy(struct vector *vec)
+{
+	free(vec->array);
+	free(vec);
+}
+
 size_t size(struct vector *vec)
 {
 	return vec->size;
@@ -40,6 +62,21 @@ size_t size(struct vector *vec)
 size_t capacity(struct vector *vec)
 {
 	return vec->capacity;
+}
+
+bool is_empty(struct vector *vec)
+{
+	return (vec->size == 0);
+}
+
+int at(struct vector *vec, size_t index)
+{
+	int ret;
+
+	check_index(vec, index);
+	ret = *(vec->array + index);
+
+	return ret;
 }
 
 void push(struct vector *vec, int item)

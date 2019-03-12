@@ -1,5 +1,7 @@
 /**
  * A C style implementation of std::vector.
+ *
+ * Modified on 3/12/19 by Jason Turley.
  */
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
@@ -42,12 +44,12 @@ size_t capacity(struct vector *vec);
 /**
  * Checks if the current vector is empty.
  */
-int is_empty(struct vector *vec);
+bool is_empty(struct vector *vec);
 
 /**
  * Returns the item at a given index.
  */
-int at(struct vector *vec, int index);
+int at(struct vector *vec, size_t index);
 
 /**
  * Adds a new element to the end of the vector, increasing its size
@@ -61,7 +63,7 @@ void push(struct vector *vec, int item);
  * Inserts item at index and shifts that index's value and all trailing
  * items to the right.
  */
-void insert(struct vector *vec, int index, int item);
+void insert(struct vector *vec, size_t index, int item);
 
 /**
  * Adds an item to the front of the vector, index 0.
