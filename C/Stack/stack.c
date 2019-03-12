@@ -11,7 +11,7 @@
 #include <limits.h>
 
 #include "stack.h"
-#include "../Includes/utils.h"
+#include "utils.h"
 
 
 stack_t *stack_create(uint32_t max_size) 
