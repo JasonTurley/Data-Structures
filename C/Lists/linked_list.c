@@ -48,6 +48,8 @@ void destroy_list(struct linked_list *list)
 		free(ptr);
 		ptr = list->head;
 	}
+	
+	free(list);
 }
 
 size_t size(struct linked_list *list)
