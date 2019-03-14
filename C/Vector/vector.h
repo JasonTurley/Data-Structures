@@ -76,7 +76,7 @@ void prepend(struct vector *vec, int item);
 int pop(struct vector *vec);
 
 /**
- * Searches for iterm and removes index holding it, even if in multiple places.
+ * Removes all occurrences of an item.
  */
 void remove_item(struct vector *vec, int item);
 
