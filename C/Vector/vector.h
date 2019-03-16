@@ -19,6 +19,17 @@
  */
 #define GROWTH_FACTOR 2
 
+struct vector {
+	int *array;
+	size_t size;
+	size_t capacity;
+};
+
+/**
+ * Prints all items in a given vector.
+ */
+void print_vector(struct vector *vec);
+
 /**
  * Returns a pointer to a newly created, empty vector.
  *

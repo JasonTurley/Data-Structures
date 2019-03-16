@@ -4,12 +4,6 @@
 #include "vector.h"
 #include "utils.h"
 
-struct vector {
-	int *array;		/* Item container */
-	size_t size;		/* Number of items in array */
-	size_t capacity;	/* Max items array can hold */
-};
-
 /**
  * Resizes the given vectors internal container.
  *
@@ -17,8 +11,41 @@ struct vector {
  */
 static void resize(struct vector *vec)
 {
-	// TODO implement
-	vec->size += 0; // added to stop compiler errors
+	int *new_array;
+	size_t i;
+
+	vec->capacity *= 2;
+	new_array = malloc(sizeof(int) * vec->capacity);
+	// TODO make into function
+	if (!new_array) {
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+
+	/* copy elements */
+	for (i = 0; i < vec->size; i++)
+		*(new_array + i) = *(vec->array + i);
+
+	free(vec->array);
+	vec->array = new_array;
+}
+
+static void swap(int *a, int *b)
+{
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
+
+}
+
+void print_vector(struct vector *vec)
+{
+	size_t i;
+
+	for (i = 0; i < vec->size; i++)
+		printf("%d ", *(vec->array + i));
+
+	printf("\n");
 }
 
 /**
@@ -88,4 +115,36 @@ void push(struct vector *vec, int item)
 	vec->size++;
 }
 
+void insert(struct vector *vec, size_t index, int item)
+{
+	if (vec->size + 1 > vec->capacity)
+		resize(vec);
 
+	size_t end = vec->size;
+
+	while (end > index) {
+
+		swap(&(*(vec->array + end)), &(*(vec->array + (end-1))));
+		end--;
+	}
+
+	*(vec->array + index) = item;
+	vec->size++;
+}
+
+int find(struct vector *vec, int item)
+{
+	// Is there a way to get better than O(n) for unsorted array?
+	int *ptr;
+	size_t i;
+
+	for (i = 0; i < vec->size; i++) {
+		ptr = vec->array + i;
+		if (*ptr == item) {
+			printf("Found item at index %zd.\n", i);
+			return i;
+		}
+	}
+
+	return -1;	// not found
+}
