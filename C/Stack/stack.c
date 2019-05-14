@@ -39,7 +39,7 @@ int pop(stack_t *s)
 {
     assert(s);
 
-    if (isEmpty(s)) {
+    if (is_empty(s)) {
         printf ("Stack is empty\n");
         return INT_MIN;
     }
@@ -65,13 +65,13 @@ void resize(stack_t *s)
     s->capacity = new_capacity;
 }
 
-uint32_t getSize(stack_t *s)
+uint32_t get_size(stack_t *s)
 {
     assert(s);
     return(s->size);
 }
 
-bool isEmpty(stack_t *s)
+bool is_empty(stack_t *s)
 {
     assert(s);
     return s->size == 0;
