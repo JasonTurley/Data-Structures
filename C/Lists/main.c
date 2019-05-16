@@ -10,13 +10,21 @@
 struct node *head = NULL;
 struct node *tail = NULL;
 
-void test_push_front(list_t *list)
+char *str = "abcdefghijklmnopqrstuvwxyz";
+
+void test1(list_t *list)
 {
-	for (int i = 0; i < N; i++) {
-		push_front(list, &i);
-	}
+	for (int i = 0; i < N; i++) 
+		push_front(list, str + i);
 
 	assert(size(list) == N);
+
+	for (int i = N; i > 0; i--) {
+		char *x = pop_front(list);
+		assert(x == str + (i-1));
+	}
+
+	assert(size(list) == 0);
 }
 
 /* 
@@ -25,8 +33,10 @@ void test_push_front(list_t *list)
 int main()
 {
 	list_t *mylist = create_list();
+	
+	test1(mylist);
 
-	test_push_front(mylist);
+	destroy_list(mylist);
 
 	return 0;
 }
