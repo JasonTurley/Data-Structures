@@ -10,29 +10,22 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-struct node {
-	int data;
-	struct node *prev;
-	struct node *next;
+typedef struct _node {
+	void *data;
+	struct _node *prev;
+	struct _node *next;
 } node;
 
-extern struct node *head;
-extern struct node *tail;
+typedef struct _list_t {
+	node *head;
+	node *tail;
+	int size;
+} list_t;
 
 /**
- * Adds an item to the front of the list.
+ * Returns povoid *er to a new list_t struct.
  */
-void push_front(int value);
-
-/** 
- * Adds an item to the end of the list.
- */
-void push_back(int value);
-
-/**
- * Returns the size of the list.
- */
-int size();
+list_t *create_list();
 
 /**
  * Frees contents of list.
@@ -40,63 +33,33 @@ int size();
 void destroy_list();
 
 /**
- * Prints contents of list.
+ * Adds an item to the front of the list.
  */
-void print_list();
-
-/**
- * Returns true if the current list is empty.
- */
-bool is_empty(struct node *head);
-
-/**
- * Returns the value of the item at index (staring at 0).
- */
-int value_at(size_t index);
+void push_front(list_t *list, void *value);
 
 /** 
- * Removes and returns the value at the front of the list.
+ * Adds an item to the end of the list.
  */
-int pop_front(struct node **head);
+void push_back(list_t *list, void * value);
 
 /**
- * Removes and returns the value at the end of the list.
+ * Removes the node at the head of the list, and returns its value.
  */
-int pop_back(struct node **tail);
+void *pop_front(list_t *list);
 
 /**
- * Returns the value at the front of the list, without removing it.
+ * Returns true if the given list is empty, false otherwise.
  */
-int check_front(struct node *head);
+bool empty(list_t *list);
 
 /**
- * Returns the value at the back of the list, without removing it.
+ * Returns the number of nodes in the list.
  */
-int check_back(struct node *tail);
+int size(list_t *list);
 
 /**
- * Inserts a value at index.
+ * For each node in the list, prints the address of its value.
  */
-void insert(struct node **head, size_t index, int value);
-
-/**
- * Removes node at given index.
- */
-void erase(size_t index);
-
-/**
- * Returns the value at the nth position from the end
- */
-int value_n_from_end(struct node *node, size_t n);
-
-/**
- * Reverses the list.
- */
-void reverse(struct node **head);
-
-/**
- * Removes the first node in the list with given value.
- */
-void remove_value(int value);
+void print_list(list_t *list);
 
 #endif

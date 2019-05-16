@@ -3,9 +3,6 @@
 
 #include "list.h"
 
-extern struct node *head;
-extern struct node *tail;
-
 static void check_address(void *addr)
 {
 	if (addr == NULL) {
@@ -14,83 +11,82 @@ static void check_address(void *addr)
 	}
 }
 
-/** 
- * Returns a new node with given value
- */
-static struct node *create_node(int value)
+list_t *create_list()
 {
-	struct node *ret = malloc(sizeof(struct node));
-	check_address(ret);
+	list_t *list = malloc(sizeof(list_t));
+	check_address((list_t *) list);
 
-	ret->data = value;
-	ret->prev = NULL;
-	ret->next = NULL;
+	list->head = NULL;
+	list->tail = NULL;
+	list->size = 0;
 
-	return ret;
+	return list;
 }
 
-void push_front(int value)
+void push_front(list_t *list, void *value)
 {
-	struct node *tmp = create_node(value);
+	node *newnode = malloc(sizeof(node));
+	check_address(newnode);
 
-	if (!head && !tail) {
-		tail = tmp;
+	newnode->data = value;
+
+	if (empty(list)) {
+		list->tail = newnode;
 	} else {
-		tmp->next = head;
-		head->prev = tmp;
+		newnode->next = list->head;
+		list->head->prev = newnode;
 	}
 
-	head = tmp;
+	list->head = newnode;
+	list->size++;
+
+	printf("debug: added %d to list\n", (*(int *)list->head->data));
 }
 
-void push_back(int value)
+void push_back(list_t *list, void *value)
 {
-	struct node *tmp = create_node(value);
+	node *newnode = malloc(sizeof(node));
+	check_address(newnode);
 
-	if (!head && !tail) {
-		head = tmp;
+	newnode->data = value;
+
+	if (empty(list)) {
+		list->head = newnode;
 	} else {
-		tmp->prev = tail;
-		tail->next = tmp;
+		newnode->prev = list->tail;
+		list->tail->next = newnode;
 	}
 
-	tail = tmp;
+	list->tail = newnode;
+	list->size++;
 }
 
-int size()
+void *pop_front(list_t *list)
 {
-	struct node *ptr = head;
-	int count = 0;
+	return NULL;
+}
 
-	while (ptr) {
-		ptr = ptr->next;
-		count++;
-	}
+bool empty(list_t *list)
+{
+	return (list->head == NULL && list->tail == NULL);
+}
 
-	return count;
+int size(list_t *list)
+{
+	return list->size;
 }
 
 void destroy_list()
 {
-	struct node *ptr = head;
-
-	while (ptr) {
-		head = ptr->next;
-		free(ptr);
-		ptr = head;
-	}
-
-	head = NULL;
-	tail = NULL;
 }
 		
-void print_list()
+void print_list(list_t *list)
 {
-	struct node *ptr = head;
+	node *head = list->head;
 
-	while (ptr) {
-		printf("%d ", ptr->data);
-		ptr = ptr->next;
+	while (head) {
+		printf("%d ", (*(int *)head->data));
+		head = head->next;
 	}
 
 	printf("\n");
