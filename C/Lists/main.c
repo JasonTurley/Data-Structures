@@ -10,32 +10,23 @@
 struct node *head = NULL;
 struct node *tail = NULL;
 
-void test_push_front()
+void test_push_front(list_t *list)
 {
-	int i;
-	
-	for (i = 0; i < N; i++)
-		push_front(i+1);
-	
-	assert(size() == N);
-	assert(head != NULL);
-	assert(tail != NULL);
-}
+	for (int i = 0; i < N; i++) {
+		push_front(list, &i);
+	}
 
-void test_destroy_list()
-{
-	destroy_list();
-	assert(head == NULL);
-	assert(tail == NULL);
+	assert(size(list) == N);
 }
 
 /* 
  * Test link list functions
  */
-int main(int argc, char **argv)
+int main()
 {
-	test_push_front();
-	test_destroy_list();
+	list_t *mylist = create_list();
+
+	test_push_front(mylist);
 
 	return 0;
 }
