@@ -19,7 +19,7 @@ typedef struct _node {
 typedef struct _list_t {
 	node *head;
 	node *tail;
-	int size;
+	size_t size;
 } list_t;
 
 /**
@@ -48,6 +48,11 @@ void push_back(list_t *list, void * value);
 void *pop_front(list_t *list);
 
 /**
+ * Removes the node at the tail of the list, and returns its value.
+ */
+void *pop_back(list_t *list);
+
+/**
  * Returns true if the given list is empty, false otherwise.
  */
 bool empty(list_t *list);
@@ -55,7 +60,22 @@ bool empty(list_t *list);
 /**
  * Returns the number of nodes in the list.
  */
-int size(list_t *list);
+size_t size(list_t *list);
+
+/**
+ * Returns value at front of the list.
+ */
+void *front(list_t *list);
+
+/**
+ * Returns the value at end of the list;
+ */
+void *back(list_t *list);
+
+/**
+ * Inserts a node at the given index, with 0 being the first index.
+ */
+void insert(list_t *list, size_t index, void *value);
 
 /**
  * For each node in the list, prints the address of its value.
