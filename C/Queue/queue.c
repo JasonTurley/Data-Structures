@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "queue.h"
-#include "list.h"
+#include "liblist/liblist.h"
 
 queue_t *create_queue()
 {
