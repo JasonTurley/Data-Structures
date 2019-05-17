@@ -1,20 +1,54 @@
+OBJS_DIR = .objs
+
+# define executables
+EXE_QUEUE=queue
+
+# list object file dependencies for each
+OBJS_QUEUE=$(EXE_QUEUE).o
+OBJS_MAIN=main.o
+
+OBJS_ALL = $(OBJS_QUEUE) $(OBJS_MAIN)
+
 # set up compiler
 CC = gcc
-CFLAGS = -c -Wall -Wextra
+INCLUDES = -I./libs/
+WARNINGS = -Wall -Wextra -Wno-unsued -Wno-unsued-parameter
+CFLAGS_DEBUG = -O0 $(INCLUDES) $(WARNINGS) -g -std=c99 -c -D_GNU_SOURCE -DDEBUG
+CFLAGS_RELEASE = -O0 $(INCLUDES) $(WARNINGS) -std=c99 -c -D_GNU_SOURCE
 
+# set up linker
+LD = gcc
+LFLAGS = -Llibs/ -llist 
+
+.PHONY: all
+all: release
+
+.PHONY: debug
+.PHONY: release
 .PHONY: clean
 
-queue: main.o queue.o list.o
-	$(CC) -o queue main.o queue.o list.o
+release: $(EXE_QUEUE)
+debug: $(EXE_QUEUE:%=%-debug)
 
-main.o: main.c queue.h
-	$(CC) $(CFLAGS) main.c 
+#include dependencies
+-include $(OBJS_DIR)/*.d
+$(OBJS_DIR):
+	@mkdir -p $(OBJS_DIR)
 
-queue.o: queue.c queue.h list.h
-	$(CC) $(CFLAGS) queue.c 
+# patterns to create objects
+$(OBJS_DIR)/%-release.o: %.c | $(OBJS_DIR)
+	$(CC) $(CFLAGS_RELEASE) $< -o $@
 
-list.o: list.c list.h
-	$(CC) $(CFLAGS) list.c
+$(OBJS_DIR)/%-debug.o: %.c | (OBJS_DIR)
+	$(CC) $(CFLAGS_DEBUG) $< -o $@
+
+# exes
+# you will need exe and exe-debug
+$(EXE_QUEUE): $(OBJS_ALL:%.o=$(OBJS_DIR)/%-release.o)
+	$(LD) $^ $(LFLAGS) -o $@
+
+$(EXE_QUEUE)-debug: $(OBJS_ALL:%.o=$(OBJS_DIR)/%-debug.o)
+	$(LD) $^ $(LFLAGS) -o $@
 
 clean:
-	rm -rf *.o queue
+	rm -rf .objs $(EXE_QUEUE) $(EXE_QUEUE:%=%-debug)
