@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#define empty(list) (list->head == NULL && list->tail == NULL)
+#define size(list) (list->size)
 
 typedef struct _node {
 	void *data;
@@ -54,29 +56,21 @@ void *pop_front(list_t *list);
 void *pop_back(list_t *list);
 
 /**
- * Returns true if the given list is empty, false otherwise.
- */
-inline bool empty(list_t *list);
-
-/**
- * Returns the number of nodes in the list.
- */
-inline size_t size(list_t *list);
-
-/**
- * Returns value at front of the list.
- */
-inline void *front(list_t *list);
-
-/**
- * Returns the value at end of the list;
- */
-inline void *back(list_t *list);
-
-/**
  * Inserts a node at the given index, with 0 being the first index.
  */
-void insert(list_t *list, size_t index, void *value);
+void insert(list_t *list, void *value, size_t index);
+
+/**
+ * Removes the node at the given index, and returns its data. 0 is the head
+ * position.
+ */
+void *extract(list_t *list, size_t index);
+
+/**
+ * Returns the data of the node at the given index, without removing it from
+ * the list.
+ */
+void *get(list_t *list, size_t index);
 
 /**
  * For each node in the list, prints the address of its value.
