@@ -109,12 +109,12 @@ void *pop_back(list_t *list)
 	return retval;
 }
 
-bool empty(list_t *list)
+inline bool empty(list_t *list)
 {
 	return (list->head == NULL && list->tail == NULL);
 }
 
-size_t size(list_t *list)
+inline size_t size(list_t *list)
 {
 	return list->size;
 }

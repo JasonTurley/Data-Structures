@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+
 typedef struct _node {
 	void *data;
 	struct _node *prev;
@@ -55,22 +56,22 @@ void *pop_back(list_t *list);
 /**
  * Returns true if the given list is empty, false otherwise.
  */
-bool empty(list_t *list);
+inline bool empty(list_t *list);
 
 /**
  * Returns the number of nodes in the list.
  */
-size_t size(list_t *list);
+inline size_t size(list_t *list);
 
 /**
  * Returns value at front of the list.
  */
-void *front(list_t *list);
+inline void *front(list_t *list);
 
 /**
  * Returns the value at end of the list;
  */
-void *back(list_t *list);
+inline void *back(list_t *list);
 
 /**
  * Inserts a node at the given index, with 0 being the first index.
