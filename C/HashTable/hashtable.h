@@ -9,12 +9,10 @@
 #ifndef _HASHTABLE_H_
 #define _HASHTABLE_H_
 
-// macros
-#define LOAD_FACTOR 0.7
 
 struct pair {
-	void *key;
-	void *value;
+	char *key;
+	char *value;
 };
 
 typedef struct _hashtable {
@@ -29,14 +27,24 @@ typedef struct _hashtable {
 hashtable_t *create_table(size_t tsize);
 
 /**
+ * A naive hash algorithm.
+ */
+int naive_hash(char *key, size_t tsize);
+
+/**
+ * Bernstein hash algorithm.
+ */
+int bernstein_hash(char *key, size_t tsize);
+
+/**
  * Inserts a key-value pair into the hash table.
  */
-void insert(hashtable_t ht, void *key, void *value);
+void insert(hashtable_t ht, char *key, char *value);
 
 /**
  * Returns the value associated with the key.
  */
-void *get(hashtable_t ht, void *key);
+char *get(hashtable_t ht, char *key);
 
 /**
  * Destroys the given hashtable.
