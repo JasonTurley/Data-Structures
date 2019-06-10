@@ -9,6 +9,7 @@
 #ifndef _HASHTABLE_H_
 #define _HASHTABLE_H_
 
+#include <stdbool.h>
 
 struct pair {
 	char *key;
@@ -27,24 +28,24 @@ typedef struct _hashtable {
 hashtable_t *create_table(size_t tsize);
 
 /**
- * A naive hash algorithm.
- */
-int naive_hash(char *key, size_t tsize);
-
-/**
  * Bernstein hash algorithm.
  */
-int bernstein_hash(char *key, size_t tsize);
+int hash(char *key, size_t tsize);
 
 /**
  * Inserts a key-value pair into the hash table.
  */
-void insert(hashtable_t ht, char *key, char *value);
+void insert(hashtable_t *ht, struct pair *pair);
 
 /**
  * Returns the value associated with the key.
  */
-char *get(hashtable_t ht, char *key);
+char *get(hashtable_t *ht, char *key);
+
+/**
+ * Returns true if the given key is in the table, otherwise false.
+ */
+bool exists(hashtable_t *ht, char *key);
 
 /**
  * Destroys the given hashtable.
