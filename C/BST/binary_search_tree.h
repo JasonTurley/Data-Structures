@@ -17,6 +17,13 @@ struct Node {
 };
 
 /**
+ * Deletes every node within the tree.
+ *
+ * @param root The start of the tree.
+ */
+struct Node *delete_tree(struct Node *root);
+
+/**
  * Inserts a node within the tree.
  *
  * @param root The start of the tree.
@@ -41,7 +48,7 @@ struct Node *search(struct Node *root, int data);
  * @param root The start of the tree.
  * @param data The data to delete.
  */
-struct Node *del(struct Node *root, int data);
+struct Node *delete_value(struct Node *root, int data);
 
 /**
  * Finds the node with the smallest value in the tree.
@@ -49,7 +56,7 @@ struct Node *del(struct Node *root, int data);
  * @param root The start of the tree.
  * @return The smallest value node
  */
-int findMin(struct Node *root);
+int find_min(struct Node *root);
 
 /**
  * Finds the node with the largest value in the tree.
@@ -57,7 +64,7 @@ int findMin(struct Node *root);
  * @param root The start of the tree.
  * @return The largest value node
  */
-int findMax(struct Node *root);
+int find_max(struct Node *root);
 
 /**
  * Returns the height of a tree.

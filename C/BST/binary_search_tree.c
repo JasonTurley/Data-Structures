@@ -31,6 +31,19 @@ static struct Node *newNode(int data)
     	return node;
 }
 
+struct Node *delete_tree(struct Node *root)
+{
+	if (!root)
+		return NULL;
+
+	delete_tree(root->left);
+	delete_tree(root->right);
+	free(root);
+	root = NULL;
+
+	return root;
+}
+
 struct Node *insert(struct Node *root, int data)
 {
 	if (!root)
@@ -58,18 +71,18 @@ struct Node *search(struct Node *root, int x)
 		return root;
 }
 
-struct Node *del(struct Node *root, int data)
+struct Node *delete_value(struct Node *root, int data)
 {
 	if (!root)
 		return NULL;
 
 	// Node to delete is in left sub-tree
 	if (data < root->data)
-		root->left = del(root->left, data);
+		root->left = delete_value(root->left, data);
 
 	// Node to delete is in right sub-tree
 	else if (data > root->data)
-		root->right = del(root->right, data);
+		root->right = delete_value(root->right, data);
 
 	// Found node to delete: deletion method depends on number of children
 	else {
@@ -93,25 +106,31 @@ struct Node *del(struct Node *root, int data)
 
 		// Case 3: Two children
 		} else {
-			int min = findMin(root->right);
+			int min = find_min(root->right);
 			root->data = min;
-			root->right = del(root->right, min);
+			root->right = delete_value(root->right, min);
 		}
 	}
 
 	return root;
 }
 
-int findMin(struct Node *root)
+int find_min(struct Node *root)
 {
-	while (root->left)
+	if (!root)
+		return 0;
+
+	while (root && root->left)
 		root = root->left;
 
 	return root->data;
 }
 
-int findMax(struct Node *root)
+int find_max(struct Node *root)
 {
+	if (!root)
+		return 0;
+
 	while (root->right)
 		root = root->right;
 
