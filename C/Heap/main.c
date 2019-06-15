@@ -4,28 +4,28 @@
 
 #include "heap.h"
 
-void test_insert(struct max_heap *heap)
-{
-	int a[] = {7, 2, 8, 1};
-	size_t size = sizeof(a) / sizeof(a[0]);
-
-	for (size_t i = 0; i < size; i++)
-		insert(heap, a[i]);
-
-	assert(check_max(heap) == 8);
-	assert(heap->size == size);
-}
-
-void test_all(struct max_heap *heap)
-{
-	test_insert(heap);
-}
+// TODO add better test cases
 
 int main()
 {
-	struct max_heap *heap = create_heap(4);
-	test_insert(heap);
+	int arr[] = {50, 100, 70, 40, 10, 90};
+	size_t sz = sizeof(arr) / sizeof(arr[0]);
+
+	struct max_heap *heap = create_heap(sz);
+
+	for (size_t i = 0; i < sz; i++)
+		insert(heap, arr[i]);
+
+	assert(heap->size == sz);
 	print_heap(heap);
+
+	int x = extract_max(heap);
+	assert(x == 100);
+
+	print_heap(heap);
+	//assert(check_max(heap) == 90);
+	assert(heap->size == sz-1);
+
 	destroy_heap(heap);
 
 	return 0;
