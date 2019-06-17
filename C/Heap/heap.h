@@ -21,6 +21,7 @@ struct max_heap {
 #define right_child(idx) ((idx * 2) + 2)
 
 #define check_max(heap) (heap->array[0])
+#define is_empty(heap) (heap->size == 0)
 
 /**
  * Creates a heap that can hold `capacity` elements.
@@ -42,6 +43,11 @@ int extract_max(struct max_heap *heap);
  * Destroys the provided heap.
  */
 void destroy_heap(struct max_heap *heap);
+
+/**
+ * Creates a max heap from an unsorted array.
+ */
+struct max_heap *heapify(int *arr, size_t size);
 
 /**
  * Prints contents of the heap.

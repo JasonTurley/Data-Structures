@@ -7,13 +7,11 @@
 
 #include "heap.h"
 
-/**
- * Helper functions
- */
+/* Helper functions declarations. */
 static void swap(int *x, int *y);
 static void sift_up(struct max_heap *heap, int data, size_t index);
 static void sift_down(struct max_heap *heap, size_t index);
-static size_t  max_child_index(struct max_heap *heap, size_t index);
+static size_t max_child_index(struct max_heap *heap, size_t index);
 
 struct max_heap *create_heap(size_t capacity)
 {
@@ -62,6 +60,16 @@ void destroy_heap(struct max_heap *heap)
 		free(heap);
 		heap = NULL;
 	}
+}
+
+struct max_heap *heapify(int *arr, size_t size)
+{
+	struct max_heap *heap = create_heap(size);
+
+	for (size_t i = 0; i < size; i++)
+		insert(heap, arr[i]);
+
+	return heap;
 }
 
 void print_heap(struct max_heap *heap)
