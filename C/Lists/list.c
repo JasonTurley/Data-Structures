@@ -11,6 +11,7 @@ static void check_address(void *addr)
 	}
 }
 
+
 list_t *create_list()
 {
 	list_t *list = malloc(sizeof(list_t));
@@ -43,6 +44,7 @@ void *pop_back(list_t *list)
 	return extract(list, size(list));
 }
 
+// TODO refactor - can be cleaner
 void insert(list_t *list, void *value, size_t index)
 {
 	node *newnode = malloc(sizeof(node));
@@ -85,49 +87,40 @@ void insert(list_t *list, void *value, size_t index)
 
 void *extract(list_t *list, size_t index)
 {
-	node *ptr = NULL;
+	node *ptr;
 	void *retval = NULL;
 
 	if (empty(list))
 		return retval;
 
+	// Remove from head
 	if (index == 0) {
-		// Remove the head
 		ptr = list->head;
-		if (list->head == list->tail) {
-			// removing last node in list
-			list->head = NULL;
-			list->tail = NULL;
-		} else {
-			list->head = ptr->next;
-		}
-	} else if (index >= size(list) - 1) {
+		// Removing last node
+		if (list->head == list->tail)
+			list->head = list->tail = NULL;
+		else
+			list->head = list->head->next;
+	// Removing from tail
+	} else if (index >= size(list)-1) {
 		ptr = list->tail;
-		if (list->head == list->tail) {
-			// removing last node in list
-			list->head = NULL;
-			list->tail = NULL;
-		} else {
-			list->tail = ptr->prev;
-		}
+		if (list->head == list->tail)
+			list->head = list->tail = NULL;
+		else
+			list->tail = list->tail->prev;
 	} else {
-		// Advance pointer to the target node
+		ptr = list->head;
+
 		for (size_t i = 0; i < index; i++)
 			ptr = ptr->next;
 
-		// Unlink the node
-		ptr->prev = ptr->next;
+		ptr->prev->next = ptr->next;
+
 		if (ptr->next)
 			ptr->next->prev = ptr->prev;
 	}
 
-	retval = ptr->data;
-	ptr->next = NULL;
-	ptr->prev = NULL;
-
 	free(ptr);
-	ptr = NULL;
-
 	list->size--;
 
 	return retval;

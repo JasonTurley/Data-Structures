@@ -16,13 +16,13 @@ void test_push_front(list_t *list)
 {
 	int a[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 
-	for (int i = 0; i < N; i++) 
+	for (int i = 0; i < N; i++)
 		push_front(list, a + i);
 
 	assert(list->head);
 	assert(list->tail);
 	assert(size(list) == N);
-	
+
 	for (int i = 0; i < N; i++) {
 		int *x = pop_back(list);
 		assert(x == a + i);
@@ -42,12 +42,12 @@ void test_empty(list_t *list)
 
 void test_insert(list_t *list)
 {
-	// push arbitrary data 
+	// push arbitrary data
 	for (int i = 0; i < N; i++)
 		push_back(list, &i);
 
 	insert(list, "test insert", 4);
-	
+
 	assert(size(list) == N + 1);
 	char *testdata = get(list, 4);
 
@@ -56,14 +56,23 @@ void test_insert(list_t *list)
 	assert(ret == 0);
 }
 
+void test_extract()
+{
+	list_t *list = create_list();
+
+	for (int i = 0; i < N; i++)
+		push_back(list, &i);
+
+	int *ip = extract(list, 4);
+
+	printf("%p", ip);
+
+	destroy_list(list);
+}
+
 int main()
 {
-	list_t *mylist = create_list();
-	
-	test_empty(mylist);
-	test_push_front(mylist);
-	test_insert(mylist);
-	destroy_list(mylist);
+	test_extract();
 
 	return 0;
 }
