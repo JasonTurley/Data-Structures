@@ -49,43 +49,38 @@ void insert(list_t *list, void *value, size_t index)
 	check_address(newnode);
 	newnode->data = value;
 
-	list->size++;
-
-	// Insert at head
-	if (index == 0) {
-		if (empty(list)) {
-			list->tail = newnode;
-		} else {
+	if (empty(list)) {
+		list->head = list->tail = newnode;
+	} else {
+		// Insert at head
+		if (index == 0)	{
 			newnode->next = list->head;
 			list->head->prev = newnode;
-		}
-		list->head = newnode;
-	// Insert at tail
-	} else if (index >= size(list)) {
-		if (empty(list)) {
 			list->head = newnode;
-		} else {
+		// Insert at tail
+		} else if (index >= size(list)) {
 			newnode->prev = list->tail;
 			list->tail->next = newnode;
+			list->tail = newnode;
+		// Insert at given index
+		} else {
+			node *ptr = list->head;
+
+			// Select the node immediately before the node to insert
+			for (size_t i = 0; i < index-1; i++)
+				ptr = ptr->next;
+
+			// Insert node
+			newnode->next = ptr->next;
+			ptr->next = newnode;
+			newnode->prev = ptr;
+
+			if (newnode->next)
+				newnode->next->prev = newnode;
 		}
-		list->tail = newnode;
-	// Insert at given index
-	} else {
-		node *ptr = list->head;
-
-		// Select the node right before the index to insert
-		// in order to update the links
-		for (size_t i = 0; i < index-1; i++)
-			ptr = ptr->next;
-
-		// Update links
-		newnode->next = ptr->next;
-		ptr->next = newnode;
-		newnode->prev = ptr;
-
-		if (newnode->next)
-			newnode->next->prev = newnode;
 	}
+
+	list->size++;
 }
 
 void *extract(list_t *list, size_t index)
@@ -132,7 +127,7 @@ void *extract(list_t *list, size_t index)
 
 	free(ptr);
 	ptr = NULL;
-	
+
 	list->size--;
 
 	return retval;
@@ -145,7 +140,7 @@ void destroy_list(list_t *list)
 
 	free(list);
 }
-		
+
 
 void *get(list_t *list, size_t index)
 {
