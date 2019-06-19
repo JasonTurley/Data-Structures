@@ -23,10 +23,15 @@ int main()
 	assert(x == 100);
 
 	print_heap(heap);
-	//assert(check_max(heap) == 90);
 	assert(heap->size == sz-1);
 
 	destroy_heap(heap);
+
+	struct max_heap *heap2 = heapify(arr, sz);
+
+	print_heap(heap2);
+
+	destroy_heap(heap2);
 
 	return 0;
 }
