@@ -46,8 +46,21 @@ int List<T>::size() const
 template <class T>
 bool List<T>::empty() const
 {
-        return (head == nullptr && tail == nullptr && length == 0);
+        return (!head && !tail && !length);
 }
+
+template <class T>
+const T List<T>::front() const
+{
+        return (head) ? head->data : T();
+}
+
+template <class T>
+const T List<T>::back() const
+{
+        return (tail) ? tail->data : T();
+}
+
 
 template <class T>
 void List<T>::print() const
@@ -119,6 +132,30 @@ const T List<T>::popFront()
         return retval;
 }
 
+template <class T>
+const T List<T>::popBack()
+{
+        if (empty())
+                return T();
+
+        ListNode *temp = tail;
+        const T retval = tail->data;
+
+        tail = tail->prev;
+        temp->prev = nullptr;
+
+        // Set head to NULL if this is the last node in the list
+        if (!tail)
+                head = nullptr;
+        else
+                tail->next = nullptr;
+
+        delete temp;
+        temp = nullptr;
+        length--;
+
+        return retval;
+}
 
 // Declare intended data types here. Needed for linking
 template class List<int>;

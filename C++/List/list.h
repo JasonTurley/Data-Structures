@@ -62,6 +62,20 @@ class List {
 	bool empty() const;
 
 	/**
+	 * Returns the data at the head of the list, or T() if it
+	 * is empty.
+	 * Const because it will not modify the List.
+	 */
+	const T front() const;
+
+	/**
+	 * Returns the data at the tail of the list, or T() if it
+	 * is empty.
+	 * Const because it will not modify the List.
+	 */
+	const T back() const;
+
+	/**
 	 * Prints the contents of the List to stdout.
 	 * Const because it will not modify the List.
 	 */
