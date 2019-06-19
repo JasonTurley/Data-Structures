@@ -12,8 +12,10 @@
 
 int strcmp(const char *s1, const char *s2);
 
-void test_push_front(list_t *list)
+void test_push_front()
 {
+	list_t *list = create_list();
+
 	int a[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
 
 	for (int i = 0; i < N; i++)
@@ -33,29 +35,6 @@ void test_push_front(list_t *list)
 	assert(!list->tail);
 }
 
-void test_push_back();
-
-void test_empty(list_t *list)
-{
-	assert(empty(list));
-}
-
-void test_insert(list_t *list)
-{
-	// push arbitrary data
-	for (int i = 0; i < N; i++)
-		push_back(list, &i);
-
-	insert(list, "test insert", 4);
-
-	assert(size(list) == N + 1);
-	char *testdata = get(list, 4);
-
-	int ret = strcmp(testdata, "test insert");
-
-	assert(ret == 0);
-}
-
 void test_extract()
 {
 	list_t *list = create_list();
@@ -65,14 +44,20 @@ void test_extract()
 
 	int *ip = extract(list, 4);
 
-	printf("%p", ip);
+	printf("%d", *ip);
 
 	destroy_list(list);
 }
 
+void test_all()
+{
+	test_push_front();
+	test_extract();
+}
+
 int main()
 {
-	test_extract();
+	test_all();
 
 	return 0;
 }

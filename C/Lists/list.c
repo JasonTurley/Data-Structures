@@ -120,7 +120,10 @@ void *extract(list_t *list, size_t index)
 			ptr->next->prev = ptr->prev;
 	}
 
+	retval = ptr->data;
 	free(ptr);
+	ptr = NULL;
+
 	list->size--;
 
 	return retval;
