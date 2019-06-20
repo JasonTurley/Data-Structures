@@ -2,7 +2,9 @@
 
 #include "list.h"
 
-using namespace std;
+using std::ostream;
+using std::cerr;
+using std::endl;
 
 // List constructor
 template <class T>
@@ -22,6 +24,20 @@ void List<T>::clear()
 {
         while (!empty())
                 popFront();
+}
+
+template <class T>
+void List<T>::unlink(ListNode*& ptr)
+{
+	if (ptr) {
+		if (ptr->prev)
+			ptr->prev->next = ptr->next;
+
+		if (ptr->next)
+			ptr->next->prev = ptr->prev;
+
+		ptr->next = ptr->prev = nullptr;
+	}
 }
 
 // ListNode constructor
@@ -63,16 +79,17 @@ const T List<T>::back() const
 
 
 template <class T>
-void List<T>::print() const
+void List<T>::print(ostream& os) const
 {
+	os << "<";
         ListNode *temp = head;
 
         while (temp) {
-                cout << temp->data << " ";
+                os << " " << temp->data;
                 temp = temp->next;
         }
 
-        cout << endl;
+        os << ">";
 }
 
 template <class T>
@@ -139,18 +156,16 @@ const T List<T>::eraseFrom(size_t index)
         if (index == 0) {
                 ptr = head;
 
-                // Are we removing the last node?
-                if (head == tail)
+                if (LAST_NODE())
                         head = tail = nullptr;
                 else
                         head = head->next;
 
-        // Remove from tail
+        // Remove from tail. Needed to maintain O(1) removal from end
         } else if (index >= length - 1) {
                 ptr = tail;
 
-                // Are we removing the last node?
-                if (head == tail)
+                if (LAST_NODE())
                         head = tail = nullptr;
                 else
                         tail = tail->prev;
@@ -164,13 +179,11 @@ const T List<T>::eraseFrom(size_t index)
                 for (size_t i = 0; i < index; i++)
                         ptr = ptr->next;
 
-                // Unlink the target node
-                ptr->prev->next = ptr->next;
-                ptr->next->prev = ptr->prev;
+		unlink(ptr);
         }
 
         retval = ptr->data;
-        free(ptr);
+        delete ptr;
         ptr = nullptr;
 
         length--;
@@ -189,6 +202,52 @@ const T List<T>::popBack()
 {
         return eraseFrom(length);
 }
+
+template <class T>
+void List<T>::removeValue(const T& value)
+{
+        ListNode *ptr = head;
+
+        while (ptr && ptr->data != value)
+                ptr = ptr->next;
+
+        if (ptr) {
+                unlink(ptr);
+                delete ptr;
+
+                if (LAST_NODE())
+                        head = tail = nullptr;
+
+                length--;
+        }
+}
+
+template <class T>
+const T List<T>::valueAt(size_t index) const
+{
+        if (index > length-1) {
+                cerr << "index " << index << " is out of bounds" << endl;
+                exit(1);
+        }
+
+        // Traverse from tail if index is closer to the end
+        ListNode *ptr;
+
+        if (index >= length / 2) {
+                ptr = tail;
+
+                for (size_t i = length-1; i > index; i--)
+                        ptr = ptr->prev;
+        } else {
+                ptr = head;
+
+                for (size_t i = 0; i < index; i++)
+                        ptr = ptr->next;
+        }
+
+        return ptr->data;
+}
+
 
 // Declare intended data types here. Needed for linking
 template class List<int>;

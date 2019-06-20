@@ -3,59 +3,73 @@
 
 #include "list.h"
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 #define N (10)
 
-void test_insert()
+void testInserts()
 {
-
         List<int> list1;
 
-        for (int i = 0; i < N; i++)
-                list1.insertFront(i + 1);
+        // test insertFront
+        for (int i = 1; i <= N; i++)
+                list1.insertFront(i);
 
         assert(list1.size() == N);
 
-        list1.print();
-
 	List<int> list2;
 
-	for (int i = 0; i < N + N; i++)
+        // test insertBack
+	for (int i = 0; i < N; i++)
 		list2.insertBack(i);
 
-	assert(list2.front() == 0);
-	assert(list2.back() == N + N - 1);
-
-	assert(list2.size() == N + N);
+        assert(list2.size() == N);
 }
 
-void test_erase()
+void testPops()
 {
-        List<int> *list1 = new List<int>();
+        List<int> list;
 
-        for (int i = 0; i < 30; i++)
-                list1->insertBack(i);
+        // test popFront
+        list.popFront();
+        assert(list.empty());
 
-        assert(list1->size() == 30);
+        // test on N element list
+        for (int i = 1; i <= N; i++)
+                list.insertFront(i);
 
-        for (int i = 0; i < 30; i++)
-                list1->popFront();
+        for (int i = N; i > 0; i--)
+                assert(list.popFront() == i);
 
-        assert(list1->size() == 0);
-
-        delete list1;
+        assert(list.empty());
 }
 
-void test_all()
+void testValueAt()
 {
-        test_insert();
-        test_erase();
+        List<int> list;
+
+        // test on N element list
+        for (int i = 0; i < N; i++)
+                list.insertBack(i);
+
+        // test value at each index
+        for (int i = 0; i < N; i++)
+                assert(list.valueAt(i) == i);
+
+        assert(list.size() == N);
+}
+
+void testAll()
+{
+        testInserts();
+        testPops();
+        testValueAt();
 }
 
 int main()
 {
-        test_all();
+        testAll();
 
 	return 0;
 }

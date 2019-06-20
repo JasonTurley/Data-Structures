@@ -5,7 +5,12 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
-using namespace std;
+#include <iostream>
+#include <cstddef>	// size_t
+
+using std::ostream;
+
+#define LAST_NODE() (head == tail)	// Last node in linked list
 
 template <class T>
 class List {
@@ -50,10 +55,20 @@ class List {
 	~List();
 
 	/**
+	 * Overloaded output stream operator.
+	 * Prints the contents of the list from head to tail.
+	 */
+	friend ostream& operator<<(ostream& os, const List<T> &list)
+	{
+		list.print(os);
+		return os;
+	}
+
+	/**
 	 * Returns the size of the current List.
 	 * Const because it will not modify the List.
 	 */
-	int size() const;
+	size_t size() const;
 
 	/**
 	 * Returns whether or not the list is empty.
@@ -79,7 +94,12 @@ class List {
 	 * Prints the contents of the List to stdout.
 	 * Const because it will not modify the List.
 	 */
-	void print() const;
+	void print(ostream& os) const;
+
+	/**
+	 * Inserts data at given index, with 0 being the head.
+	 */
+	void insertAt(const T& ndata, size_t index);
 
 	/**
 	 * Adds data to the head of the List.
@@ -92,6 +112,11 @@ class List {
 	void insertBack(const T& ndata);
 
 	/**
+	 * Removes and returns the element at the given index.
+	 */
+	const T eraseFrom(size_t index);
+
+	/**
 	 * Removes and returns the element at the head of the List.
 	 */
 	const T popFront();
@@ -101,6 +126,20 @@ class List {
 	 */
 	const T popBack();
 
+	/**
+	 * Removes the first node with the given value.
+	 */
+	void removeValue(const T& value);
+
+	/**
+	 * Returns the value at the given index, starting at 0.
+	 * Const because it will not modify the List.
+	 */
+	const T valueAt(size_t index) const;
+	/**
+	 * Reverses the current list.
+	 */
+	void reverse();
 
  private:
 	/**
@@ -122,17 +161,26 @@ class List {
 	/**
 	 * The current number of ListNodes in the List.
 	 */
-	int length;
+	size_t  length;
 
 	/**
 	 * Private helper functions.
 	 */
 
 	/**
+	 * Unlinks given node from list, does not delete it.
+	 */
+	void unlink(ListNode*& ptr);
+
+	/**
 	 * Destroys all dynamically allocated memory associated with the current List.
 	 */
 	void clear();
 
+	/**
+	 * Helper function to reverse the linked list.
+	 */
+	void reverse(ListNode*& start, ListNode*& end);
 };
 
 #endif // _LIST_H_
