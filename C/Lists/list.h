@@ -1,4 +1,4 @@
-/** 
+/**
  * Implementation of a doubly Linked List.
  * Self Study 3/14/19
  */
@@ -40,7 +40,7 @@ void destroy_list();
  */
 void push_front(list_t *list, void *value);
 
-/** 
+/**
  * Adds an item to the end of the list.
  */
 void push_back(list_t *list, void * value);

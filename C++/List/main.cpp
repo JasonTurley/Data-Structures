@@ -18,25 +18,44 @@ void test_insert()
         assert(list1.size() == N);
 
         list1.print();
-}
 
-void test_front_back()
-{
-	List<int> list1;
+	List<int> list2;
 
 	for (int i = 0; i < N + N; i++)
-		list1.insertBack(i);
+		list2.insertBack(i);
 
-	assert(list1.front() == 0);
-	assert(list1.back() == N + N - 1);
+	assert(list2.front() == 0);
+	assert(list2.back() == N + N - 1);
 
-	assert(list1.size() == N + N);
+	assert(list2.size() == N + N);
+}
+
+void test_erase()
+{
+        List<int> *list1 = new List<int>();
+
+        for (int i = 0; i < 30; i++)
+                list1->insertBack(i);
+
+        assert(list1->size() == 30);
+
+        for (int i = 0; i < 30; i++)
+                list1->popFront();
+
+        assert(list1->size() == 0);
+
+        delete list1;
+}
+
+void test_all()
+{
+        test_insert();
+        test_erase();
 }
 
 int main()
 {
-        test_insert();
-	test_front_back();
+        test_all();
 
 	return 0;
 }

@@ -38,7 +38,7 @@ List<T>::ListNode::ListNode(const T& ndata)
 }
 
 template <class T>
-int List<T>::size() const
+size_t List<T>::size() const
 {
         return length;
 }
@@ -76,85 +76,118 @@ void List<T>::print() const
 }
 
 template <class T>
-void List<T>::insertFront(const T& ndata)
+void List<T>::insertAt(const T& ndata, size_t index)
 {
         ListNode *temp = new ListNode(ndata);
 
         if (empty()) {
                 head = tail = temp;
         } else {
-                head->prev = temp;
-                temp->next = head;
-                head = temp;
+                // Insert at head
+                if (index == 0) {
+                        temp->next = head;
+                        head->prev = temp;
+                        head = temp;
+                // Insert at tail
+                } else if (index >= size()) {
+                        temp->prev = tail;
+                        tail->next = temp;
+                        tail = temp;
+                // Insert at index
+                } else {
+                        // TODO traverse from tail if index is closer to the end
+                        // of the list!
+                        ListNode *ptr = head;
+
+                        for (size_t i = 0; i < index-1; i++)
+                                ptr = ptr->next;
+
+                        temp->next = ptr->next;
+                        ptr->next = temp;
+                        temp->prev = ptr;
+
+                        if (temp->next)
+                                temp->next->prev = temp;
+                }
         }
 
         length++;
+}
+
+template <class T>
+void List<T>::insertFront(const T& ndata)
+{
+        insertAt(ndata, 0);
 }
 
 template <class T>
 void List<T>::insertBack(const T& ndata)
 {
-        ListNode *temp = new ListNode(ndata);
+        insertAt(ndata, length);
+}
 
-        if (empty()) {
-                head = tail = temp;
+template <class T>
+const T List<T>::eraseFrom(size_t index)
+{
+        ListNode *ptr = NULL;
+        T retval = T();
+
+        if (empty())
+                return retval;
+
+        // Remove from head
+        if (index == 0) {
+                ptr = head;
+
+                // Are we removing the last node?
+                if (head == tail)
+                        head = tail = nullptr;
+                else
+                        head = head->next;
+
+        // Remove from tail
+        } else if (index >= length - 1) {
+                ptr = tail;
+
+                // Are we removing the last node?
+                if (head == tail)
+                        head = tail = nullptr;
+                else
+                        tail = tail->prev;
+
+        // Remove from index
         } else {
-                tail->next = temp;
-                temp->prev = tail;
-                tail = temp;
+                // TODO: traverse from tail if index is closer to the end of the
+                // list
+                ptr = head;
+
+                for (size_t i = 0; i < index; i++)
+                        ptr = ptr->next;
+
+                // Unlink the target node
+                ptr->prev->next = ptr->next;
+                ptr->next->prev = ptr->prev;
         }
 
-        length++;
+        retval = ptr->data;
+        free(ptr);
+        ptr = nullptr;
+
+        length--;
+
+        return retval;
 }
 
 template <class T>
 const T List<T>::popFront()
 {
-        if (empty())
-                return T();
-
-        ListNode *temp = head;
-        const T retval = head->data;
-
-        head = head->next;
-        temp->next = nullptr;
-
-        // Set tail to NULL if this is the last node in the list
-        if (!head)
-                tail = nullptr;
-        else
-                head->prev = nullptr;
-
-        delete temp;
-        temp = nullptr;
-        length--;
-
-        return retval;
+        return eraseFrom(0);
 }
 
 template <class T>
 const T List<T>::popBack()
 {
-        if (empty())
-                return T();
-
-        ListNode *temp = tail;
-        const T retval = tail->data;
-
-        tail = tail->prev;
-        temp->prev = nullptr;
-
-        // Set head to NULL if this is the last node in the list
-        if (!tail)
-                head = nullptr;
-        else
-                tail->next = nullptr;
-
-        delete temp;
-        temp = nullptr;
-        length--;
-
-        return retval;
+        return eraseFrom(length);
 }
 
 // Declare intended data types here. Needed for linking
