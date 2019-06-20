@@ -81,11 +81,11 @@ const T List<T>::back() const
 template <class T>
 void List<T>::print(ostream& os) const
 {
-	os << "<";
+	os << "< ";
         ListNode *temp = head;
 
         while (temp) {
-                os << " " << temp->data;
+                os << temp->data << " ";
                 temp = temp->next;
         }
 
@@ -246,6 +246,28 @@ const T List<T>::valueAt(size_t index) const
         }
 
         return ptr->data;
+}
+
+template <class T>
+void List<T>::reverse()
+{
+        reverse(head, tail);
+}
+
+template <class T>
+void List<T>::reverse(ListNode*& start, ListNode*& end)
+{
+        ListNode *curr = start;
+        ListNode *next;
+
+        while (curr /*&& curr->next*/) {
+                next = curr->next;
+                curr->next = curr->prev;
+                curr->prev = next;
+                curr = next;
+        }
+
+        std::swap(start, end);
 }
 
 
