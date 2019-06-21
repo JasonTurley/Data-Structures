@@ -60,11 +60,28 @@ void testValueAt()
         assert(list.size() == N);
 }
 
+void testReverse()
+{
+        List<int> list;
+
+        for (int i = 0; i < N; i++)
+                list.insertBack(i);
+
+        cout << "list before reverse:\n";
+        cout << list << endl;
+
+        list.reverse();
+
+        cout << "list after reverse:\n";
+        cout << list << endl;
+}
+
 void testAll()
 {
         testInserts();
         testPops();
         testValueAt();
+        testReverse();
 }
 
 int main()

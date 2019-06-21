@@ -37,6 +37,7 @@ class List {
 		ListNode *next;
 
 		ListNode *prev;
+
 	};
 
  public:
@@ -136,6 +137,7 @@ class List {
 	 * Const because it will not modify the List.
 	 */
 	const T valueAt(size_t index) const;
+
 	/**
 	 * Reverses the current list.
 	 */
@@ -161,7 +163,7 @@ class List {
 	/**
 	 * The current number of ListNodes in the List.
 	 */
-	size_t  length;
+	size_t length;
 
 	/**
 	 * Private helper functions.
@@ -172,10 +174,18 @@ class List {
 	 */
 	void unlink(ListNode*& ptr);
 
+
 	/**
 	 * Destroys all dynamically allocated memory associated with the current List.
 	 */
 	void clear();
+
+	/**
+	 * Returns the node at the given index or nullptr if index is out of
+	 * bounds. The parameter ptr is used to return the pointer to the node.
+	 * Const because it will not modify the List.
+	 */
+	void walk(ListNode*& ptr, size_t index) const;
 
 	/**
 	 * Helper function to reverse the linked list.

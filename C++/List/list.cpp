@@ -40,6 +40,29 @@ void List<T>::unlink(ListNode*& ptr)
 	}
 }
 
+template <class T>
+void List<T>::walk(ListNode*& ptr, size_t index) const
+{
+        if (index > length-1) {
+                cerr << "index " << index << " is out of bounds" << endl;
+                ptr = nullptr;
+		return;
+
+	// Traverse from tail if index is closer to the end,
+	// otherwise start at head
+        } else if (index >= length / 2) {
+                ptr = tail;
+
+                for (size_t i = length-1; i > index; i--)
+                        ptr = ptr->prev;
+        } else {
+                ptr = head;
+
+                for (size_t i = 0; i < index; i++)
+                        ptr = ptr->next;
+        }
+}
+
 // ListNode constructor
 template <class T>
 List<T>::ListNode::ListNode()
@@ -112,19 +135,17 @@ void List<T>::insertAt(const T& ndata, size_t index)
                         tail = temp;
                 // Insert at index
                 } else {
-                        // TODO traverse from tail if index is closer to the end
-                        // of the list!
-                        ListNode *ptr = head;
+                        // Get pointer to node at index
+                        ListNode *ptr = nullptr;
+                        walk(ptr, index);
 
-                        for (size_t i = 0; i < index-1; i++)
-                                ptr = ptr->next;
+                        // Insert new node in front of ptr
+                        temp->next = ptr;
+                        temp->prev = ptr->prev;
+                        ptr->prev = temp;
 
-                        temp->next = ptr->next;
-                        ptr->next = temp;
-                        temp->prev = ptr;
-
-                        if (temp->next)
-                                temp->next->prev = temp;
+                        if (temp->prev)
+                                temp->prev->next = temp;
                 }
         }
 
@@ -146,7 +167,7 @@ void List<T>::insertBack(const T& ndata)
 template <class T>
 const T List<T>::eraseFrom(size_t index)
 {
-        ListNode *ptr = NULL;
+        ListNode *ptr = nullptr;
         T retval = T();
 
         if (empty())
@@ -172,13 +193,7 @@ const T List<T>::eraseFrom(size_t index)
 
         // Remove from index
         } else {
-                // TODO: traverse from tail if index is closer to the end of the
-                // list
-                ptr = head;
-
-                for (size_t i = 0; i < index; i++)
-                        ptr = ptr->next;
-
+                walk(ptr, index);
 		unlink(ptr);
         }
 
@@ -225,27 +240,10 @@ void List<T>::removeValue(const T& value)
 template <class T>
 const T List<T>::valueAt(size_t index) const
 {
-        if (index > length-1) {
-                cerr << "index " << index << " is out of bounds" << endl;
-                exit(1);
-        }
-
-        // Traverse from tail if index is closer to the end
         ListNode *ptr;
+	walk(ptr, index);
 
-        if (index >= length / 2) {
-                ptr = tail;
-
-                for (size_t i = length-1; i > index; i--)
-                        ptr = ptr->prev;
-        } else {
-                ptr = head;
-
-                for (size_t i = 0; i < index; i++)
-                        ptr = ptr->next;
-        }
-
-        return ptr->data;
+        return (ptr) ? ptr->data : T();
 }
 
 template <class T>
@@ -260,7 +258,7 @@ void List<T>::reverse(ListNode*& start, ListNode*& end)
         ListNode *curr = start;
         ListNode *next;
 
-        while (curr /*&& curr->next*/) {
+        while (curr) {
                 next = curr->next;
                 curr->next = curr->prev;
                 curr->prev = next;
