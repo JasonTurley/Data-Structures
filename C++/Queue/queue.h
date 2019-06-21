@@ -16,6 +16,16 @@ public:
 	explicit Queue(size_t capacity);
 
 	/**
+	 * Copy constructor.
+	 */
+	Queue(const Queue& oldQ);
+
+	/**
+	 * Overloaded operator=.
+	 */
+	Queue& operator=(const Queue& oldQ);
+
+	/**
 	 * Destructor
 	 */
 	~Queue();
@@ -43,48 +53,55 @@ public:
 	/**
 	 * Returns the item at the front of the queue, without removing it.
 	 */
-	const T front() const;
+	const T& front() const;
 
 	/**
 	 * Returns the item at the end of the queue, without removing it.
 	 */
-	const T back() const;
+	const T& back() const;
 
 	/**
-	 * Appends an item to the queue, if it is not already full.
+	 * Returns true if able to append an item to the end of the queue,
+	 * otherwise returns false.
 	 */
-	void enqueue(const T& data);
+	bool enqueue(const T& data);
 
 	/**
 	 * Removes and returns the item at the front of the queue.
 	 */
-	const T dequeue();
+	const T& dequeue();
 
 private:
 	/**
 	 * The container of elements.
 	 */
-	T *buffer;
+	T *m_buffer;
 
 	/**
 	 * Tracks the beginning of the queue.
 	 */
-	int head;
+	int m_front;
 
 	/**
 	 * Tracks the end of the queue.
 	 */
-	int tail;
+	int m_back;
 
 	/**
 	 * How many elements are in the queue.
 	 */
-	size_t currentSize;
+	size_t m_size;
 
 	/**
 	 * The maximum number of elements the queue can store.
 	 */
-	size_t maxCapacity;
+	size_t m_capacity;
+
+	/**
+	 * Helper function that performs a deep copy of the provided Queue
+	 * object.
+	 */
+	 void copy(const Queue& oldQ);
 };
 
 #endif
