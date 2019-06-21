@@ -1,119 +1,90 @@
-/**
- * @file queue.h
- *
- * @author Jason Turley
- * @date (created) 27 July 2018
- */
-#ifndef QUEUE_H
-#define QUEUE_H
+#ifndef QUEUE_H_
+#define QUEUE_H_
+
+#include <cstddef>
+
 
 /**
- * Queue: This is a templated queue class (meaning it contains data
- * of templated type T, which is a placeholder for a type).
- *
- * The queue is implemented as a singly-linked list of nodes
+ * Implementation of a queue as a non-expanding array (circular buffer).
  */
 template <class T>
 class Queue {
-
-private:
-    /**
-    * The Node class is private within class Queue due to the
-    * principle of encapsulation -- the user does not need to
-    * know how our queue is implemented.
-    */
-    class Node {
-
-    public:
-        /**
-         * Node constructor.
-         *
-         * @param ndata The data to be added to the Node
-         */
-        Node(const T& ndata)
-            : data(ndata), next(nullptr)
-        { /* nothing */ }
-
-       /**
-        * The data contained in this Node.
-        */
-        T data;
-
-       /**
-        * Pointer to the next Node in the list. May be nullptr
-        */
-        Node* next;
-    };
-
 public:
-    /**
-     * Default Queue constructor.
-     * Creates an empty Queue.
-     */
-    Queue();
+	/**
+	 * Default constructor.
+	 */
+	explicit Queue(size_t capacity);
 
-    /**
-     * Destructor deletes all allocated Nodes
-     */
-    ~Queue();
+	/**
+	 * Destructor
+	 */
+	~Queue();
 
-    /**
-     * Inserts a new node at the end of the Queue.
-     *
-     * @param data The data to be inserted
-     */
-    void enqueue(const T& data);
+	/**
+	 * Returns the number of elements in the queue.
+	 */
+	size_t size() const;
 
-    /**
-     * Removes the first node pushed onto the Queue, decreasing its size by 1.
-     *
-     * @return The data contained inside the Node
-     */
-     T dequeue();
+	/**
+	 * Returns the max number of elements the queue can hold.
+	 */
+	size_t capacity() const;
 
-    /**
-     * Gets the size of the Queue.
-     * Marked const because it promises not to alter the node in any way.
-     *
-     * @return The size of the Queue
-     */
-    int size() const;
+	/**
+	 * Returns true if the queue if full, false otherwise.
+	 */
+	bool full() const;
 
-    /**
-     * Returns the the data held inside the front of the queue, without removing the node.
-     *
-     * @return The first node's data
-     */
-     T getFront() const;
+	/**
+	 * Returns true if the list is empty, false otherwise.
+	 */
+	bool empty() const;
 
-    /**
-     * Check if queue is empty.
-     */
-    bool isEmpty() const;
+	/**
+	 * Returns the item at the front of the queue, without removing it.
+	 */
+	const T front() const;
+
+	/**
+	 * Returns the item at the end of the queue, without removing it.
+	 */
+	const T back() const;
+
+	/**
+	 * Appends an item to the queue, if it is not already full.
+	 */
+	void enqueue(const T& data);
+
+	/**
+	 * Removes and returns the item at the front of the queue.
+	 */
+	const T dequeue();
 
 private:
-    /**
-     * Pointer to the beginning of the queue.
-     */
-    Node* front;
+	/**
+	 * The container of elements.
+	 */
+	T *buffer;
 
-    /**
-     * Pointer to the end of the queue.
-     */
-    Node* end;
+	/**
+	 * Tracks the beginning of the queue.
+	 */
+	int head;
 
-    /**
-     * The current size of the queue.
-     */
-    int length;
+	/**
+	 * Tracks the end of the queue.
+	 */
+	int tail;
 
-    /**
-     * Destroys every node in the linked list.
-     */
-    void destroyList(Node** head_ref);
+	/**
+	 * How many elements are in the queue.
+	 */
+	size_t currentSize;
+
+	/**
+	 * The maximum number of elements the queue can store.
+	 */
+	size_t maxCapacity;
 };
-
-// Needed for template instantiation
-#include "queue.cpp"
 
 #endif

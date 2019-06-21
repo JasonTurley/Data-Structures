@@ -1,92 +1,78 @@
-/**
- * @file queue.cpp
- *
- * @author Jason Turley
- * @date (created) 27 July 2018
- */
-#include <climits>      // INT_MIN
+
+
 #include "queue.h"
 
 template <class T>
-Queue<T>::Queue()
-    : front(nullptr), end(nullptr), length(0)
-{ /* nothing */ }
+Queue<T>::Queue(size_t capacity)
+{
+	buffer = new T[capacity];
+	head = 0;
+	tail = -1;
+	currentSize = 0;
+	maxCapacity = capacity;
+}
 
 template <class T>
 Queue<T>::~Queue()
 {
-    // delete the linked list
-    destroyList(&front);
+        delete [] buffer;
+}
+
+template <class T>
+size_t Queue<T>::size() const
+{
+        return currentSize;
+}
+
+template <class T>
+size_t Queue<T>::capacity() const
+{
+        return maxCapacity;
+}
+
+template <class T>
+bool Queue<T>::full() const
+{
+        return currentSize == maxCapacity;
+}
+
+template <class T>
+bool Queue<T>::empty() const
+{
+        return currentSize == 0;
+}
+
+template <class T>
+const T Queue<T>::front() const
+{
+        return buffer[head % maxCapacity];
+}
+
+template <class T>
+const T Queue<T>::back() const
+{
+        return buffer[tail % maxCapacity];
 }
 
 template <class T>
 void Queue<T>::enqueue(const T& data)
 {
-    Node *node = new Node(data);
-
-    if (end == nullptr) {
-        front = end = node;
-    } else {
-        end->next = node;
-        end = node;
-    }
-
-    this->length++;
+        if (!full()) {
+                buffer[++tail % maxCapacity] = data;
+                currentSize++;
+        }
 }
 
 template <class T>
-T Queue<T>::dequeue() 
+const T Queue<T>::dequeue()
 {
-    // Either zero or one nodes left
-    if (front == end) {
-        end = nullptr;
-    }
+        if (!empty()) {
+                return buffer[head++ % maxCapacity];
+        }
 
-    T ret;
-
-    if (front) {
-        ret = front->data;
-        Node* to_delete = front;
-        front = front->next;
-        delete(to_delete);
-
-        this->length--;
-    }
-
-    return ret;
+        return T();
 }
 
-template <class T>
-int Queue<T>::size() const 
-{
-    return this->length;
-}
 
-template <class T>
-T Queue<T>::getFront() const
-{
-    if (front) 
-        return front->data;
-    return INT_MIN;
-}
-
-template <class T>
-bool Queue<T>::isEmpty() const
-{
-    return (front == nullptr && end == nullptr && length == 0);
-}
-
-// Helper for Destructor
-template <class T>
-void Queue<T>::destroyList(Node** head_ref)
-{
-    while (*head_ref) {
-        Node* to_delete = *head_ref;
-        *head_ref = to_delete->next;
-        to_delete->next = nullptr;
-        delete(to_delete);
-    }
-
-    if (*head_ref)
-        *head_ref = nullptr;
-}
+// Avoid linking errors
+template class Queue<int>;
