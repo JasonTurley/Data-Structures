@@ -39,10 +39,28 @@ void testEnqueue()
 
 }
 
+void testDequeue()
+{
+        const int N = 7;
+        Queue<int> q(N);
+
+        for (int i = 1; i <= N; i++)
+                q.enqueue(i);
+
+        assert(q.full() == true);
+
+        for (int i = 1; i <= N; i++) {
+                int ret = q.dequeue();
+                assert(ret == i);
+        }
+
+        assert(q.empty() == true);
+}
+
 void testAll()
 {
         testEnqueue();
-        //testDequeue();
+        testDequeue();
         testCopyConstrcutor();
 }
 
