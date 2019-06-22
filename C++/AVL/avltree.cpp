@@ -2,122 +2,123 @@
 
 #define max(x, y) ((x) > (y) ? (x) : (y))
 
-AVLTree::AVLTree()
+template <class K, class V>
+AVLTree<K, V>::AVLTree()
     : root(nullptr)
 {
     /* nothing */
 }
 
-AVLTree::~AVLTree()
+template <class K, class V>
+AVLTree<K, V>::AVLTree(const AVLTree& other)
 {
-        clear(root);
+	copy(other.root);
 }
 
-void AVLTree::clear(Node*& subRoot)
+template <class K, class V>
+const AVLTree<K, V>& AVLTree<K, V>::operator=(const AVLTree& rhs)
 {
-        if (subRoot) {
-                clear(subRoot->left);
-                clear(subRoot->right);
-                delete subRoot;
-        }
+	if (this != &rhs) {	                // avoid self assignemnt
+		clear(this->root);	        // free previous memory
+		this->root = copy(rhs.root);
+	}
+
+	return *this;
 }
 
-void AVLTree::insert(const int& ndata)
+template <class K, class V>
+AVLTree<K, V>::~AVLTree()
 {
-    insert(root, ndata);
+        clear();
 }
 
-bool AVLTree::find(const int& ndata) const
+template <class K, class V>
+void AVLTree<K, V>::clear()
 {
-    return false;
+	clear(root);
+	root = nullptr;
 }
 
-int AVLTree::height() const
+template <class K, class V>
+typename AVLTree<K, V>::Node* AVLTree<K, V>::copy(const Node* subRoot)
 {
-    return height(root);
+	if (subRoot) {
+		// Recursively copy this node and its children
+		Node* newNode = new Node(subRoot->key, subRoot->value);
+		newNode->left = copy(subRoot->left);
+		newNode->right = copy(subRoot->right);
+
+		return newNode;
+	}
+
+	return nullptr;
 }
 
-void AVLTree::insert(Node*& subRoot, const int& ndata)
+template <class K, class V>
+void AVLTree<K, V>::clear(Node* subRoot)
 {
-        if (subRoot == nullptr)
-                subRoot = new Node{ndata};
-        else if (ndata < subRoot->data)
-                insert(subRoot->left, ndata);
-        else if (ndata > subRoot->data)
-                insert(subRoot->right, ndata);
-
-        balance(subRoot);
+	if (subRoot) {
+		clear(subRoot->left);
+		clear(subRoot->right);
+		delete subRoot;
+	}
 }
 
-int AVLTree::height(const Node* subRoot) const
+template <class K, class V>
+void AVLTree<K, V>::insert(const K& key, const V& value)
 {
-        return (subRoot == nullptr) ? -1 : subRoot->height;
+        insert(root, key, value);
 }
 
-void AVLTree::leftRotate(Node*& subRoot)
-{
-    if (subRoot) {
-        // rotate nodes
-        Node* pivot = subRoot->right;
-        subRoot->right = pivot->left;
-        pivot->left = subRoot;
-
-        // update heights
-        pivot->height = max(height(pivot->left), height(pivot->right)) + 1;
-        subRoot->height = max(height(subRoot->right), subRoot->height) + 1;
-
-        subRoot = pivot;
-    }
-}
-
-void AVLTree::rightRotate(Node*& subRoot)
-{
-    if (subRoot) {
-        // rotate nodes
-        Node* pivot = subRoot->left;
-        subRoot->left = pivot->right;
-        pivot->right = subRoot;
-
-        // update heights
-        pivot->height = max(height(pivot->left), height(pivot->right)) + 1;
-        subRoot->height = max(height(subRoot->left), subRoot->height) + 1;
-
-        subRoot = pivot;
-    }
-}
-
-void AVLTree::leftRightRotate(Node*& subRoot)
-{
-    leftRotate(subRoot->left);
-    rightRotate(subRoot);
-}
-
-void AVLTree::rightLeftRotate(Node*& subRoot)
-{
-    rightRotate(subRoot->right);
-    leftRotate(subRoot);
-}
-
-void AVLTree::balance(Node*& subRoot)
+template <class K, class V>
+void AVLTree<K, V>::insert(Node*& subRoot, const K& key, const V& value)
 {
         if (subRoot == nullptr)
-                return;
+                subRoot = new Node {key, value};
+        else if (key < subRoot->key)
+                insert(subRoot->left, key, value);
+        else if (key > subRoot->key)
+                insert(subRoot->right, key, value);
+        else
+                return; // no duplicates
 
-        if (height(subRoot->left) - height(subRoot->right) > 1) {
-                if (height(subRoot->left->left) >= height(subRoot->left->right))
-                        rightRotate(subRoot);
-                else
-                        leftRightRotate(subRoot);
-        } else if (height(subRoot->right) - height(subRoot->left) > 1) {
-                if (height(subRoot->right->right) > height(subRoot->right->left))
-                        leftRotate(subRoot);
-                else
-                        rightRotate(subRoot);
+        //FIXME balance(subRoot);
+}
 
-        }
+template <class K, class V>
+V AVLTree<K, V>::find(const K& key) const
+{
+        return find(root, key);
+}
 
-        subRoot->height =
-                max(height(subRoot->left), height(subRoot->right)) + 1;
+template <class K, class V>
+V AVLTree<K, V>::find(Node* subRoot, const K& key) const
+{
+        if (subRoot == nullptr)
+                return V();
+        else if (key < subRoot->key)
+                return find(subRoot->left, key);
+        else if (key > subRoot->key)
+                return find(subRoot->right, key);
+        else
+                return subRoot->value;
+}
+
+template <class K, class V>
+int AVLTree<K, V>::height(Node* subRoot) const
+{
+        if (subRoot == nullptr)
+                return -1;
+
+        return 1 + max(height(subRoot->left), height(subRoot->right));
+}
+
+template <class K, class V>
+int AVLTree<K, V>::heightOrNeg1(const Node*& t) const
+{
+        return (t == nullptr) ? -1 : t->height;
 }
 
 
+
+template class AVLTree<std::string, std::string>;
