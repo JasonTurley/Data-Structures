@@ -1,31 +1,40 @@
 #include <cassert>
 #include <iostream>
+#include <string>
 
 #include "avltree.h"
 
 using std::cout;
 using std::endl;
+using std::string;
 
-void testInsert()
+void testFind()
 {
-        AVLTree tree;
+        AVLTree<string, string> tree;
 
-        tree.insert(50);
-        tree.insert(40);
-        tree.insert(30);
-        tree.insert(20);
+        tree.insert("C", "C++");
+        tree.insert("int", "bool");
+        tree.insert("char *", "string");
+        tree.insert("malloc", "new");
+        tree.insert("free", "delete");
 
-        cout << tree.height() << endl;
+        cout << "find(C) -> " << tree.find("C") << endl;
+        cout << "find(int) -> " << tree.find("int") << endl;
+        cout << "find(malloc) -> " << tree.find("malloc") << endl;
+        cout << "find(char *) -> " << tree.find("char *") << endl;
+        cout << "find(free) -> " << tree.find("free") << endl;
+        cout << "find(not-in-tree) -> " << tree.find("not-in-tree") << endl;
 }
 
 void testAll()
 {
-        testInsert();
+        testFind();
 }
 
 int main()
 {
         testAll();
+
 
         return 0;
 }
