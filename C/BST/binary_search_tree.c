@@ -86,29 +86,15 @@ struct Node *delete_value(struct Node *root, int data)
 
 	// Found node to delete: deletion method depends on number of children
 	else {
-		// Case 1: No children
-		if (!root->left && root->right) {
-			free (root);
-			root = NULL;
-		}
-
-		// Case 2: One child
-		else if (!root->left) {
-			struct Node *temp = root;
-			root = root->right;
-			free(temp);
-			temp = NULL;
-		} else if (!root->right) {
-			struct Node *temp = root;
-			root = root->left;
-			free(temp);
-			temp = NULL;
-
-		// Case 3: Two children
-		} else {
+		if (root->left && root->right) { // Two children
 			int min = find_min(root->right);
 			root->data = min;
 			root->right = delete_value(root->right, min);
+		} else {
+			struct Node *oldRoot = root;
+			root = (root->left) ? root->left : root->right;
+			free (oldRoot);
+			oldRoot = NULL;
 		}
 	}
 
