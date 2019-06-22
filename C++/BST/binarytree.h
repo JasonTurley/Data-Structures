@@ -7,10 +7,10 @@
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
 
-#include <vector>
+#include <iostream>
 #include <cstddef>
 
-using std::vector;
+using std::ostream;
 
 /**
  * The BinaryTree class represents a templated linked-memory data structure.
@@ -28,7 +28,7 @@ class BinaryTree
             Node* right;
 
             /**
-             * Node constructor; the left and right children are set to 
+             * Node constructor; the left and right children are set to
              * nullptr.
              * @param data The info to store in the tree.
              */
@@ -60,6 +60,16 @@ class BinaryTree
          * @return A reference to the current tree.
          */
         const BinaryTree& operator=(const BinaryTree& rhs);
+
+	/**
+	 * Output operator.
+	 * @param os The output stream to print to.
+	 */
+	friend ostream& operator<<(ostream& os, const BinaryTree<T>& tree)
+	{
+		tree.print(os);
+		return os;
+	}
 
         /**
          * Inserts a node into the tree.
@@ -95,12 +105,24 @@ class BinaryTree
             return size_;
         }
 
-    private:
+	/**
+	 * Returns the smallest value in the tree.
+	 */
+	const T& getMinValue() const;
+
+	/**
+	 * Returns the greates value in the tree.
+	 */
+	const T& getMaxValue() const;
+
+
+private:
 
         Node* root;
 
         size_t size_;
 
+	Node* getRoot() const { return root; }
         /**
          * Helper function for inserting a node into the tree.
          * @param subRoot current node in tree.
@@ -115,6 +137,10 @@ class BinaryTree
          */
         bool search(const Node* subRoot, const T& data) const;
 
+	/**
+	 * Helper function for removing a node.
+	 */
+	Node* remove(Node* subRoot, const T& data);
 
         /**
          * Helper function for finding height of a tree.
@@ -122,6 +148,19 @@ class BinaryTree
          * @return Tree height.
          */
         int height(const Node* subRoot) const;
+
+	/**
+	 * Returns a pointer to the node with the smallest data.
+	 * @return Node with smallest data.
+	 */
+	Node *findMin(Node* subRoot) const;
+
+	/**
+	 * Returns a pointer to the node with the greatest data.
+	 * @return Node with greatest data.
+	 */
+	Node *findMax(Node* subRoot) const;
+
 
         /**
          * Helper function for operator= and cctor.
@@ -135,8 +174,17 @@ class BinaryTree
          * @param subRoot The root of the tree to delete.
          */
         void clear(Node* subRoot);
-};
 
-#include "binarytree.cpp"   // Included for template type support.
+	/**
+	 * Prints the contents of the tree in increasing order.
+	 */
+	void print(ostream& os) const;
+
+	/**
+	 * Helper function to recursively print the tree
+	 */
+	void print(ostream& os, const Node* subRoot) const;
+
+};
 
 #endif

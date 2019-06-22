@@ -1,10 +1,15 @@
 
 #include "binarytree.h"
 
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
+#define IS_LEAF(ptr) ((!ptr->left) && (!ptr->right))
+#define HAS_ONE_CHILD(ptr) ((ptr->left && !ptr->right) || (!ptr->left && ptr->right))
+
 using namespace std;
 
 template <typename T>
-BinaryTree<T>::BinaryTree() 
+BinaryTree<T>::BinaryTree()
     : root(nullptr), size_(0)
 {   /* nothing */
 }
@@ -18,7 +23,7 @@ BinaryTree<T>::BinaryTree(const BinaryTree& other)
 template <typename T>
 BinaryTree<T>::~BinaryTree()
 {
-    // TODO
+	clear(root);
 }
 
 template <typename T>
@@ -72,6 +77,104 @@ bool BinaryTree<T>::search(const Node* subRoot, const T& x) const
 }
 
 template <typename T>
+void BinaryTree<T>::remove(const T& x)
+{
+        remove(root, x);
+}
+
+template <typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::remove(Node* subRoot, const T& x)
+{
+        if (!subRoot) return nullptr;
+        else if (x < subRoot->data) subRoot->left  = remove(subRoot->left, x);
+        else if (x > subRoot->data) subRoot->right = remove(subRoot->right, x);
+        else {
+                // We found the node to remove! How many children does it have?
+                if (IS_LEAF(subRoot)) {
+                        delete subRoot;
+                        subRoot = nullptr;
+                } else if (HAS_ONE_CHILD(subRoot)) {
+                        Node *ptr = subRoot;
+                        if (subRoot->left)
+                                subRoot = subRoot->left;
+                        else
+                                subRoot = subRoot->right;
+
+                        delete ptr;
+                        ptr = nullptr;
+                } else {
+                        // Since the smallest value in the right subtree is
+                        // greater than all values in the left subtree, make
+                        // that the new root.
+                        Node *ptr = findMin(subRoot->right);
+                        subRoot->data = ptr->data;
+                        subRoot->right = remove(subRoot->right, ptr->data);
+                }
+
+                size_--;
+        }
+
+        return subRoot;
+}
+
+template<typename T>
+int BinaryTree<T>::height() const
+{
+	return height(root);
+}
+
+template<typename T>
+int BinaryTree<T>::height(const Node* subRoot) const
+{
+	if (!subRoot)
+		return 0;
+
+	int leftHeight = height(subRoot->left);
+	int rightHeight = height(subRoot->right);
+
+	return 1 + max(leftHeight, rightHeight);
+}
+
+template <typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::findMin(Node* subRoot) const
+{
+	Node* ptr = subRoot;
+
+	while (ptr && ptr->left)
+		ptr = ptr->left;
+
+	return ptr;
+}
+
+template <typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::findMax(Node* subRoot) const
+{
+	Node* ptr = subRoot;
+
+	while (ptr && ptr->right)
+		ptr = ptr->right;
+
+	return ptr;
+}
+
+template <typename T>
+const T& BinaryTree<T>::getMinValue() const
+{
+        // No error check
+        Node *ptr = findMin(root);
+        return ptr->data;
+}
+
+template <typename T>
+const T& BinaryTree<T>::getMaxValue() const
+{
+        // No error check
+        Node *ptr = findMax(root);
+        return ptr->data;
+}
+
+
+template <typename T>
 typename BinaryTree<T>::Node* BinaryTree<T>::copy(const Node* subRoot)
 {
     if (subRoot) {
@@ -95,3 +198,21 @@ void BinaryTree<T>::clear(Node* subRoot)
         delete subRoot;
     }
 }
+
+template <typename T>
+void BinaryTree<T>::print(ostream &os) const
+{
+	print(os, root);
+}
+
+template <typename T>
+void BinaryTree<T>::print(ostream &os, const Node* subRoot) const
+{
+        if (subRoot) {
+                print(os, subRoot->left);
+                os << subRoot->data << " ";
+                print(os, subRoot->right);
+        }
+}
+
+template class BinaryTree<int>;
