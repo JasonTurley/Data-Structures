@@ -1,5 +1,6 @@
-#include <cmath>    // max
 #include "avltree.h"
+
+#define max(x, y) ((x) > (y) ? (x) : (y))
 
 AVLTree::AVLTree()
     : root(nullptr)
@@ -9,15 +10,24 @@ AVLTree::AVLTree()
 
 AVLTree::~AVLTree()
 {
-    // TODO
+        clear(root);
 }
 
-void AVLTree::insert(const int& value)
+void AVLTree::clear(Node*& subRoot)
 {
-    insert(root, value);
+        if (subRoot) {
+                clear(subRoot->left);
+                clear(subRoot->right);
+                delete subRoot;
+        }
 }
 
-bool AVLTree::find(const int& value) const
+void AVLTree::insert(const int& ndata)
+{
+    insert(root, ndata);
+}
+
+bool AVLTree::find(const int& ndata) const
 {
     return false;
 }
@@ -27,101 +37,87 @@ int AVLTree::height() const
     return height(root);
 }
 
-void AVLTree::insert(Node*& node, const int& value)
+void AVLTree::insert(Node*& subRoot, const int& ndata)
 {
-    if (!node) {
-        node = new Node(value);
-        return;
-    }
+        if (subRoot == nullptr)
+                subRoot = new Node{ndata};
+        else if (ndata < subRoot->data)
+                insert(subRoot->left, ndata);
+        else if (ndata > subRoot->data)
+                insert(subRoot->right, ndata);
 
-    if (value < node->value)
-        insert(node->left, value);
-    else if (value > node->value)
-        insert(node->right, value);
-    else                                // do nothing if equal
-        node->value = value;            
-    
-    node->height = height(node);        // update new height
-
-    // Does the tree need to be rebalanced?
-    int factor = balanceFactor(node)
-
-    if (factor < -1) {                  // imbalance on right-side
-        if (data < node->right->data) {
-            leftRightRotate(node);
-        } else {
-            leftRotate(node);
-        }
-    } else if (factor > 1) {            // imbalance on left-side
-        if (data < node->left->data) {
-            rightRotate(node);
-        } else {
-            rightLeftRotate(node);
-        }
-    }
+        balance(subRoot);
 }
 
-int AVLTree::height(Node*& node) const
+int AVLTree::height(const Node* subRoot) const
 {
-    if (!node)
-        return -1;
-    
-    return 1 + max(height(root->left), height(root->right));
+        return (subRoot == nullptr) ? -1 : subRoot->height;
 }
 
-void AVLTree::leftRotate(Node*& node)
+void AVLTree::leftRotate(Node*& subRoot)
 {
-    if (node) {
+    if (subRoot) {
         // rotate nodes
-        Node* pivot = node->right;
-        node->right = pivot->left;
-        pivot->left = node;
+        Node* pivot = subRoot->right;
+        subRoot->right = pivot->left;
+        pivot->left = subRoot;
 
         // update heights
-        pivot->height = height(pivot);
-        node->height = height(node);
+        pivot->height = max(height(pivot->left), height(pivot->right)) + 1;
+        subRoot->height = max(height(subRoot->right), subRoot->height) + 1;
 
-        node = pivot;
+        subRoot = pivot;
     }
 }
 
-void AVLTree::rightRotate(Node*& node)
+void AVLTree::rightRotate(Node*& subRoot)
 {
-    if (node) {
+    if (subRoot) {
         // rotate nodes
-        Node* pivot = node->left;
-        node->left = pivot->right;
-        pivot->right = node;
+        Node* pivot = subRoot->left;
+        subRoot->left = pivot->right;
+        pivot->right = subRoot;
 
         // update heights
-        pivot->height = height(pivot);
-        node->height = height(node);
+        pivot->height = max(height(pivot->left), height(pivot->right)) + 1;
+        subRoot->height = max(height(subRoot->left), subRoot->height) + 1;
 
-        node = pivot;
+        subRoot = pivot;
     }
 }
 
-void AVLTree::leftRightRotate(Node*& node)
+void AVLTree::leftRightRotate(Node*& subRoot)
 {
-    leftRotate(node->left);
-    rightRotate(node);
+    leftRotate(subRoot->left);
+    rightRotate(subRoot);
 }
 
-void AVLTree::rightLeftRotate(Node*& node)
+void AVLTree::rightLeftRotate(Node*& subRoot)
 {
-    rightRotate(node->right);
-    leftRotate(node);
+    rightRotate(subRoot->right);
+    leftRotate(subRoot);
 }
 
-int AVLTree::balanceFactor(Node*& node)
+void AVLTree::balance(Node*& subRoot)
 {
-    int leftHeight = -1;
-    int rightHeight = -1;
+        if (subRoot == nullptr)
+                return;
 
-    if (node) {
-        leftHeight = height(node->left);
-        rightHeight - height(node->right);
-    } 
+        if (height(subRoot->left) - height(subRoot->right) > 1) {
+                if (height(subRoot->left->left) >= height(subRoot->left->right))
+                        rightRotate(subRoot);
+                else
+                        leftRightRotate(subRoot);
+        } else if (height(subRoot->right) - height(subRoot->left) > 1) {
+                if (height(subRoot->right->right) > height(subRoot->right->left))
+                        leftRotate(subRoot);
+                else
+                        rightRotate(subRoot);
 
-    return leftHeight - rightHeight;
+        }
+
+        subRoot->height =
+                max(height(subRoot->left), height(subRoot->right)) + 1;
 }
+
+
