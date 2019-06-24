@@ -114,11 +114,88 @@ int AVLTree<K, V>::height(Node* subRoot) const
 }
 
 template <class K, class V>
-int AVLTree<K, V>::heightOrNeg1(const Node*& t) const
+int AVLTree<K, V>::heightOrNeg1(Node*& t) const
 {
         return (t == nullptr) ? -1 : t->height;
 }
 
+template <class K, class V>
+void AVLTree<K, V>::balance(Node *& t)
+{
+        // If left subtree is longer than the right
+        if ((heightOrNeg1(t->left) - heightOrNeg1(t->right)) > 1) {
+                if (heightOrNeg1(t->left->left) >= heightOrNeg1(t->left->right))
+                        rotateRight(t);
+                else
+                        rotateLeftRight(t);
+        // If right subtree is longer than the left
+        } else {
+                if ((heightOrNeg1(t->right) - heightOrNeg1(t->left)) > 1)
+                        rotateLeft(t);
+                else
+                        rotateRightLeft(t);
+        }
+
+        t->height = height(t);
+}
+
+template <class K, class V>
+void AVLTree<K, V>::rotateLeft(Node*& subRoot)
+{
+        Node* pivot = subRoot->right;
+        subRoot->right = pivot->left;
+        pivot->left = subRoot;
+
+        subRoot->height = height(subRoot);
+        pivot->height = height(pivot);
+
+        subRoot = pivot;
+}
+
+template <class K, class V>
+void AVLTree<K, V>::rotateRight(Node*& subRoot)
+{
+        Node* pivot = subRoot->left;
+        subRoot->left = pivot->right;
+        pivot->right = subRoot;
+
+        subRoot->height = height(subRoot);
+        pivot->height = height(pivot);
+
+        subRoot = pivot;
+}
+
+template <class K, class V>
+void AVLTree<K, V>::rotateLeftRight(Node*& subRoot)
+{
+        rotateLeft(subRoot->right);
+        rotateRight(subRoot);
+}
+
+template <class K, class V>
+void AVLTree<K, V>::rotateRightLeft(Node*& subRoot)
+{
+        rotateLeft(subRoot->left);
+        rotateRight(subRoot);
+}
+
+template <class K, class V>
+void AVLTree<K, V>::print(ostream& os) const
+{
+        print(root, os);
+}
+
+template <class K, class V>
+void AVLTree<K, V>::print(Node* subRoot, ostream& os) const
+{
+        if (subRoot) {
+                print(subRoot->left, os);
+                os << "(" << subRoot->key << ", ";
+                os << subRoot->value << "), ";
+                print(subRoot->right, os);
+        }
+}
 
 
+template class AVLTree<int, int>;
 template class AVLTree<std::string, std::string>;

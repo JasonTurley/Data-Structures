@@ -95,13 +95,11 @@ public:
 	/**
 	 * Returns the height of a tree, or -1 if the tree is empty.
 	 */
-	int heightOrNeg1(const Node*& t) const;
+	int heightOrNeg1(Node*& t) const;
 
 	/**
-	 * Prints the AVLTree (default to stdout).
+	 * Output stream operator.
 	 */
-	void print(ostream& os = std::cout);
-
 	friend ostream& operator<<(ostream& os, const AVLTree& tree)
 	{
 		tree.print(os);
@@ -167,6 +165,16 @@ private:
 	 * Helper function for #operator= and AVLTree(const AVLTree&).
 	 */
 	Node *copy(const Node* subRoot);
+
+	/**
+	 * Prints the AVLTree.
+	 */
+	void print(ostream& os) const;
+
+	/**
+	 * Helper function for printing an AVLTree.
+	 */
+	void print(Node* subRoot, ostream& os) const;
 };
 
 #endif
