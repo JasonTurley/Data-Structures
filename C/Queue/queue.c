@@ -16,18 +16,18 @@ queue_t *create_queue()
 	return q;
 }
 
-void enqueue(queue_t *queue, void *data)
+void enqueue(queue_t *q, void *data)
 {
-	push_back(queue->container, data);
+	push_back(q->container, data);
 }
 
-void *dequeue(queue_t *queue)
+void *dequeue(queue_t *q)
 {
-	return pop_front(queue->container);
+	return pop_front(q->container);
 }
 
-void destroy_queue(queue_t *queue)
+void destroy_queue(queue_t *q)
 {
-	destroy_list(queue->container);
-	free(queue);
+	destroy_list(q->container);
+	free(q);
 }

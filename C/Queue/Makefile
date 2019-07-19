@@ -18,7 +18,7 @@ CFLAGS_RELEASE = -O0 $(INCLUDES) $(WARNINGS) -std=c99 -c -D_GNU_SOURCE
 
 # set up linker
 LD = gcc
-LFLAGS = -Llibs/ -llist 
+LFLAGS = -Llibs/ -llist
 
 .PHONY: all
 all: release
