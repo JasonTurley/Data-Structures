@@ -66,7 +66,7 @@ int peek(stack_t *s)
     return s->elements[s->size - 1];
 }
 
-uint32_t get_size(stack_t *s)
+uint32_t size(stack_t *s)
 {
     assert(s);
 
