@@ -20,15 +20,15 @@
 #define GROWTH_FACTOR 2
 
 struct vector {
-	int *array;
-	size_t size;
-	size_t capacity;
+	int *array;			// Container of elements
+	size_t size;		// The number of elements in the vector
+	size_t capacity;	// The max number of elements the vector can hold
 };
 
 /**
- * Prints all items in a given vector.
+ * Prints all elems in a given vector.
  */
-void print_vector(struct vector *vec);
+void print_vector(struct vector *v);
 
 /**
  * Returns a pointer to a newly created, empty vector.
@@ -39,62 +39,66 @@ struct vector *vector_create(size_t capacity);
 /**
  * Destroys all container elements of the vector.
  */
-void vector_destroy(struct vector *vec);
+void vector_destroy(struct vector *v);
 
 /**
  * Returns the current number of elements in the vector. Note, this is not
  * necessarily equal to its capacity.
  */
-size_t size(struct vector *vec);
+size_t size(struct vector *v);
 
 /**
- * Returns the number of items this vector can hold.
+ * Returns the number of elems this vector can hold.
  */
-size_t capacity(struct vector *vec);
+size_t capacity(struct vector *v);
 
 /**
  * Checks if the current vector is empty.
  */
-bool is_empty(struct vector *vec);
+bool is_empty(struct vector *v);
 
 /**
- * Returns the item at a given index.
+ * Returns the elem at a given index.
  */
-int at(struct vector *vec, size_t index);
+int at(struct vector *v, size_t index);
+
+/**
+ * Returns the element at the front of the vector.
+ */
+int front(struct vector *v);
+
+/**
+ * Returns the element at the back of the vector.
+ */
+int back(struct vector *v);
 
 /**
  * Adds a new element to the end of the vector, increasing its size
- * by one. 
+ * by one.
  *
  * This automatically resizes the container if necessary.
  */
-void push(struct vector *vec, int item);
+void push_back(struct vector *v, int elem);
 
 /**
- * Inserts item at index and shifts that index's value and all trailing
- * items to the right.
+ * Inserts the given element at the specified index.
  */
-void insert(struct vector *vec, size_t index, int item);
+void insert(struct vector *v, int elem, size_t index);
 
 /**
- * Adds an item to the front of the vector, index 0.
+ * Removes and returns the last element in the vector, reducing its size by one.
  */
-void prepend(struct vector *vec, int item);
+int pop_back(struct vector *v);
 
 /**
- * Removes and returns the last element in the vector, reducing its size by one. 
+ * Removes all occurrences of an elem.
  */
-int pop(struct vector *vec);
+void remove_elem(struct vector *v, int elem);
 
 /**
- * Removes all occurrences of an item.
- */
-void remove_item(struct vector *vec, int item);
-
-/**
- * Searches for a value and returns the first index with that value, 
+ * Searches for a value and returns the first index with that value,
  * -1 if not found.
  */
-int find(struct vector *vec, int item);
+int find(struct vector *v, int elem);
 
 #endif

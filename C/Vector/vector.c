@@ -1,150 +1,160 @@
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "vector.h"
-#include "utils.h"
+
+/**
+ * Error checked wrapper for malloc.
+ */
+void *xmalloc(size_t size)
+{
+	void *ptr = malloc(size);
+	if (!ptr) {
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+
+	return ptr;
+}
 
 /**
  * Resizes the given vectors internal container.
  *
  * Declared static since it is a 'private' function.
  */
-static void resize(struct vector *vec)
+static void resize(struct vector *v)
 {
-	int *new_array;
-	size_t i;
+	v->capacity *= 2;
+	int *new_array = xmalloc(sizeof(int) * v->capacity);
 
-	vec->capacity *= 2;
-	new_array = malloc(sizeof(int) * vec->capacity);
-	// TODO make into function
-	if (!new_array) {
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+	// Copy elements from old array to new array
+	for (size_t i = 0; i < v->size; i++)
+		*(new_array + i) = *(v->array + i);
 
-	/* copy elements */
-	for (i = 0; i < vec->size; i++)
-		*(new_array + i) = *(vec->array + i);
-
-	free(vec->array);
-	vec->array = new_array;
+	free(v->array);
+	v->array = new_array;
 }
 
-static void swap(int *a, int *b)
+void print_vector(struct vector *v)
 {
-	int tmp = *a;
-	*a = *b;
-	*b = tmp;
-
-}
-
-void print_vector(struct vector *vec)
-{
-	size_t i;
-
-	for (i = 0; i < vec->size; i++)
-		printf("%d ", *(vec->array + i));
+	for (size_t i = 0; i < v->size; i++)
+		printf("%d ", *(v->array + i));
 
 	printf("\n");
 }
 
-/**
- * 
- */
-static void check_index(struct vector *vec, size_t index)
-{
-	if (index > vec->size) {
-		fprintf(stderr, "index %zd out of bounds.\n", index);
-		exit(EXIT_FAILURE);
-	}
-}
-
 struct vector *vector_create(size_t capacity)
 {
-    	struct vector *v; 
-	
+    struct vector *v;
+
 	if (capacity < MIN_CAPACITY)
 		capacity = MIN_CAPACITY;
 
 	// TODO round capacity to power of 2
-	v = safe_malloc(sizeof(struct vector));
-    	v->array = safe_malloc(sizeof(int) * capacity);
-    	v->size = 0;
-    	v->capacity = capacity;
+	v = xmalloc(sizeof(struct vector));
+	v->array = xmalloc(sizeof(int) * capacity);
+    v->size = 0;
+    v->capacity = capacity;
 
-    	return v;
+    return v;
 }
 
-void vector_destroy(struct vector *vec)
+void vector_destroy(struct vector *v)
 {
-	free(vec->array);
-	free(vec);
+	free(v->array);
+	free(v);
 }
 
-size_t size(struct vector *vec)
+size_t size(struct vector *v)
 {
-	return vec->size;
+	return v->size;
 }
 
-size_t capacity(struct vector *vec)
+size_t capacity(struct vector *v)
 {
-	return vec->capacity;
+	return v->capacity;
 }
 
-bool is_empty(struct vector *vec)
+bool is_empty(struct vector *v)
 {
-	return (vec->size == 0);
+	return (v->size == 0);
 }
 
-int at(struct vector *vec, size_t index)
+int at(struct vector *v, size_t index)
 {
-	int ret;
-
-	check_index(vec, index);
-	ret = *(vec->array + index);
-
-	return ret;
-}
-
-void push(struct vector *vec, int item)
-{
-	if (vec->size + 1 > vec->capacity)
-		resize(vec);
-
-	*(vec->array + vec->size) = item;
-	vec->size++;
-}
-
-void insert(struct vector *vec, size_t index, int item)
-{
-	if (vec->size + 1 > vec->capacity)
-		resize(vec);
-
-	size_t end = vec->size;
-
-	while (end > index) {
-
-		swap(&(*(vec->array + end)), &(*(vec->array + (end-1))));
-		end--;
+	if (index > v->size) {
+		fprintf(stderr, "at: index out of bounds\n");
+		exit(EXIT_FAILURE);
 	}
 
-	*(vec->array + index) = item;
-	vec->size++;
+	return *(v->array + index);
 }
 
-int find(struct vector *vec, int item)
+int front(struct vector *v)
 {
-	// Is there a way to get better than O(n) for unsorted array?
-	int *ptr;
-	size_t i;
+	return at(v, 0);
+}
 
-	for (i = 0; i < vec->size; i++) {
-		ptr = vec->array + i;
-		if (*ptr == item) {
-			printf("Found item at index %zd.\n", i);
+int back(struct vector *v)
+{
+	return at(v, v->size-1);
+}
+
+void push_back(struct vector *v, int elem)
+{
+	if (v->size == v->capacity)
+		resize(v);
+
+	*(v->array + v->size) = elem;
+	v->size++;
+}
+
+void insert(struct vector *v, int elem, size_t index)
+{
+	if (v->size == v->capacity)
+		resize(v);
+
+	// Shift elements to the right
+	for (size_t i = v->size; i > index; i--)
+		*(v->array + i) = *(v->array + i - 1);
+
+	// Insert element
+	*(v->array + index) = elem;
+	v->size++;
+}
+
+int pop_back(struct vector *v)
+{
+	if (is_empty(v)) {
+		fprintf(stderr, "vector is empty!\n");
+		exit(EXIT_FAILURE);
+	}
+
+	v->size--;
+	return *(v->array + v->size);
+}
+
+void remove_elem(struct vector *v, int elem)
+{
+	size_t write_index = 0;
+
+	for (size_t i = 0; i < v->size; i++) {
+		// Write all but the target elem to array
+		if (*(v->array + i) != elem)
+			*(v->array + write_index++) = *(v->array + i);
+	}
+
+	// update new size
+	v->size = write_index;
+}
+
+int find(struct vector *v, int elem)
+{
+	for (size_t i = 0; i < v->size; i++) {
+		if (*(v->array + i) == elem)
 			return i;
-		}
 	}
 
-	return -1;	// not found
+	return -1;
 }
