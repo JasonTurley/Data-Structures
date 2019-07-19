@@ -4,29 +4,21 @@
 
 #include "vector.h"
 
-void run_all_tests();
+#define N (10)
+#define M (24)
 
-int main()
+void test_push_back()
 {
-	run_all_tests();
+	struct vector *v = vector_create(N);
 
-    	return 0;
-}
-
-
-void test_push()
-{
-	size_t i;
-	size_t n = 10;
-	struct vector *v = vector_create(n);
 	assert(v);
 	assert(size(v) == 0);
 	assert(capacity(v) == MIN_CAPACITY);
 
-	for (i = 0; i < n; i++)
-		push(v, (int) i+1);
+	for (int i = 1; i <= N; i++)
+		push_back(v, i);
 
-	assert(size(v) == n);
+	assert(size(v) == N);
 
 	vector_destroy(v);	// no memory leaks
 }
@@ -34,53 +26,61 @@ void test_push()
 void test_at()
 {
 	struct vector *v = vector_create(32);
-	int ret;
-	size_t i;
 
-	for (i = 0; i < 16; i++) {
-		push(v, (int) i);
-		ret = at(v, i);
-		assert(ret == (int) i);
-	}
-	
+	for (int i = 0; i < M; i++)
+		push_back(v, i);
+
+	assert(at(v, 10) == 10);
+	assert(at(v, 20) == 20);
+
 	vector_destroy(v);
 }
 
 void test_resize()
 {
 	struct vector *v = vector_create(16);
-	size_t i;
 
-	for (i = 0; i < 20; i++) 
-		push(v, (int) i);
+	for (int i = 1; i <= 24; i++)
+		push_back(v, i);
 
 	assert(capacity(v) == 32);
-	assert(size(v) == 20);
+	assert(size(v) == 24);
 
 	vector_destroy(v);
 }
 
 void test_insert()
 {
-	struct vector *v = vector_create(10);
-	size_t i;
+	struct vector *v = vector_create(N);
+	int elem = 99;
+	int index = 4;
 
-	for (i = 0; i < 10; i++)
-		push(v, (int) i);
+	for (int i = 1; i <= N; i++)
+		push_back(v, i);
 
+	printf("vector before insert: ");
 	print_vector(v);
-	insert(v, 4, 88);
+
+	insert(v, elem, index);
+	printf("vector after insert: ");
 	print_vector(v);
 
-	assert(size(v) == 11);
-	assert(at(v, 4) == 88);
 	vector_destroy(v);
 }
 
-void run_all_tests()
+void test_all()
 {
-	test_push();
+	test_push_back();
 	test_at();
 	test_resize();
 	test_insert();
 }
+
+int main()
+{
+	test_all();
+
+   	return 0;
+}
+
+
