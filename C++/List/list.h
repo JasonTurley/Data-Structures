@@ -14,14 +14,14 @@ using std::ostream;
 
 template <class T>
 class List {
- private:
+private:
 
 	/**
 	 * Represents a node within our linked list. Made private due to the rule of
 	 * encapsulation -- the end user does not need to know the internal implementation.
 	 */
 	class ListNode {
-	 public:
+	public:
 		/**
 		 * Default constructor.
 		 */
@@ -40,7 +40,7 @@ class List {
 
 	};
 
- public:
+public:
 	/**
 	 * Default constructor.
 	 *
@@ -143,7 +143,7 @@ class List {
 	 */
 	void reverse();
 
- private:
+private:
 	/**
 	 * Private member variables.
 	 */
