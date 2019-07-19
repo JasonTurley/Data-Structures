@@ -1,13 +1,15 @@
+# specify compiler, compile flags, and needed libs
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -Werror=unused-parameter -Werror=unused-variable
+
+LD = gcc
+LIBS = -lm
+
 # specify all source files here
-SRCS = main.c vector.c utils.c
+SRCS = main.c vector.c
 
 # specify target here (name of executable)
 TARG = test
-
-# specify compiler, compile flags, and needed libs
-CC   = gcc
-OPTS = -Wall -Wextra -Werror -O -g
-LIBS = -lm
 
 # this translates .c files in src list to .o's
 OBJS = $(SRCS:.c=.o)
@@ -16,10 +18,11 @@ all: $(TARG)
 
 # this generates the target executable
 $(TARG): $(OBJS)
-	$(CC) -o $(TARG) $(OBJS) $(LIBS)
+	$(LD) -o $(TARG) $(OBJS) $(LIBS)
 
 # this is a generic rule for .o files
 %.o: %.c
-	$(CC) $(OPTS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
 	rm -f $(OBJS) $(TARG)
