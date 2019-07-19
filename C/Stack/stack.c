@@ -2,37 +2,49 @@
  * @author jason
  * @date 10/21/18
  *
- * Implementation of a stack data structure.
+ * Implementation of a stack elem structure.
  */
 
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <limits.h>
 
 #include "stack.h"
-#include "utils.h"
 
-
-stack_t *stack_create(uint32_t max_size) 
+static void *xmalloc(size_t size)
 {
-    stack_t *s = safe_malloc(sizeof(stack_t));
+	void *ptr = malloc(size);
+
+	if (!ptr) {
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+
+	return ptr;
+}
+
+stack_t *stack_create(uint32_t max_size)
+{
+    stack_t *s = xmalloc(sizeof(stack_t));
     s->size = 0;
     s->capacity = max_size;
-    s->elements = safe_malloc(sizeof(stack_t) * max_size);
+    s->elements = xmalloc(sizeof(stack_t) * max_size);
 
     return s;
 }
 
-void push(stack_t *s, int data)
+void push(stack_t *s, int elem)
 {
     assert(s);
 
     if (s->size > s->capacity) {
-        resize(s);
-    }
+		fprintf(stderr, "stack overflow on pushing %d\n", elem);
+		exit(EXIT_FAILURE);
+	}
 
-    s->elements[s->size++] = data;
+    s->elements[s->size++] = elem;
 }
 
 int pop(stack_t *s)
@@ -40,13 +52,11 @@ int pop(stack_t *s)
     assert(s);
 
     if (is_empty(s)) {
-        printf ("Stack is empty\n");
-        return INT_MIN;
+        fprintf (stderr, "Stack underflow\n");
+		exit(EXIT_FAILURE);
     }
 
-    int retval = s->elements[--(s->size)];;
-
-    return retval;
+    return s->elements[--s->size];;
 }
 
 int peek(stack_t *s)
@@ -56,31 +66,24 @@ int peek(stack_t *s)
     return s->elements[s->size - 1];
 }
 
-void resize(stack_t *s)
-{
-    assert(s);
-
-    uint32_t new_capacity = s->capacity * 2;
-    s->elements = safe_realloc(s->elements, new_capacity);
-    s->capacity = new_capacity;
-}
-
 uint32_t get_size(stack_t *s)
 {
     assert(s);
+
     return(s->size);
 }
 
 bool is_empty(stack_t *s)
 {
     assert(s);
+
     return s->size == 0;
 }
 
 void stack_destroy(stack_t *s)
 {
-    if (s) {
-        free(s->elements);
-        free(s);
-    }
+	assert(s);
+
+    free(s->elements);
+    free(s);
 }
