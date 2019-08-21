@@ -3,7 +3,7 @@ OBJS = main.o adjacency_matrix.o
 
 CXX = g++
 WARNINGS = -pedantic -Wall -Wextra -Werror -Wfatal-errors -Wno-unused-parameter -Wno-unused-variable
-CXXFLAGS = $(WARNINGS) -c -O2
+CXXFLAGS = $(WARNINGS) -c -g -O2
 
 LD = g++
 LDFLAGS = -std=c++11

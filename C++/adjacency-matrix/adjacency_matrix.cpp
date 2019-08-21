@@ -1,10 +1,10 @@
 #include <cassert>
 #include <iostream>
+#include <stack>
 #include <queue>
 #include <vector>
 
 #include "adjacency_matrix.h"
-
 
 AdjacencyMatrix::AdjacencyMatrix(size_t num_vertices)
 {
@@ -79,5 +79,41 @@ void AdjacencyMatrix::bfs(size_t start) const
         // Process vertex (print to stdout in our case)
         std::cout << q.front() << " ";
         q.pop();
+    }
+}
+
+void AdjacencyMatrix::dfs(size_t start) const
+{
+    assert(start <= vertices);
+
+    std::stack<size_t> s;
+    std::vector<bool> visited{false};
+
+    // Add vertex to queue and mark as visited
+    std::cout << start << " ";
+    s.push(start);
+    visited[start] = true;
+
+    while (!s.empty()) {
+        bool all_neighbors_visited = true;
+
+        // Need to update current vertex each iteration
+        start = s.top();
+
+        // Add first adjacent, unvisited vertex to stack and mark as visited
+        for (size_t i = 0; i < vertices; i++) {
+            if (isAdjacent(start, i) && visited[i] == false) {
+                std::cout << i << " ";
+                s.push(i);
+                visited[i] = true;
+                all_neighbors_visited = false;
+                break;
+            }
+        }
+
+        // Only begin popping once all neighbors of a vertex have been visited
+        // TODO is there a less hacky way?
+        if (all_neighbors_visited)
+            s.pop();
     }
 }

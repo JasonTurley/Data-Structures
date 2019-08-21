@@ -39,6 +39,13 @@ public:
      */
     void bfs(size_t start) const;
 
+    /**
+     * Performs a depth first search (traversal) from the given vertex,
+     * printing the graph to stdout.
+     */
+    void dfs(size_t start) const;
+
+
 private:
 	/**
 	 * The number of vertices in the graph.
