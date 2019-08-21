@@ -33,6 +33,12 @@ public:
 	 */
 	bool isAdjacent(size_t v1, size_t v2) const;
 
+    /**
+     * Performs a breadth first search (traversal) from the given vertex,
+     * printing the graph to stdout.
+     */
+    void bfs(size_t start) const;
+
 private:
 	/**
 	 * The number of vertices in the graph.
