@@ -6,4 +6,4 @@ Implementating data structures in various languages to hone my skills and prep f
 - Low-level memory management
 - Writing unit tests
 - Object Oriented Programming
-- Pointers
+- Pointer manipulation
