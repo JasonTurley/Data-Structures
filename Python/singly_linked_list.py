@@ -1,12 +1,25 @@
+"""
+An implementation of a singly linked list in python3.
+"""
 
-class SLL:
+class SLL(object):
     """A singly linked list. """
 
-    class Node:
-        """A node that holds data and pointer to the next node in a list."""
-        def __init__(self, data=None, next=None):
+    class Node(object):
+        """A node that holds data and pointer to the next_node node in a list."""
+        def __init__(self, data=None, next_node=None):
             self.data = data
-            self.next = next
+            self.next_node = next_node
+
+
+        def get_data(self):
+            """Returns a node's data."""
+            return self.data
+
+
+        def set_next(self, node):
+            """Sets the current node's next field to point to the given node."""
+            self.next_node = node
 
 
     def __init__(self, head=None, size=0):
@@ -24,7 +37,7 @@ class SLL:
         size by one."""
         node = self.Node(data)
 
-        node.next = self.head
+        node.set_next(self.head)
         self.head = node
 
         self.size += 1
@@ -36,9 +49,9 @@ class SLL:
         tmp = self.head
 
         while tmp != None:
-            if tmp.data == target:
+            if tmp.get_data() == target:
                 return tmp
-            tmp = tmp.next
+            tmp = tmp.next_node
 
         return tmp
 
@@ -49,7 +62,7 @@ class SLL:
 
         while tmp != None:
             print(tmp.data, end=" ")
-            tmp = tmp.next
+            tmp = tmp.next_node
 
         # print newline
         print("")
