@@ -12,14 +12,20 @@ class Stack:
     def pop(self):
         """Removes and returns the element at the top of the stack, effectively
         decreasing its size by one."""
-        elem = self.container[self.size]
-        self.size -= 1
+        try:
+            elem = self.container[self.size]
+            self.size -= 1
+            return elem
 
-        return elem
+        except IndexError:
+            print("Stack is empty.")
 
     def peek(self):
         """Returns the element at the top of the stack without removing it."""
-        return self.container[self.size]
+        try:
+            return self.container[self.size]
+        except IndexError:
+            print("Stack is empty.")
 
     def get_size(self):
         """Returns the current number of elements in the stack."""
@@ -30,7 +36,7 @@ class Stack:
         pos = self.size - 1
         print("Stack: ", end="")
 
-        while pos > 0:
+        while pos >= 0:
             print(self.container[pos], end=" ")
             pos -= 1
         print("")
