@@ -1,18 +1,29 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
+"""Unit tests for my Stack implementation.
+
+Todo:
+    * Add unit test for pop, peek and get_size
+
+"""
 import stack
 
 def test_push():
-    s = stack.Stack()
+    """Unit test for stack.push() method
+    """
+    mystack = stack.Stack()
 
     for i in range(16):
-        s.push(i)
+        mystack.push(i)
 
-    s.print_stack()
-    assert s.get_size() == 16
+    mystack.print_stack()
+    assert mystack.get_size() == 16
 
 
 def test_all():
+    """Runs all unit tests.
+    """
     test_push()
 
 
