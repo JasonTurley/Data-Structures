@@ -11,11 +11,9 @@ class SLL(object):
             self.data = data
             self.next_node = next_node
 
-
         def get_data(self):
             """Returns a node's data."""
             return self.data
-
 
         def set_next(self, node):
             """Sets the current node's next field to point to the given node."""
@@ -26,11 +24,9 @@ class SLL(object):
         self.head = head
         self.size = size
 
-
     def get_size(self):
         """Returns the current number of nodes in the list."""
         return self.size
-
 
     def push(self, data):
         """Inserts a node at the front of the list, effectively increasing its
@@ -41,7 +37,6 @@ class SLL(object):
         self.head = node
 
         self.size += 1
-
 
     def search(self, target):
         """Searches list for a node containing the target data and returns it
@@ -55,7 +50,6 @@ class SLL(object):
 
         return tmp
 
-
     def print_list(self):
         """Prints the data of all the nodes in the list."""
         tmp = self.head
@@ -64,5 +58,4 @@ class SLL(object):
             print(tmp.data, end=" ")
             tmp = tmp.next_node
 
-        # print newline
         print("")

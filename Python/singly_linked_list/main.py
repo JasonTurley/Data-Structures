@@ -1,6 +1,4 @@
-"""
-Test cases for my singly linked list implementation.
-"""
+#!/usr/bin/python
 
 from singly_linked_list import SLL
 
