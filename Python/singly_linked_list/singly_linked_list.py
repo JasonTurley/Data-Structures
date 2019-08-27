@@ -1,36 +1,52 @@
-"""
-An implementation of a singly linked list in python3.
+"""An implementation of a singly linked list.
 """
 
 class SLL(object):
-    """A singly linked list. """
+    """A list of connected nodes.
+    """
 
     class Node(object):
-        """A node that holds data and pointer to the next_node node in a list."""
-        def __init__(self, data=None, next_node=None):
+        """A node within the linked list.
+
+        Args:
+            data (object): The data to insert to the list
+        """
+        def __init__(self, data=None):
             self.data = data
-            self.next_node = next_node
+            self.next_node = None
 
         def get_data(self):
-            """Returns a node's data."""
+            """Returns the data within a node.
+
+            Return:
+                The data within a node.
+            """
             return self.data
 
         def set_next(self, node):
-            """Sets the current node's next field to point to the given node."""
+            """Sets the current node's next field to point to the given node.
+            """
             self.next_node = node
 
-
-    def __init__(self, head=None, size=0):
-        self.head = head
-        self.size = size
+    def __init__(self):
+        self.head = None
+        self.size = 0
 
     def get_size(self):
-        """Returns the current number of nodes in the list."""
+        """Returns the current number of nodes in the list.
+
+        Return:
+            The current number of nodes in the list.
+        """
         return self.size
 
     def push(self, data):
         """Inserts a node at the front of the list, effectively increasing its
-        size by one."""
+        size by one.
+
+        Args:
+            data (object): The data to add to the list.
+        """
         node = self.Node(data)
 
         node.set_next(self.head)
@@ -39,8 +55,11 @@ class SLL(object):
         self.size += 1
 
     def search(self, target):
-        """Searches list for a node containing the target data and returns it
-        if found, otherwise returns None."""
+        """Searches the list for the node containing the target data.
+
+        Return:
+            Data within a node or None if the node is not found.
+        """
         tmp = self.head
 
         while tmp != None:
@@ -51,7 +70,8 @@ class SLL(object):
         return tmp
 
     def print_list(self):
-        """Prints the data of all the nodes in the list."""
+        """Prints the data of all the nodes in the list.
+        """
         tmp = self.head
 
         while tmp != None:

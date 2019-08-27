@@ -1,10 +1,13 @@
 #!/usr/bin/python
+#-*- coding: utf-8 -*-
+"""Unit tests for my singly linked list implementation.
+"""
 
-from singly_linked_list import SLL
+import singly_linked_list
 
 def create_int_list(list_size):
     """Creates and returns a simple list of n integers."""
-    int_list = SLL()
+    int_list = singly_linked_list.SLL()
 
     # add ints to list
     for i in range(1, list_size + 1):
