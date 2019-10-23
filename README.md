@@ -7,3 +7,4 @@ Implementating data structures in various languages to hone my skills and prep f
 - Writing unit tests
 - Object Oriented Programming
 - Pointer manipulation
+- How to use C++ templates
