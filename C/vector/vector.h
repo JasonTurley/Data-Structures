@@ -45,17 +45,26 @@ void vector_destroy(struct vector *v);
  * Returns the current number of elements in the vector. Note, this is not
  * necessarily equal to its capacity.
  */
-size_t size(struct vector *v);
+static inline size_t size(struct vector *v)
+{
+    return v->size;
+}
 
 /**
  * Returns the number of elems this vector can hold.
  */
-size_t capacity(struct vector *v);
+static inline size_t capacity(struct vector *v)
+{
+    return v->capacity;
+}
 
 /**
  * Checks if the current vector is empty.
  */
-bool is_empty(struct vector *v);
+static inline bool is_empty(struct vector *v)
+{
+    return (v->size == 0);
+}
 
 /**
  * Returns the elem at a given index.

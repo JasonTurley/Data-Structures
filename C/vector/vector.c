@@ -66,21 +66,6 @@ void vector_destroy(struct vector *v)
 	free(v);
 }
 
-size_t size(struct vector *v)
-{
-	return v->size;
-}
-
-size_t capacity(struct vector *v)
-{
-	return v->capacity;
-}
-
-bool is_empty(struct vector *v)
-{
-	return (v->size == 0);
-}
-
 int at(struct vector *v, size_t index)
 {
 	if (index > v->size) {
