@@ -1,9 +1,9 @@
 # specify compiler, compile flags, and needed libs
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Werror=unused-parameter -Werror=unused-variable
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Werror=unused-parameter -Werror=unused-variable
 
 LD = gcc
-LIBS = -lm
+#LIBS = -lm
 
 # specify all source files here
 SRCS = main.c vector.c
