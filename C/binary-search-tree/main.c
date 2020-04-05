@@ -5,29 +5,28 @@
 
 void test_insert()
 {
-	struct Node *root = NULL;
+	struct bst_node *root = NULL;
 
 	root = insert(root, 12);
 	root = insert(root, 20);
 	root = insert(root, 50);
 	root = insert(root, 8);
 
-	assert(height(root) == 2);
-
-	printInOrder(root);
+	print_tree(root);
+	assert(get_height(root) == 2);
 
 	root = delete_value(root, 8);
 	root = delete_value(root, 50);
 	root = delete_value(root, 20);
 	root = delete_value(root, 12);
 
-	assert(height(root) == 0);
+	assert(get_height(root) == 0);
 
 }
 
 void test_find_min()
 {
-	struct Node *root = NULL;
+	struct bst_node *root = NULL;
 
 	int x = find_min(root);
 
@@ -36,24 +35,24 @@ void test_find_min()
 
 void test_delete_tree()
 {
-	struct Node *root = NULL;
+	struct bst_node *root = NULL;
 
-	assert(height(root) == 0);
+	assert(get_height(root) == 0);
 
 	root = insert(root, 25);
 	root = insert(root, 40);
 	root = insert(root, 17);
 
-	assert(height(root) == 2);
+	assert(get_height(root) == 2);
 
 	root = delete_tree(root);
 
-	assert(height(root) == 0);
+	assert(get_height(root) == 0);
 }
 
 void test_delete_value()
 {
-	struct Node *root = NULL;
+	struct bst_node *root = NULL;
 
 	root = insert(root, 30);
 	root = insert(root, 20);
@@ -62,12 +61,12 @@ void test_delete_value()
 	root = insert(root, 15);
 
 	printf("Tree before deletion (no childern): \n");
-	printInOrder(root);
+	print_tree(root);
 
 	delete_value(root, 15);
 
+	print_tree(root);
 	printf("\nTree after deletion (no childern): \n");
-	printInOrder(root);
 	printf("\n");
 }
 
